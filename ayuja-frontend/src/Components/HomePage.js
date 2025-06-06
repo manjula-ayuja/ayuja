@@ -28,16 +28,6 @@ import Social from "./Logos/Social.png";
 
 
 
-
-
-
-
-
-
-
-
-
-
 function HomePage() {
   return (
     <div>
@@ -79,95 +69,131 @@ function Header() {
   );
 }
 
+  function HeroSection() {
 
-
-function HeroSection() {
-    return (
-      <Box
-        sx={{
-          backgroundColor: "transparent",py: 1,px: 4,display: "flex",flexDirection: { xs: "column", md: "row" },
-          alignItems: "center",
-          justifyContent: "space-between",
-          flexWrap: "wrap",
-        }}
-      >
-        <Box sx={{ maxWidth: "80%", position: "relative" }}>
-          <Typography
-            variant="h3"
-            gutterBottom
+      return (
+        <Box
+          sx={{
+            backgroundColor: "transparent",
+            py: 2,
+            px: 4,
+            display: "flex",
+            flexDirection: { xs: "column", md: "row" },
+            alignItems: "center",
+            justifyContent: "flex-start",
+            flexWrap: "wrap",marginLeft:'100px'
+          }}
+        >
+          {/* Text Section - 60% */}
+          <Box
             sx={{
-              fontFamily: '"Montserrat", sans-serif', fontWeight: 800, fontSize: "80.21px", lineHeight: "108%", width: "400px", height: "auto",
-              background: "linear-gradient(to bottom, #22577A, #22577A, seagreen)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              MozBackgroundClip: "text",
-              color: "transparent", 
-              mb: 2,
+              width: { xs: "100%", md: "50%" },
             }}
           >
-            Care That Feels Like Family
-          </Typography>
-  
-          {/* Supporting Text */}
-          <Typography
+            <Typography
+              variant="h3"
+              gutterBottom
+              sx={{
+                fontFamily: '"Montserrat", sans-serif',
+                fontWeight: 800,
+                fontSize: "99.21px",
+                lineHeight: "108%",
+                background: "linear-gradient(to bottom, #22577A, #22577A, seagreen)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                color: "transparent",
+                mb: 2,
+              }}
+            >
+              Care That Feels Like Family
+            </Typography>
+            <Typography
             variant="body1"
             sx={{mb: 3,color: "#161616",fontSize: "25.21px",fontFamily: '"Montserrat", sans-serif',width: "500px",lineHeight: "1.3", 
             }}
           >
             From newborns to seniors, we deliver trusted care and comfort directly to your home.
           </Typography>
-  
-          {/* Buttons */}
-          <Box display="flex" flexWrap="wrap">
-            <Button
-              variant="contained"
-              sx={{
-                background: "linear-gradient(to right, seagreen, #22577A, #22577A)",
-                borderRadius: "24px", px: 2,
-                textTransform: "none",color: "#FFFFFF",fontWeight: "bold",
-                fontFamily: '"Montserrat", sans-serif',
-                mr: 2,
-                '&:hover': {
-                  background: "linear-gradient(to right, rgb(4, 82, 47), #1c4f6c)",
-                },
+            <Box display="flex" flexWrap="wrap">
+              <Button
+                variant="contained"
+                sx={{
+                  background: "linear-gradient(to right, seagreen, #22577A)",
+                  borderRadius: "24px",
+                  px: 2,
+                  textTransform: "none",
+                  color: "#FFFFFF",
+                  fontWeight: "bold",
+                  fontFamily: '"Montserrat", sans-serif',
+                  mr: 2,
+                  '&:hover': {
+                    background: "linear-gradient(to right, rgb(4, 82, 47), #1c4f6c)",
+                  },
+                }}
+              >
+                View All Services
+              </Button>
+    
+              <Button
+                variant="outlined"
+                sx={{
+                  borderColor: "#22577A",
+                  color: "#22577A",
+                  borderRadius: "24px",
+                  textTransform: "none",
+                  fontFamily: '"Montserrat", sans-serif',
+                }}
+              >
+                Contact Us
+              </Button>
+            </Box>
+          </Box>
+    
+          {/* Spacer - 10% */}
+          <Box sx={{ display: { xs: "none", md: "block" }, width: "10%" }} />
+    
+          {/* Image Section - 30% */}
+          <Box
+            sx={{
+              width: { xs: "100%", md: "40%" },
+              height: 400,
+              backgroundColor: "transparent",
+              borderRadius: "10px 0 0 200px",
+              overflow: "hidden",
+              mt: { xs: 4, md: 0 },
+            }}
+          >
+              <Box
+            sx={{
+
+              width: 430, 
+              height: 500, 
+              backgroundColor: "#006D77",
+              borderRadius: "40px 0 0 200px",
+              overflow: "hidden",
+              mt: { xs: 4, md: 0 },
+            }}
+          >
+            <img
+              src={HeroSectionImage}
+              alt="Care at home"
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                display: "block"
               }}
-            >
-              View All Services
-            </Button>
-  
-            <Button
-              variant="outlined"
-              sx={{
-                borderColor: "#22577A",
-                color: "#22577A",
-                borderRadius: "24px",
-                textTransform: 'none',
-                fontFamily: '"Montserrat", sans-serif',
-              }}
-            >
-              Contact Us
-            </Button>
+            />
+            </Box>
+
+
+
           </Box>
         </Box>
-  
-        {/* Image Section */}
+      );
+    }
+    
 
-      <Box
-        mt={{ xs: 4, md: 0 }}
-        sx={{background: "#006D77",borderRadius: "40px 0 0 200px",display: "inline-block",width: 320,height: 400,overflow: "hidden",
-        }}
-      >
-        <img
-          src={HeroSectionImage}
-          alt="Care at home"
-          style={{ width: "100%", height: "100%", objectFit: "cover", display: "block",
-          }}
-        />
-      </Box>
-      </Box>
-    );
-  }
-  
 const services = [
   {
     title: "Elderly & Child Care",
@@ -203,7 +229,7 @@ const services = [
 
 function ServicesSection() {
     return (
-      <Container sx={{ py: 5 ,width:'100%'}}>
+      <Container sx={{ py: 3 ,width:'100%', backgroundColor: '#f6fcfa'}}>
         <Typography variant="h4" align="center" gutterBottom
           sx={{
             fontWeight: "bold",
@@ -215,6 +241,7 @@ function ServicesSection() {
         </Typography>
   
         <Box sx={{ backgroundColor: '#f6fcfa', py: 1 }}>
+
           <Grid container spacing={4} justifyContent="center">
             {services.map((service, idx) => (
               <Grid item xs={12} sm={6} md={4} key={idx} justifyContent="center" >
@@ -283,7 +310,7 @@ function ServicesSection() {
 function AboutSection() {
   return (
     <Box
-      sx={{display: "flex",width: "100%",height: 300,position: "relative",overflow: "hidden",mb: 10,
+      sx={{display: "flex",width: "100%",height: 300,position: "relative",overflow: "hidden",mb: 4,
       }}
     >
       <Box
@@ -354,7 +381,7 @@ return (
     component="section"
     sx={{
       backgroundColor: "#eaf9f5",
-      py: { xs: 5, sm: 6 },
+      py: { xs: 1, sm: 5 },
       textAlign: "center",mb:1
     }}
   >
@@ -411,7 +438,7 @@ return (
     component="section"
     sx={{
       backgroundColor: "#fff",
-      py: 8,
+      py: 3,
       textAlign: "center",
     }}
   >
