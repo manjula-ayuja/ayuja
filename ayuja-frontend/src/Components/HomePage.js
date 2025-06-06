@@ -730,10 +730,10 @@ const inviteOptions = [
             <img  src={ayujalogo} alt="Ayuja Logo" width={100} height={28} style={{ marginRight: 10 }} />
         </Box>
               <Typography variant="body2" mb={1}>
-                Lorem ipsum
+               Personalized Care, Trusted by Communities.
               </Typography>
               <Typography variant="body2" mb={2}>
-                Call: 0000005522
+                Call: +91 7661889977
               </Typography>
 
           <Stack direction="row" spacing={1}>
