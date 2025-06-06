@@ -229,7 +229,7 @@ const services = [
 
 function ServicesSection() {
     return (
-      <Container sx={{ py: 3 ,width:'100%', backgroundColor: '#f6fcfa'}}>
+      <Container sx={{ py: 3 ,width:'100%', backgroundColor: '#f6fcfa',mb:5}}>
         <Typography variant="h4" align="center" gutterBottom
           sx={{
             fontWeight: "bold",
@@ -310,8 +310,8 @@ function ServicesSection() {
 function AboutSection() {
   return (
     <Box
-      sx={{display: "flex",width: "100%",height: 300,position: "relative",overflow: "hidden",mb: 4,
-      }}
+    sx={{display: "flex",width: "100%",height: 300,position: "relative",overflow: "hidden",mb: 4,marginLeft:'310px'
+    }}
     >
       <Box
         sx={{flex: 1,backgroundColor: "#087c7c",color: "#fff",py: 6,px: 4,borderBottomRightRadius: "90px",display: "flex",flexDirection: "column",justifyContent: "center",
