@@ -44,7 +44,7 @@ function HomePage() {
 
 function Header() {
   return (
-    <AppBar position="static" sx={{ backgroundColor: "#fff", color: "#153f4b" }}>
+    <AppBar position="static" sx={{ backgroundColor: "#fff", color: "#153f4b"}}>
       <Toolbar sx={{ justifyContent: "space-between" }}>
         <Box display="flex" alignItems="center" sx={{ mb: 3,mt: 3,}}>
             <img  src={ayujalogo} alt="Ayuja Logo" width={150} height={48} style={{ marginRight: 10 }} />
@@ -96,7 +96,7 @@ function Header() {
               sx={{
                 fontFamily: '"Montserrat", sans-serif',
                 fontWeight: 800,
-                fontSize: "99.21px",
+                fontSize: "79.21px",
                 lineHeight: "108%",
                 background: "linear-gradient(to bottom, #22577A, #22577A, seagreen)",
                 WebkitBackgroundClip: "text",
@@ -166,18 +166,19 @@ function Header() {
               <Box
             sx={{
 
-              width: 430, 
-              height: 500, 
+              width: 700, 
+              height: 800, 
               backgroundColor: "#006D77",
               borderRadius: "40px 0 0 200px",
               overflow: "hidden",
-              mt: { xs: 4, md: 0 },
+              mt: { xs: 0, md: 0 },
             }}
           >
             <img
               src={HeroSectionImage}
               alt="Care at home"
               style={{
+                marginTop:'-150px',
                 width: "100%",
                 height: "100%",
                 objectFit: "cover",
@@ -229,7 +230,8 @@ const services = [
 
 function ServicesSection() {
     return (
-      <Container sx={{ py: 3 ,width:'100%', backgroundColor: '#f6fcfa',mb:5}}>
+      <Box sx={{ width: '100%', backgroundColor: '#eaf9f5', py: 0, mb: 5 }}>
+      <Container sx={{ py: 3 ,width:'100%',mb:5}}>
         <Typography variant="h4" align="center" gutterBottom
           sx={{
             fontWeight: "bold",
@@ -240,7 +242,7 @@ function ServicesSection() {
           Our Services
         </Typography>
   
-        <Box sx={{ backgroundColor: '#f6fcfa', py: 1 }}>
+        <Box sx={{ py: 1 }}>
 
           <Grid container spacing={4} justifyContent="center">
             {services.map((service, idx) => (
@@ -302,6 +304,7 @@ function ServicesSection() {
           </Grid>
         </Box>
       </Container>
+      </Box>
     );
   }
   
@@ -309,8 +312,9 @@ function ServicesSection() {
 
 function AboutSection() {
   return (
+
     <Box
-    sx={{display: "flex",width: "100%",height: 300,position: "relative",overflow: "hidden",mb: 4,marginLeft:'310px'
+    sx={{display: "flex",width: "100%",height: 300,position: "relative",overflow: "hidden",mb: 4,backgroundColor: "#087c7c",borderRadius:'0px 0px 200px 0px'
     }}
     >
       <Box
@@ -342,7 +346,7 @@ function AboutSection() {
             </Button>
           </Box>
         </Container>
-      </Box>
+        </Box>
 
       <Box
         sx={{flex: 1,position: "relative",display: "flex",alignItems: "center",justifyContent: "flex-start",
@@ -542,7 +546,7 @@ const inviteOptions = [
     },
   };
   return (
-    <Box component="section" sx={{backgroundColor: "#087c7c", color: "#d4f1f4", pt: 3, pb: 3 }}>
+    <Box component="section" sx={{backgroundColor: "#087c7c", color: "#d4f1f4", pt: 3, pb: 3,borderRadius:'200px 200px 0px 0px' }}>
       {/* Testimonials */}
       <Container maxWidth="md" sx={{ textAlign: "center", mb: 6, position: "relative" }}>
         <Typography
