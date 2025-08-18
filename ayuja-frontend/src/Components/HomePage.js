@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import {AppBar,Toolbar,Typography,Button,Container,Box,Grid,Card,Pagination,
-  CardContent,Paper,useTheme,useMediaQuery,TextField,Stack,Link,ToggleButton,ToggleButtonGroup,IconButton
+  CardContent,Paper,useTheme,useMediaQuery,TextField,Stack,Link,ToggleButton,ToggleButtonGroup,IconButton,Dialog
 } from "@mui/material";
 
 import { CheckCircle as CheckCircleIcon,
@@ -25,8 +25,7 @@ import Emergency from "./Logos/Emergency.png";
 import Medicine from "./Logos/Medicine.png";
 import Nursing from "./Logos/Nursing.png";
 import Social from "./Logos/Social.png";
-
-
+import IntroVideo from "./Logos/AyujaIntro.mp4"; 
 
 function HomePage() {
   return (
@@ -311,6 +310,10 @@ function ServicesSection() {
 
 
 function AboutSection() {
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
   return (
 
     <Box
@@ -357,15 +360,20 @@ function AboutSection() {
             sx={{position: "absolute",top: "50%",left: "-10%",transform: "translateY(-50%)",width: { xs: 320, sm: 360, md: 400 },height: { xs: 140, sm: 180, md: 220 },backgroundColor: "#E5FDCF",borderRadius: 8,display: "flex",alignItems: "center",justifyContent: "center",boxShadow: '0px 8px 6px #087c7c',zIndex: 1,
             }}
           >
-          <IconButton
-            href="https://www.youtube.com"
-            target="_blank"
-            rel="noopener"
-            sx={{ color: 'red' }}
-          >
-            <YouTubeIcon sx={{fontSize:"100px"}} />
-          </IconButton>
+
+          <IconButton onClick={handleOpen} sx={{ color: "red" }}>
+          <YouTubeIcon sx={{ fontSize: "100px" }} />
+        </IconButton>
         </Box>
+
+        <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
+        <video
+          src={IntroVideo}
+          controls
+          autoPlay
+          style={{ width: "100%", height: "100%", borderRadius: "10px" }}
+        />
+      </Dialog>
       </Box>
     </Box>
   );
