@@ -94,8 +94,8 @@ function Header() {
             exclusive
             onChange={handleChange}
             sx={{
-              width: "180px",
-              height: "40px",
+              width: "150px",
+              height: "35px",
               borderRadius: "30px",
               overflow: "hidden",
               border: "1px solid teal",
@@ -108,7 +108,7 @@ function Header() {
               sx={{
                 textTransform: "none",
                 fontWeight: "bold",
-                px: 3,
+                px: 2,
                 "&.Mui-selected": {
                   background: "linear-gradient(to right, seagreen, #22577A)",
                   color: "white",
@@ -124,7 +124,7 @@ function Header() {
               sx={{
                 textTransform: "none",
                 fontWeight: "bold",
-                px: 3,
+                px: 1,
                 "&.Mui-selected": {
                   background: "linear-gradient(to right, seagreen, #22577A)",
                   color: "white",
