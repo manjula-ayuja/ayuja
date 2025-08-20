@@ -1,46 +1,32 @@
-// import logo from './logo.svg';
-// import './App.css';
-// import 
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
-// export default App;
-
-
-
 
 
 
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import HomePage from "./Components/HomePage";
+import Layout from "./Components/Layout";
+import HomePage from "./Components/HomePage/HomePage";
+import ServicesPage from "./Components/HomePage/HomeSections/services";
+import AboutUs from "./Components/HomePage/HomeSections/Aboutus";
+import Packages from "./Components/HomePage/HomeSections/Packages";
+import ContactUs from "./Components/HomePage/HomeSections/contact";
+import Login from "./Components/HomePage/HomeSections/Login";
+import Register from "./Components/HomePage/HomeSections/Register";
 
 const App = () => {
   return (
-    <Router> {/* Router should be outside AuthProvider */}
+    <Router> 
       
         <Routes>
+        <Route element={<Layout />}>
           <Route path="/" element={<HomePage/>} />
-          <Route path="/home-page" element={<HomePage />} />
+          {/* <Route path="/home-page" element={<HomePage />} /> */}
+          <Route path="/servies" element={<ServicesPage/>}/>
+          <Route path="/aboutus" element={<AboutUs/>}/>
+          <Route path="/packages" element={<Packages/>}/>
+          <Route path="/contactus" element={<ContactUs/>}/>
+          <Route path="/Login" element={<Login/>}/>
+          <Route path="/Register" element={<Register/>}/>
+          </Route>
         </Routes>
     </Router>
   );

@@ -1,8 +1,11 @@
 
 import React, { useState } from "react";
-import {AppBar,Toolbar,Typography,Button,Container,Box,Grid,Card,Pagination,
+import {Typography,Button,Container,Box,Grid,Card,Pagination,
   CardContent,Paper,useTheme,useMediaQuery,TextField,Stack,Link,ToggleButton,ToggleButtonGroup,IconButton,Dialog
 } from "@mui/material";
+
+import { useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import { CheckCircle as CheckCircleIcon,
   Email as EmailIcon, 
@@ -17,20 +20,22 @@ import { CheckCircle as CheckCircleIcon,
 
 
 
-import HeroSectionImage from "./Logos/HeroSection.png";
-import ayujalogo from "./Logos/Ayuja_Logo.jpg";
-import Doctor from "./Logos/Doctor.png";
-import Elderly from "./Logos/Elderly.png";
-import Emergency from "./Logos/Emergency.png";
-import Medicine from "./Logos/Medicine.png";
-import Nursing from "./Logos/Nursing.png";
-import Social from "./Logos/Social.png";
-import IntroVideo from "./Logos/AyujaIntro.mp4"; 
+// images import section
+import HeroSectionImage from "../Logos/HeroSection.png";
+import ayujalogo from "../Logos/Ayuja_Logo.jpg";
+import Doctor from "../Logos/Doctor.png";
+import Elderly from "../Logos/Elderly.png";
+import Emergency from "../Logos/Emergency.png";
+import Medicine from "../Logos/Medicine.png";
+import Nursing from "../Logos/Nursing.png";
+import Social from "../Logos/Social.png";
+import IntroVideo from "../Logos/AyujaIntro.mp4"; 
 
 function HomePage() {
+  
   return (
     <div>
-      <Header />
+      {/* <Header /> */}
       <HeroSection />
       <ServicesSection />
       <AboutSection />
@@ -41,35 +46,10 @@ function HomePage() {
   );
 }
 
-function Header() {
-  return (
-    <AppBar position="static" sx={{ backgroundColor: "#fff", color: "#153f4b"}}>
-      <Toolbar sx={{ justifyContent: "space-between" }}>
-        <Box display="flex" alignItems="center" sx={{ mb: 3,mt: 3,}}>
-            <img  src={ayujalogo} alt="Ayuja Logo" width={150} height={48} style={{ marginRight: 10 }} />
-        </Box>
-        <Box>
-          <Button sx={{textTransform:'none',color:"#121212"}}>Home</Button>
-          <Button sx={{textTransform:'none',color:"#121212"}}>Services</Button>
-          <Button sx={{textTransform:'none',color:"#121212"}}>About Us</Button>
-          <Button sx={{textTransform:'none',color:"#121212"}}>Plans</Button>
-          <Button sx={{textTransform:'none',color:"#121212"}}>Contact Us</Button>
-        <Button
-            variant="contained"
-            sx={{background: "linear-gradient(to right, seagreen, #22577A, #22577A)",borderRadius: "24px",px: 2,textTransform: "none",color: "#FFFFFF",fontWeight: "bold",
-            '&:hover': {
-            background: "linear-gradient(to right, #1e764f, #1c4f6c)", 
-            }, }}>
-            Emergency Support
-        </Button>
-        </Box>
-      </Toolbar>
-    </AppBar>
-  );
-}
+
 
   function HeroSection() {
-
+    const navigate = useNavigate();
       return (
         <Box
           sx={{
@@ -116,6 +96,7 @@ function Header() {
             <Box display="flex" flexWrap="wrap">
               <Button
                 variant="contained"
+                onClick={() => navigate("/servies")}
                 sx={{
                   background: "linear-gradient(to right, seagreen, #22577A)",
                   borderRadius: "24px",
@@ -135,6 +116,7 @@ function Header() {
     
               <Button
                 variant="outlined"
+                onClick={() => navigate("/contactus")}
                 sx={{
                   borderColor: "#22577A",
                   color: "#22577A",
@@ -530,6 +512,7 @@ const inviteOptions = [
   "Partner Hospitals",
 ];
  function TestimonialsMissionFooter() {
+  const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [page, setPage] = useState(1);
@@ -811,18 +794,51 @@ const inviteOptions = [
                 Explore
               </Typography>
               <Stack spacing={1.5}>
-                <Link href="#" underline="hover" color="inherit">
-                  Services
-                </Link>
-                <Link href="#" underline="hover" color="inherit">
-                  About us
-                </Link>
+              <Link
+                component={NavLink}
+                to="/servies"
+                underline="hover"
+                color="inherit"
+                style={({ isActive }) => ({
+                  fontWeight: isActive ? "bold" : "normal",
+                  color: isActive ? "teal" : "inherit",
+                })}
+              >
+                Services
+              </Link>
+
+
+                <Link
+                component={NavLink}
+                to="/aboutus"
+                underline="hover"
+                color="inherit"
+                style={({ isActive }) => ({
+                  fontWeight: isActive ? "bold" : "normal",
+                  color: isActive ? "teal" : "inherit",
+                })}
+              >
+                About us
+              </Link>
+
+
                 <Link href="#" underline="hover" color="inherit">
                   FAQs
                 </Link>
-                <Link href="#" underline="hover" color="inherit">
-                  Contact
-                </Link>
+
+
+                <Link
+                component={NavLink}
+                to="/contactus"
+                underline="hover"
+                color="inherit"
+                style={({ isActive }) => ({
+                  fontWeight: isActive ? "bold" : "normal",
+                  color: isActive ? "teal" : "inherit",
+                })}
+              >
+                Contact us
+              </Link>
               </Stack>
             </Box>
 
@@ -907,7 +923,7 @@ const inviteOptions = [
             direction="row"
             justifyContent="space-between"
             alignItems="center"
-            sx={{ mt: 4, px: 2 }} // Add horizontal padding as needed
+            sx={{ mt: 4, px: 2 }} 
           >
             {/* Left side: Links */}
             <Typography variant="caption" color="text.secondary">
