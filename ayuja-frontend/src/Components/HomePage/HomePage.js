@@ -1,28 +1,17 @@
 
 import React, { useState } from "react";
 import {Typography,Button,Container,Box,Grid,Card,Pagination,
-  CardContent,Paper,useTheme,useMediaQuery,TextField,Stack,Link,ToggleButton,ToggleButtonGroup,IconButton,Dialog
+  CardContent,Paper,useTheme,useMediaQuery,ToggleButton,ToggleButtonGroup,IconButton,Dialog
 } from "@mui/material";
-
 import { useNavigate } from "react-router-dom";
-import { NavLink } from "react-router-dom";
-
 import { CheckCircle as CheckCircleIcon,
-  Email as EmailIcon, 
-  Twitter as TwitterIcon,
-  Facebook as FacebookIcon,
-  LinkedIn as LinkedInIcon, 
   ArrowForward as ArrowForwardIcon, 
   YouTube as YouTubeIcon, 
-  Telegram as TelegramIcon, 
-  Instagram as InstagramIcon 
 } from "@mui/icons-material";
-
-
+import Footer from "../Common/Footer";
 
 // images import section
 import HeroSectionImage from "../Logos/HeroSection.png";
-import ayujalogo from "../Logos/Ayuja_Logo.jpg";
 import Doctor from "../Logos/Doctor.png";
 import Elderly from "../Logos/Elderly.png";
 import Emergency from "../Logos/Emergency.png";
@@ -35,7 +24,6 @@ function HomePage() {
   
   return (
     <div>
-      {/* <Header /> */}
       <HeroSection />
       <ServicesSection />
       <AboutSection />
@@ -45,8 +33,6 @@ function HomePage() {
     </div>
   );
 }
-
-
 
   function HeroSection() {
     const navigate = useNavigate();
@@ -167,9 +153,6 @@ function HomePage() {
               }}
             />
             </Box>
-
-
-
           </Box>
         </Box>
       );
@@ -180,36 +163,45 @@ const services = [
   {
     title: "Elderly & Child Care",
     desc: "Personalized in-home care to support the daily needs of seniors and children.",
-    image: Elderly
+    image: Elderly,
+    path: "/elder-childcare",
   },
   {
     title: "Nursing & Physiotherapy",
     desc: "Professional medical care and rehabilitation delivered at your doorstep.",
-    image: Nursing
+    image: Nursing,
+    path:"/nursing-physiotherapy",
   },
   {
     title: "Medicine & Diagnostic Delivery",
     desc: "Fast, reliable delivery of prescriptions and lab reports right to your home.",
-    image: Medicine
+    image: Medicine,
+    path:"/medicine-diagnostic-delivery",
   },
   {
     title: "Emergency Care Support",
     desc: "24/7 ambulance and critical care coordination when every second counts.",
-    image: Emergency
+    image: Emergency,
+    path:"/emergency-care",
   },
   {
     title: "Doctor Visit Pickup & Drop",
     desc: "Safe and convenient transport for medical appointments and check-ups.",
-    image: Doctor
+    image: Doctor,
+    path:"/doctor-visit-pickup",
   },
   {
     title: "Social Wellness Activities",
     desc: "Engaging programs to promote emotional and mental well-being for all ages.",
-    image: Social
+    image: Social,
+    path:"/social-wellness",
   }
 ];
 
+
+
 function ServicesSection() {
+  const navigate = useNavigate();
     return (
       <Box sx={{ width: '100%', backgroundColor: '#eaf9f5', py: 0, mb: 5 }}>
       <Container sx={{ py: 3 ,width:'100%',mb:5}}>
@@ -267,6 +259,7 @@ function ServicesSection() {
                         size="small"
                         variant="contained"
                         fullWidth
+                        onClick={() => navigate(service.path)}
                         sx={{backgroundColor: "#087c7c",borderRadius: "16px",textTransform: "none",color: "light green",fontFamily: '"Montserrat", sans-serif',
                           "&:hover": {
                             backgroundColor: "#087c7c",
@@ -658,7 +651,7 @@ const inviteOptions = [
             sx={{
               border: "1px solid #0a9a92",
               borderRadius: "8px",
-              padding: "10px 20px", // increased padding (vertical, horizontal)
+              padding: "10px 20px",
               textTransform: "none",
               fontSize: "0.95rem",
 
@@ -706,245 +699,11 @@ const inviteOptions = [
         </Container>
       </Box>
 
-      {/* Footer */}
-      <Box
-        component="footer"
-        sx={{bgcolor: "#fff",color: "#153f4b",py: 6,fontSize: 14,borderTop: "1px solid #ddd",
-        }}
-      >
-        <Container maxWidth="lg">
-          <Stack
-            direction={{ xs: "column", sm: "row" }}
-            justifyContent="space-between"
-            spacing={4}
-            mb={4}
-          >
-            {/* Contact & Logo */}
-            <Box sx={{ minWidth: 200 }}>
-              <Box display="flex" alignItems="center" sx={{ mb: 3,mt: 3,}}>
-            <img  src={ayujalogo} alt="Ayuja Logo" width={100} height={28} style={{ marginRight: 10 }} />
-        </Box>
-              <Typography variant="body2" mb={1}>
-               Personalized Care, Trusted by Communities.
-              </Typography>
-              <Typography variant="body2" mb={2}>
-                Call: +91 7661889977
-              </Typography>
-
-          <Stack direction="row" spacing={1}>
-            <IconButton
-              aria-label="twitter"
-              component="a"
-              href="https://twitter.com"
-              target="_blank"
-              size="small"
-              sx={{ ...socialButtonStyle }}
-            >
-              <TwitterIcon fontSize="small" />
-            </IconButton>
-            <IconButton
-              aria-label="instagram"
-              component="a"
-              href="https://instagram.com"
-              target="_blank"
-              size="small"
-              sx={{ ...socialButtonStyle }}
-            >
-              <InstagramIcon fontSize="small" />
-            </IconButton>
-
-            <IconButton
-              aria-label="facebook"
-              component="a"
-              href="https://facebook.com"
-              target="_blank"
-              size="small"
-              sx={{ ...socialButtonStyle }}
-            >
-              <FacebookIcon fontSize="small" />
-            </IconButton>
-
-            <IconButton
-              aria-label="linkedin"
-              component="a"
-              href="https://linkedin.com"
-              target="_blank"
-              size="small"
-              sx={{ ...socialButtonStyle }}
-            >
-              <LinkedInIcon fontSize="small" />
-            </IconButton>
-            <IconButton
-              aria-label="telegram"
-              component="a"
-              href="https://telegram.org"
-              target="_blank"
-              size="small"
-              sx={{ ...socialButtonStyle }}
-            >
-              <TelegramIcon fontSize="small" />
-            </IconButton>
-          </Stack>
-            </Box>
-
-            {/* Explore */}
-
-            <Box>
-              <Typography variant="subtitle1" fontWeight="bold" mb={2}>
-                Explore
-              </Typography>
-              <Stack spacing={1.5}>
-              <Link
-                component={NavLink}
-                to="/servies"
-                underline="hover"
-                color="inherit"
-                style={({ isActive }) => ({
-                  fontWeight: isActive ? "bold" : "normal",
-                  color: isActive ? "teal" : "inherit",
-                })}
-              >
-                Services
-              </Link>
+      <div>
+      <Footer />
+    </div>
 
 
-                <Link
-                component={NavLink}
-                to="/aboutus"
-                underline="hover"
-                color="inherit"
-                style={({ isActive }) => ({
-                  fontWeight: isActive ? "bold" : "normal",
-                  color: isActive ? "teal" : "inherit",
-                })}
-              >
-                About us
-              </Link>
-
-
-                <Link href="#" underline="hover" color="inherit">
-                  FAQs
-                </Link>
-
-
-                <Link
-                component={NavLink}
-                to="/contactus"
-                underline="hover"
-                color="inherit"
-                style={({ isActive }) => ({
-                  fontWeight: isActive ? "bold" : "normal",
-                  color: isActive ? "teal" : "inherit",
-                })}
-              >
-                Contact us
-              </Link>
-              </Stack>
-            </Box>
-
-
-            {/* Legal */}
-            <Box>
-              <Typography variant="subtitle1" fontWeight="bold" mb={1}>
-                Legal
-              </Typography>
-              <Stack spacing={1.5}>
-                <Link href="#" underline="hover" color="inherit">
-                  Privacy Policy
-                </Link>
-                <Link href="#" underline="hover" color="inherit">
-                  Terms of Services
-                </Link>
-                <Link href="#" underline="hover" color="inherit">
-                  Documentation
-                </Link>
-                <Link href="#" underline="hover" color="inherit">
-                  Help Center
-                </Link>
-              </Stack>
-            </Box>
-
-            {/* Subscribe */}
-            <Box sx={{ minWidth: 220 }}>
-              <Typography variant="subtitle1" fontWeight="bold" mb={1}>
-                Subscribe
-              </Typography>
-              <Typography variant="body2" mb={1}>
-                Subscribe to get the latest news from us
-              </Typography>
-              <Box
-          component="form"
-          onSubmit={(e) => {
-            e.preventDefault();
-            alert("Subscribed!");
-          }}
-          sx={{display: "flex",alignItems: "center",position: "relative",maxWidth: 400,width: "100%",
-          }}
-        >
-        <TextField
-          size="small"
-          placeholder="Your email"
-          type="email"
-          required
-          sx={{
-            backgroundColor: "#E5FDCF", 
-            borderRadius: "20px",   
-            "& .MuiOutlinedInput-root": {
-              borderRadius: "20px",     
-              backgroundColor: "#E5FDCF" 
-            }
-          }}
-          InputProps={{
-            startAdornment: (
-              <EmailIcon sx={{ mr: 1, color: "#0a9a92" }} />
-            ),
-          }}
-        />
-
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          sx={{
-            borderRadius: "20px",
-            px: 3,
-            ml: "-20%",
-            zIndex: 2,backgroundColor:'#0a9a92',textTransform:'none'
-          }}
-        >
-          Subscribe
-        </Button>
-      </Box>
-
-            </Box>
-          </Stack>
-
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-            sx={{ mt: 4, px: 2 }} 
-          >
-            {/* Left side: Links */}
-            <Typography variant="caption" color="text.secondary">
-              &copy; 2025 Ayuja. All Rights Reserved.
-            </Typography>
-
-            <Stack direction="row" spacing={2}>
-              <Link href="#" underline="hover" color="text.secondary" variant="caption">
-                Privacy Policy
-              </Link>
-              <Link href="#" underline="hover" color="text.secondary" variant="caption">
-                Terms of Services
-              </Link>
-              <Link href="#" underline="hover" color="text.secondary" variant="caption">
-                Accessibility
-              </Link>
-            </Stack>
-          </Stack>
-
-        </Container>
-      </Box>
     </Box>
   );
 }
