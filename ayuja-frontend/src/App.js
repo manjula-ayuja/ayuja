@@ -9,8 +9,6 @@ import ServicesPage from "./Components/HomePage/HomeSections/services";
 import AboutUs from "./Components/HomePage/HomeSections/Aboutus";
 import Packages from "./Components/HomePage/HomeSections/Packages";
 import ContactUs from "./Components/HomePage/HomeSections/contact";
-import Login from "./Components/HomePage/HomeSections/Login";
-import Register from "./Components/HomePage/HomeSections/Register";
 import PrivacyPolicy from "./Components/HomePage/HomeSections/PrivacyPolicy";
 import TermsConditions from "./Components/HomePage/HomeSections/Terms&Conditions";
 import Documentation from "./Components/HomePage/HomeSections/Documentation";
@@ -20,8 +18,12 @@ import NursingPhysiotherapy from "./Components/HomePage/HomeSections/Nursing&Phy
 import DoctorVisitPickup from "./Components/HomePage/HomeSections/DoctorVisitPickup";
 import MedicineDiagnosticDelivery from "./Components/HomePage/HomeSections/MedicineDiagnosticDelivery";
 import SocialWellness from "./Components/HomePage/HomeSections/SocialWellness";
-import EmergencyCare from "./Components/HomePage/HomeSections/EmergencyCare";
+import EmergencyCare from "./Components/HomePage/HomeSections/EmergencyCareSupport";
 import BookAppointment from "./Components/HomePage/HomeSections/BookAppointment";
+
+import Login from "./Components/HomePage/AuthonticationScreens/Login";
+import Register from "./Components/HomePage/AuthonticationScreens/Register";
+import ForgotPassword from "./Components/HomePage/AuthonticationScreens/ForgotPassword"
 
 const App = () => {
   return (
@@ -35,8 +37,6 @@ const App = () => {
           <Route path="/aboutus" element={<AboutUs/>}/>
           <Route path="/packages" element={<Packages/>}/>
           <Route path="/contactus" element={<ContactUs/>}/>
-          <Route path="/Login" element={<Login/>}/>
-          <Route path="/Register" element={<Register/>}/>
           <Route path="/privacy-policy" element={<PrivacyPolicy/>}/>
           <Route path="/terms&conditions" element={<TermsConditions/>}/>
           <Route path="/documentation" element={<Documentation/>}/>
@@ -48,6 +48,14 @@ const App = () => {
           <Route path="/social-wellness" element={<SocialWellness/>}/>
           <Route path="/emergency-care" element={<EmergencyCare/>}/>
           <Route path="/book-appointment" element={<BookAppointment/>}/>
+
+
+          <Route path="/Login" element={<Login/>}/>
+          <Route path="/Register" element={<Register/>}/>
+          <Route path="/ForgotPassword" element={<ForgotPassword/>}/>
+
+
+
           
           </Route>
         </Routes>
