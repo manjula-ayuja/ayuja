@@ -6,40 +6,38 @@ import { useNavigate } from "react-router-dom";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 import Footer from "../../Common/Footer";
-
-import ElderImage from "../../Logos/Elder&childcarePage/elder.png"
-import DailyLiving from "../../Logos/Elder&childcarePage/DailyLiving.png"
-import Cognitive from "../../Logos/Elder&childcarePage/Cognitive.png";
-import Emergency from "../../Logos/Elder&childcarePage/Emergency.png";
-import MedicalHealth from "../../Logos/Elder&childcarePage/HealthMedication.png";
-import Post from "../../Logos/Elder&childcarePage/Post.png";
-import eldercareImage from "../../Logos/Elder&childcarePage/ElderlyCare.png";
 import screenimage from "../../Logos/screenimage.png";
-import BookAppointment from "./BookAppointment";
-
-import homeImage from "../../Logos/Elder&childcarePage/home.png";
-import school from "../../Logos/Elder&childcarePage/school.png";
-import special from "../../Logos/Elder&childcarePage/special.png";
-import emergency1 from "../../Logos/Elder&childcarePage/emergency1.png";
-import infrant from "../../Logos/Elder&childcarePage/infrant.png";
-import childcare from "../../Logos/Elder&childcarePage/ChildCare.png";
+// import BookAppointment from "./BookAppointment";
+import mainimage from "../../Logos/SocialWellness/TopBanner.png";
 import ParentTrust from "../../Logos/Elder&childcarePage/ParentsTrust.png";
-const ElderChildCare = () => {
+
+import groupgatherings from "../../Logos/SocialWellness/groupgatherings.png"
+import yoga from "../../Logos/SocialWellness/yoga.png";
+import games from "../../Logos/SocialWellness/games.png";
+import storytelling from "../../Logos/SocialWellness/storytelling.png";
+import dietplans from "../../Logos/SocialWellness/dietplans.png";
+import ForSeniors from "../../Logos/SocialWellness/ForSeniors.png";
+
+import workshops from "../../Logos/SocialWellness/workshops.png";
+import storyhours from "../../Logos/SocialWellness/storyhours.png";
+import mindfullplay from "../../Logos/SocialWellness/mindfullplay.png";
+import miniyoga from "../../Logos/SocialWellness/miniyoga.png";
+import childfriendly from "../../Logos/SocialWellness/childfriendly.png";
+import ForChildren from "../../Logos/SocialWellness/ForChildren.png";
 
 
 
-
-
+const SocialWellness = () => {
 
     return (
         <Box sx={{ overflowX: "hidden" }}>
           <HeroSection />
           <OverViewSection/>
-          <ElderlyCareSection/>
+          <WhatWeOfferSection/>
           <ScreenImageSection />
-          <ChildCareSection/>
+          <ForChildrenSection/>
           <ScreenImageSection />
-          <WhyParentsTrust/>
+          <SocialWellnessTrust/>
           <Footer/>
         </Box>
       );
@@ -53,7 +51,7 @@ const ElderChildCare = () => {
                 sx={{
                     width: { xs: "100%", md: "100%" },
                     minHeight: "350px",
-                    backgroundImage: `url(${ElderImage})`,
+                    backgroundImage: `url(${mainimage})`,
                     backgroundSize: "cover",       
                     backgroundPosition: "center", 
                     p: 4,                      
@@ -133,45 +131,52 @@ function OverViewSection() {
             <Box component="span" sx={{ fontSize: "1.8rem", fontWeight: "bold" }}>
                 Ayuja
             </Box>{" "}
-            we understand that every stage of life brings unique needs. Whether it's a senior requiring assistance with
-            daily routines or a child needing nurturing support, our caregivers provide personalized attention in the comfort of
-            your home. Our goal is to ensure safety, dignity, and emotional well-being for your loved ones — all while giving you
-            peace of mind.
+            we believe true health goes beyond physical care — it includes 
+            emotional resilience, social connection, and a sense of purpose. Our&nbsp;
+            <Box component="span" sx={{ fontSize: "1.3rem", fontWeight: "bold" }}>
+                 Social & Mental Wellness Activities 
+            </Box>{" "}
+            are thoughtfully designed to uplift the spirits of seniors, children, 
+            and families, promoting holistic well-being in a supportive community environment. 
           </Typography>
         </Container>
       </Box>
     );
   }
   
+
+
+
   const services = [
     {
-      title: "Daily Living Assistance ",
-      desc: "Support with bathing, dressing, meals, and mobility. ",
-      image: DailyLiving,
+      title: "Group Gatherings & Celebrations ",
+      desc: "Birthday parties, festival events, and social bonding activities.",
+      image: groupgatherings,
     },
     {
-      title: "Health & Medication Monitoring ",
-      desc: "Support with bathing, dressing, meals, and mobility. ",
-      image: MedicalHealth,
+      title: "Meditation & Gentle Yoga ",
+      desc: "uided practices and light movement to reduce stress and enhance well-being.",
+      image: yoga,
     },
     {
-      title: "Post-Hospitalization & Recovery Support",
-      desc: "Care during recovery, including wound and mobility support. ",
-      image: Post,
+      title: "Memory & Cognitive Games",
+      desc: "Activities designed to improve focus, recall, and mental agility.",
+      image: games,
     },
     {
-      title: "Cognitive Engagement ",
-      desc: "Mind-stimulating games, memory exercises, and creative activities.",
-      image: Cognitive,
+      title: "Storytelling & Sharing Circles",
+      desc: "Safe spaces for emotional expression, nostalgia, and connection.",
+      image: storytelling,
     },
     {
-      title: "Emergency Response Coordination",
-      desc: "24/7 assistance during health emergencies or sudden symptoms. ",
-      image: Emergency,
+      title: "Personalized Diet & Nutrition Plans ",
+      desc: "Age-appropriate meal planning for health management and vitality.",
+      image: dietplans,
     }
   ];
 
-  function ElderlyCareSection() {
+
+  function WhatWeOfferSection() {
       return (
 
     <Box sx={{backgroundColor: "#006D77",py: 0,mb: 0,position: "relative",}}>
@@ -186,13 +191,13 @@ function OverViewSection() {
             color: "#B3FFC4",
           }}
         >
-          Elderly Care
+          What We Offer
         </Typography>
         <Typography
           variant="body1"
           sx={{ mb: 3, color: "#B3FFC4", lineHeight: 1.6, textAlign: "center" }}
         >
-          Care with Compassion and Dignity
+          For Seniors: 
         </Typography>
         <Box sx={{ py: 1 }}>
           <Grid container spacing={4} justifyContent="center">
@@ -237,8 +242,8 @@ function OverViewSection() {
                             src={service.image}
                             alt={service.title}
                             style={{
-                              width: "60%",
-                              height: "60%",
+                              width: "100%",
+                              height: "150%",
                               objectFit: "cover",
                             }}
                           />
@@ -281,8 +286,8 @@ function OverViewSection() {
 
       <Box
         component="img"
-        src={eldercareImage}
-        alt="Elderly care support"
+        src={ForSeniors}
+        alt="For Seniors"
         sx={{
             position: "absolute",
             bottom: 0,
@@ -307,36 +312,33 @@ function OverViewSection() {
 
 const childservices = [
     {
-      title: "At-Home Babysitting",
-      desc: "Reliable care while parents are away or working. ",
-      image: homeImage,
+      title: "Creative Workshops ",
+      desc: "Engaging sessions in art, music, and crafts to foster imagination and expression. ",
+      image: workshops,
     },
     {
-      title: "After-School Supervision",
-      desc: "Support with homework, meals, and safe activities. ",
-      image: school,
+      title: "Group Playdates & Story Hours ",
+      desc: "Safe, supervised fun that encourages friendship and social development. ",
+      image: storyhours,
     },
     {
-      title: "Infant & Toddler Care",
-      desc: "Help with feeding, hygiene, naps, and playtime.",
-      image: infrant,
+      title: "Mindful Play & Emotion Coaching ",
+      desc: "Helping kids understand and manage emotions through structured activities. ",
+      image: mindfullplay,
     },
     {
-      title: "Special Needs Assistance ",
-      desc: "Trained caregivers for children with unique care needs.",
-      image: special,
+      title: "Movement & Mini-Yoga Sessions",
+      desc: "Child-friendly physical activities for body awareness and calmness. ",
+      image: miniyoga,
     },
     {
-      title: "Emergency Backup Care",
-      desc: "Quick, trusted care when regular support is unavailable.",
-      image: emergency1,
+      title: "Child-Friendly Nutrition Guidance",
+      desc: "Balanced meal suggestions tailored to age, activity levels, and preferences.",
+      image: childfriendly,
     }
   ];
 
-
-
-
-function ChildCareSection() {
+function ForChildrenSection() {
     return (
 
   <Box sx={{backgroundColor: "#006D77",py: 0,mb: 0,position: "relative",}}>
@@ -351,13 +353,7 @@ function ChildCareSection() {
           color: "#B3FFC4",
         }}
       >
-        Child Care
-      </Typography>
-      <Typography
-        variant="body1"
-        sx={{ mb: 3, color: "#B3FFC4", lineHeight: 1.6, textAlign: "center" }}
-      >
-        Trusted Support for Your Little Ones
+        For Children
       </Typography>
       <Box sx={{ py: 1 }}>
         <Grid container spacing={4} justifyContent="center">
@@ -402,8 +398,8 @@ function ChildCareSection() {
                           src={service.image}
                           alt={service.title}
                           style={{
-                            width: "60%",
-                            height: "60%",
+                            width: "100%",
+                            height: "150%",
                             objectFit: "cover",
                           }}
                         />
@@ -446,8 +442,8 @@ function ChildCareSection() {
 
     <Box
       component="img"
-      src={childcare}
-      alt="Elderly care support"
+      src={ForChildren}
+      alt="For Children"
       sx={{
           position: "absolute",
           bottom: 0,
@@ -461,9 +457,7 @@ function ChildCareSection() {
     );
   }
 
-
-
-  function WhyParentsTrust() {
+  function SocialWellnessTrust() {
     return (
       <Box
         sx={{
@@ -477,17 +471,18 @@ function ChildCareSection() {
         {/* Left Section */}
         <Box sx={{ flex: 1,textAlign: "center"}}>
           <Typography
-            variant="h4"
-            sx={{ fontWeight: "bold",textAlign: "center",ml:70}}
+            variant="h3"
+            sx={{ fontWeight: "bold",ml:22,py: 3}}
           >
-            Why Parents Trust Ayuja
+            Why Mental & Social Wellness Matters with Ayuja: 
           </Typography>
           <List sx={{width: "50%",mx: "auto",fontSize: "30px"}}>
             {[
-              "Certified and background-checked caregivers",
-              "Age-appropriate engagement and routines",
-              "Real-time updates and communication with parents",
-              "Flexible services based on your family’s lifestyle",
+              "Builds a sense of belonging and reduces loneliness ",
+              "Encourages self-expression and boosts confidence ",
+              "Strengthens family and community connections ",
+              "Supports cognitive and emotional health at all ages ",
+              "All activities facilitated by trained wellness coordinators and therapists ",
             ].map((text, i) => (
               <ListItem key={i} sx={{ py: 0.5 }}>
                 <ListItemIcon>
@@ -515,7 +510,7 @@ function ChildCareSection() {
               borderRadius: "12px",
             }}
           />
-          <BookAppointment/>
+          {/* <BookAppointment/> */}
         </Box>
     );
   }
@@ -523,4 +518,6 @@ function ChildCareSection() {
 
 
 
-export default ElderChildCare;
+
+export default SocialWellness;
+

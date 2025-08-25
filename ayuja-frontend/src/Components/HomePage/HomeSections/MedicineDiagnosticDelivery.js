@@ -4,42 +4,37 @@ import {Typography,Button,Container,Box,Grid,Card,Pagination,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-
 import Footer from "../../Common/Footer";
 
-import ElderImage from "../../Logos/Elder&childcarePage/elder.png"
-import DailyLiving from "../../Logos/Elder&childcarePage/DailyLiving.png"
-import Cognitive from "../../Logos/Elder&childcarePage/Cognitive.png";
-import Emergency from "../../Logos/Elder&childcarePage/Emergency.png";
-import MedicalHealth from "../../Logos/Elder&childcarePage/HealthMedication.png";
-import Post from "../../Logos/Elder&childcarePage/Post.png";
-import eldercareImage from "../../Logos/Elder&childcarePage/ElderlyCare.png";
 import screenimage from "../../Logos/screenimage.png";
-import BookAppointment from "./BookAppointment";
-
-import homeImage from "../../Logos/Elder&childcarePage/home.png";
-import school from "../../Logos/Elder&childcarePage/school.png";
-import special from "../../Logos/Elder&childcarePage/special.png";
-import emergency1 from "../../Logos/Elder&childcarePage/emergency1.png";
-import infrant from "../../Logos/Elder&childcarePage/infrant.png";
-import childcare from "../../Logos/Elder&childcarePage/ChildCare.png";
 import ParentTrust from "../../Logos/Elder&childcarePage/ParentsTrust.png";
-const ElderChildCare = () => {
 
 
-
-
+import mainimage from "../../Logos/DiagnoisticDelivery/TopBanner.png";
+import prescription from "../../Logos/DiagnoisticDelivery/prescription.png";
+import refills from "../../Logos/DiagnoisticDelivery/refills.png";
+import emergencymedicine from "../../Logos/DiagnoisticDelivery/emergencymedicine.png";
+import essentials from "../../Logos/DiagnoisticDelivery/essentials.png";  
+import coldchain from "../../Logos/DiagnoisticDelivery/coldchain.png";
+import MedicineDelivery from "../../Logos/DiagnoisticDelivery/MedicineDelivery.png";
+import homesample from "../../Logos/DiagnoisticDelivery/homesample.png";
+import widerange from "../../Logos/DiagnoisticDelivery/widerange.png";
+import labs from "../../Logos/DiagnoisticDelivery/labs.png";
+import digitalreport from "../../Logos/DiagnoisticDelivery/digitalreport.png";
+import followup from "../../Logos/DiagnoisticDelivery/followup.png";
+import DiagnosticSampleCollection from "../../Logos/DiagnoisticDelivery/DiagnosticSampleCollection.png";
+const MedicineDiagnosticDelivery = () => {
 
 
     return (
         <Box sx={{ overflowX: "hidden" }}>
           <HeroSection />
           <OverViewSection/>
-          <ElderlyCareSection/>
+          <MedicineDeliverySection/>
           <ScreenImageSection />
-          <ChildCareSection/>
+          <DiagnosticCollectionSection/>
           <ScreenImageSection />
-          <WhyParentsTrust/>
+          <WhyAyuja/>
           <Footer/>
         </Box>
       );
@@ -53,7 +48,7 @@ const ElderChildCare = () => {
                 sx={{
                     width: { xs: "100%", md: "100%" },
                     minHeight: "350px",
-                    backgroundImage: `url(${ElderImage})`,
+                    backgroundImage: `url(${mainimage})`,
                     backgroundSize: "cover",       
                     backgroundPosition: "center", 
                     p: 4,                      
@@ -84,9 +79,9 @@ const ElderChildCare = () => {
                         lineHeight: "1.3",
                     }}
                     >
-                    Personalized <br/>
-                    In-Home Care for <br/>
-                    Every Stage of Life
+                      Fast, Reliable Healthcare<br/>
+                      Essentials Delivered to<br/>
+                      Your Doorstep
                     </Typography>
                     <Button
                     variant="contained"
@@ -129,49 +124,48 @@ function OverViewSection() {
           <Typography
             variant="body1"
             sx={{maxWidth: 1000,fontSize: "1.3em",color: "#0161AB",textAlign: "center",mx: "auto", }} >
-            At&nbsp;
+              At 
             <Box component="span" sx={{ fontSize: "1.8rem", fontWeight: "bold" }}>
-                Ayuja
+                 Ayuja
             </Box>{" "}
-            we understand that every stage of life brings unique needs. Whether it's a senior requiring assistance with
-            daily routines or a child needing nurturing support, our caregivers provide personalized attention in the comfort of
-            your home. Our goal is to ensure safety, dignity, and emotional well-being for your loved ones — all while giving you
-            peace of mind.
+            , we understand that timely access to medicines and diagnostic reports is crucial
+             for maintaining good health. Our seamless delivery service ensures that prescriptions, medical supplies, and lab reports reach your home safely,
+             without the need to step out — especially when you or your loved ones are unwell. 
           </Typography>
         </Container>
       </Box>
     );
   }
-  
+
   const services = [
     {
-      title: "Daily Living Assistance ",
-      desc: "Support with bathing, dressing, meals, and mobility. ",
-      image: DailyLiving,
+      title: "Prescription-Based Delivery",
+      desc: "Upload your prescription, and we’ll take care of the rest.  ",
+      image: prescription,
     },
     {
-      title: "Health & Medication Monitoring ",
-      desc: "Support with bathing, dressing, meals, and mobility. ",
-      image: MedicalHealth,
+      title: "Scheduled Medicine Refills",
+      desc: "Never miss a dose with auto-scheduled refill services. ",
+      image: refills,
     },
     {
-      title: "Post-Hospitalization & Recovery Support",
-      desc: "Care during recovery, including wound and mobility support. ",
-      image: Post,
+      title: "Emergency Medicine Requests",
+      desc: "Priority delivery for critical and time-sensitive medications. ",
+      image: emergencymedicine,
     },
     {
-      title: "Cognitive Engagement ",
-      desc: "Mind-stimulating games, memory exercises, and creative activities.",
-      image: Cognitive,
+      title: "Chronic Care Essentials",
+      desc: "Hassle-free delivery of medicines for long-term conditions like diabetes, hypertension, and thyroid.",
+      image: essentials,
     },
     {
-      title: "Emergency Response Coordination",
-      desc: "24/7 assistance during health emergencies or sudden symptoms. ",
-      image: Emergency,
+      title: "Cold Chain Compliance",
+      desc: "Proper handling and storage of temperature-sensitive medicines during transport. ",
+      image: coldchain,
     }
   ];
 
-  function ElderlyCareSection() {
+  function MedicineDeliverySection() {
       return (
 
     <Box sx={{backgroundColor: "#006D77",py: 0,mb: 0,position: "relative",}}>
@@ -186,13 +180,13 @@ function OverViewSection() {
             color: "#B3FFC4",
           }}
         >
-          Elderly Care
+          Medicine Delivery
         </Typography>
         <Typography
           variant="body1"
           sx={{ mb: 3, color: "#B3FFC4", lineHeight: 1.6, textAlign: "center" }}
         >
-          Care with Compassion and Dignity
+          Prescriptions at Your Fingertips 
         </Typography>
         <Box sx={{ py: 1 }}>
           <Grid container spacing={4} justifyContent="center">
@@ -237,8 +231,8 @@ function OverViewSection() {
                             src={service.image}
                             alt={service.title}
                             style={{
-                              width: "60%",
-                              height: "60%",
+                              width: "100%",
+                              height: "100%",
                               objectFit: "cover",
                             }}
                           />
@@ -281,13 +275,13 @@ function OverViewSection() {
 
       <Box
         component="img"
-        src={eldercareImage}
-        alt="Elderly care support"
+        src={MedicineDelivery}
+        alt="Medicine Delivery"
         sx={{
             position: "absolute",
             bottom: 0,
             right: 0,
-            width: { xs: "250px", md: "420px" }, 
+            width: { xs: "150px", md: "380px" }, 
             height: "auto",
             pointerEvents: "none", 
           }}
@@ -307,36 +301,34 @@ function OverViewSection() {
 
 const childservices = [
     {
-      title: "At-Home Babysitting",
-      desc: "Reliable care while parents are away or working. ",
-      image: homeImage,
+      title: "Home Sample Collection",
+      desc: "Certified phlebotomists collect blood, urine, and swab samples at your convenience.",
+      image: homesample,
     },
     {
-      title: "After-School Supervision",
-      desc: "Support with homework, meals, and safe activities. ",
-      image: school,
+      title: "Wide Range of Tests",
+      desc: "From routine health checkups to advanced diagnostics, all tests are covered. ",
+      image: widerange,
     },
     {
-      title: "Infant & Toddler Care",
-      desc: "Help with feeding, hygiene, naps, and playtime.",
-      image: infrant,
+      title: "Partnered with Trusted Labs",
+      desc: "We collaborate with NABL-accredited diagnostic centers for accuracy and reliability. ",
+      image: labs,
     },
     {
-      title: "Special Needs Assistance ",
-      desc: "Trained caregivers for children with unique care needs.",
-      image: special,
+      title: "Digital Report Access",
+      desc: "Get your reports directly via email or Ayuja app, with printed copies available on request. ",
+      image: digitalreport,
     },
     {
-      title: "Emergency Backup Care",
-      desc: "Quick, trusted care when regular support is unavailable.",
-      image: emergency1,
+      title: "Doctor Follow-Up Coordination",
+      desc: "Optional consultation scheduling after report delivery for seamless care.",
+      image: followup,
     }
   ];
 
 
-
-
-function ChildCareSection() {
+function DiagnosticCollectionSection() {
     return (
 
   <Box sx={{backgroundColor: "#006D77",py: 0,mb: 0,position: "relative",}}>
@@ -351,13 +343,13 @@ function ChildCareSection() {
           color: "#B3FFC4",
         }}
       >
-        Child Care
+        Diagnostic Sample Collection & Report Delivery
       </Typography>
       <Typography
         variant="body1"
         sx={{ mb: 3, color: "#B3FFC4", lineHeight: 1.6, textAlign: "center" }}
       >
-        Trusted Support for Your Little Ones
+        Lab Tests Without the Wait
       </Typography>
       <Box sx={{ py: 1 }}>
         <Grid container spacing={4} justifyContent="center">
@@ -402,8 +394,8 @@ function ChildCareSection() {
                           src={service.image}
                           alt={service.title}
                           style={{
-                            width: "60%",
-                            height: "60%",
+                            width: "100%",
+                            height: "100%",
                             objectFit: "cover",
                           }}
                         />
@@ -446,8 +438,8 @@ function ChildCareSection() {
 
     <Box
       component="img"
-      src={childcare}
-      alt="Elderly care support"
+      src={DiagnosticSampleCollection}
+      alt="Diagnostic Sample Collection"
       sx={{
           position: "absolute",
           bottom: 0,
@@ -463,7 +455,7 @@ function ChildCareSection() {
 
 
 
-  function WhyParentsTrust() {
+  function WhyAyuja() {
     return (
       <Box
         sx={{
@@ -478,16 +470,17 @@ function ChildCareSection() {
         <Box sx={{ flex: 1,textAlign: "center"}}>
           <Typography
             variant="h4"
-            sx={{ fontWeight: "bold",textAlign: "center",ml:70}}
+            sx={{ fontWeight: "bold",textAlign: "center",ml:40,}}
           >
-            Why Parents Trust Ayuja
+            Why Choose Ayuja for Medicine & Diagnostic Delivery? 
           </Typography>
-          <List sx={{width: "50%",mx: "auto",fontSize: "30px"}}>
+          <List sx={{width: "80%",mx: "auto",fontSize: "30px"}}>  
             {[
-              "Certified and background-checked caregivers",
-              "Age-appropriate engagement and routines",
-              "Real-time updates and communication with parents",
-              "Flexible services based on your family’s lifestyle",
+              "Hassle-free booking through app or helpline ",
+              "Trained delivery staff and medical professionals",
+              "Secure, tamper-proof packaging and verified reports ",
+              "Timely reminders for reorders and test schedules ",
+              "Designed for elderly, busy professionals, and post-op patients ",
             ].map((text, i) => (
               <ListItem key={i} sx={{ py: 0.5 }}>
                 <ListItemIcon>
@@ -515,12 +508,9 @@ function ChildCareSection() {
               borderRadius: "12px",
             }}
           />
-          <BookAppointment/>
         </Box>
     );
   }
 
+export default MedicineDiagnosticDelivery;
 
-
-
-export default ElderChildCare;

@@ -4,42 +4,33 @@ import {Typography,Button,Container,Box,Grid,Card,Pagination,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-
 import Footer from "../../Common/Footer";
 
-import ElderImage from "../../Logos/Elder&childcarePage/elder.png"
-import DailyLiving from "../../Logos/Elder&childcarePage/DailyLiving.png"
-import Cognitive from "../../Logos/Elder&childcarePage/Cognitive.png";
-import Emergency from "../../Logos/Elder&childcarePage/Emergency.png";
-import MedicalHealth from "../../Logos/Elder&childcarePage/HealthMedication.png";
-import Post from "../../Logos/Elder&childcarePage/Post.png";
-import eldercareImage from "../../Logos/Elder&childcarePage/ElderlyCare.png";
 import screenimage from "../../Logos/screenimage.png";
-import BookAppointment from "./BookAppointment";
-
-import homeImage from "../../Logos/Elder&childcarePage/home.png";
-import school from "../../Logos/Elder&childcarePage/school.png";
-import special from "../../Logos/Elder&childcarePage/special.png";
-import emergency1 from "../../Logos/Elder&childcarePage/emergency1.png";
-import infrant from "../../Logos/Elder&childcarePage/infrant.png";
-import childcare from "../../Logos/Elder&childcarePage/ChildCare.png";
 import ParentTrust from "../../Logos/Elder&childcarePage/ParentsTrust.png";
-const ElderChildCare = () => {
 
 
+import mainimage from "../../Logos/EmergencyCareSupport/TopBanner.png";
 
-
+import hours from "../../Logos/EmergencyCareSupport/24hours.png";
+import Ambulance from "../../Logos/EmergencyCareSupport/Ambulance.png";
+import EmergencyAlert from "../../Logos/EmergencyCareSupport/EmergencyAlert.png";
+import Falldetection from "../../Logos/EmergencyCareSupport/Falldetection.png";  
+import family from "../../Logos/EmergencyCareSupport/family.png";
+import FirstAid from "../../Logos/EmergencyCareSupport/FirstAid.png";
+import hospital from "../../Logos/EmergencyCareSupport/hospital.png";
+import EmergencyCareSupport from "../../Logos/EmergencyCareSupport/EmergencyCareSupport.png";
+import medicalservices from "../../Logos/EmergencyCareSupport/medicalservices.png";
+const EmergencyCare = () => {
 
 
     return (
         <Box sx={{ overflowX: "hidden" }}>
           <HeroSection />
           <OverViewSection/>
-          <ElderlyCareSection/>
+          <MedicineDeliverySection/>
           <ScreenImageSection />
-          <ChildCareSection/>
-          <ScreenImageSection />
-          <WhyParentsTrust/>
+          <WhyAyuja/>
           <Footer/>
         </Box>
       );
@@ -53,7 +44,7 @@ const ElderChildCare = () => {
                 sx={{
                     width: { xs: "100%", md: "100%" },
                     minHeight: "350px",
-                    backgroundImage: `url(${ElderImage})`,
+                    backgroundImage: `url(${mainimage})`,
                     backgroundSize: "cover",       
                     backgroundPosition: "center", 
                     p: 4,                      
@@ -84,9 +75,9 @@ const ElderChildCare = () => {
                         lineHeight: "1.3",
                     }}
                     >
-                    Personalized <br/>
-                    In-Home Care for <br/>
-                    Every Stage of Life
+                      Swift, Life-Saving<br/>
+                       Response When Every <br/>
+                       Second Counts 
                     </Typography>
                     <Button
                     variant="contained"
@@ -129,49 +120,68 @@ function OverViewSection() {
           <Typography
             variant="body1"
             sx={{maxWidth: 1000,fontSize: "1.3em",color: "#0161AB",textAlign: "center",mx: "auto", }} >
-            At&nbsp;
-            <Box component="span" sx={{ fontSize: "1.8rem", fontWeight: "bold" }}>
-                Ayuja
+
+            Medical emergencies can happen anytime — and in those critical moments, timely response can make all the difference. 
+            <Box component="span" sx={{ fontSize: "1.3rem", fontWeight: "bold" }}>
+            Ayuja’s Emergency Support Services
             </Box>{" "}
-            we understand that every stage of life brings unique needs. Whether it's a senior requiring assistance with
-            daily routines or a child needing nurturing support, our caregivers provide personalized attention in the comfort of
-            your home. Our goal is to ensure safety, dignity, and emotional well-being for your loved ones — all while giving you
-            peace of mind.
+             
+            are designed to provide fast, coordinated assistance to residents and their families. 
+            From dispatching ambulances 
+            to arranging immediate medical attention, we ensure help is on the way when it’s needed most. 
           </Typography>
         </Container>
       </Box>
     );
   }
-  
+
+
   const services = [
     {
-      title: "Daily Living Assistance ",
-      desc: "Support with bathing, dressing, meals, and mobility. ",
-      image: DailyLiving,
+      title: "24/7 Emergency Helpline",
+      desc: "A dedicated phone line that residents can call any time for urgent assistance.  ",
+      image: hours,
     },
     {
-      title: "Health & Medication Monitoring ",
-      desc: "Support with bathing, dressing, meals, and mobility. ",
-      image: MedicalHealth,
+      title: "Ambulance Dispatch",
+      desc: "Immediate coordination with local ambulance providers for fast and safe transport.  ",
+      image: Ambulance,
     },
     {
-      title: "Post-Hospitalization & Recovery Support",
-      desc: "Care during recovery, including wound and mobility support. ",
-      image: Post,
+      title: "On-Site First Aid Assistance",
+      desc: "Rapid response by trained personnel for initial care until medical help arrives. ",
+      image: FirstAid,
     },
     {
-      title: "Cognitive Engagement ",
-      desc: "Mind-stimulating games, memory exercises, and creative activities.",
-      image: Cognitive,
+      title: "Emergency Alert Button for Seniors ",
+      desc: "Easy-to-use wearable panic button or wristband for instant emergency alerts.",
+      image: EmergencyAlert,
     },
     {
-      title: "Emergency Response Coordination",
-      desc: "24/7 assistance during health emergencies or sudden symptoms. ",
-      image: Emergency,
+      title: "Family Notification System ",
+      desc: "Instant alerts sent to registered family members and caregivers during emergencies.  ",
+      image: family,
+    },
+    {
+      title: "Fall Detection via Smart Devices ",
+      desc: "AI-powered fall detection using smartwatches or wall sensors that auto-trigger alerts.",
+      image: Falldetection,
+    },
+    {
+      title: "Hospital Pre-Coordination",
+      desc: "Advance communication with hospitals to ensure quick triage and reduced wait time.  ",
+      image: hospital,
+    },
+    {
+      title: "Medical Escort Services ",
+      desc: "Accompanied travel to hospital for elderly or critical patients when needed. ",
+      image: medicalservices,
     }
+
+    
   ];
 
-  function ElderlyCareSection() {
+  function MedicineDeliverySection() {
       return (
 
     <Box sx={{backgroundColor: "#006D77",py: 0,mb: 0,position: "relative",}}>
@@ -186,13 +196,7 @@ function OverViewSection() {
             color: "#B3FFC4",
           }}
         >
-          Elderly Care
-        </Typography>
-        <Typography
-          variant="body1"
-          sx={{ mb: 3, color: "#B3FFC4", lineHeight: 1.6, textAlign: "center" }}
-        >
-          Care with Compassion and Dignity
+          What We Offer
         </Typography>
         <Box sx={{ py: 1 }}>
           <Grid container spacing={4} justifyContent="center">
@@ -237,8 +241,8 @@ function OverViewSection() {
                             src={service.image}
                             alt={service.title}
                             style={{
-                              width: "60%",
-                              height: "60%",
+                              width: "100%",
+                              height: "150%",
                               objectFit: "cover",
                             }}
                           />
@@ -281,13 +285,13 @@ function OverViewSection() {
 
       <Box
         component="img"
-        src={eldercareImage}
-        alt="Elderly care support"
+        src={EmergencyCareSupport}
+        alt="Emergency Care Support"
         sx={{
             position: "absolute",
             bottom: 0,
             right: 0,
-            width: { xs: "250px", md: "420px" }, 
+            width: { xs: "150px", md: "380px" }, 
             height: "auto",
             pointerEvents: "none", 
           }}
@@ -305,165 +309,8 @@ function OverViewSection() {
 }
 
 
-const childservices = [
-    {
-      title: "At-Home Babysitting",
-      desc: "Reliable care while parents are away or working. ",
-      image: homeImage,
-    },
-    {
-      title: "After-School Supervision",
-      desc: "Support with homework, meals, and safe activities. ",
-      image: school,
-    },
-    {
-      title: "Infant & Toddler Care",
-      desc: "Help with feeding, hygiene, naps, and playtime.",
-      image: infrant,
-    },
-    {
-      title: "Special Needs Assistance ",
-      desc: "Trained caregivers for children with unique care needs.",
-      image: special,
-    },
-    {
-      title: "Emergency Backup Care",
-      desc: "Quick, trusted care when regular support is unavailable.",
-      image: emergency1,
-    }
-  ];
 
-
-
-
-function ChildCareSection() {
-    return (
-
-  <Box sx={{backgroundColor: "#006D77",py: 0,mb: 0,position: "relative",}}>
-    <Container sx={{ py: 3, mb: 0 }}>
-      <Typography
-        variant="h4"
-        align="center"
-        gutterBottom
-        sx={{
-          fontWeight: "bold",
-          fontFamily: '"Montserrat", sans-serif',
-          color: "#B3FFC4",
-        }}
-      >
-        Child Care
-      </Typography>
-      <Typography
-        variant="body1"
-        sx={{ mb: 3, color: "#B3FFC4", lineHeight: 1.6, textAlign: "center" }}
-      >
-        Trusted Support for Your Little Ones
-      </Typography>
-      <Box sx={{ py: 1 }}>
-        <Grid container spacing={4} justifyContent="center">
-          {childservices.map((service, idx) => (
-            <Grid item xs={12} sm={6} md={4} key={idx} justifyContent="center">
-              <Box display="flex" justifyContent="center">
-                <Card
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                    backgroundColor: "#B3FFC4",
-                    border: "1.5px solid #B3FFC4",
-                    borderRadius: 2,
-                    p: 2,
-                    maxWidth: 320,
-                  }}
-                >
-                  <CardContent
-                    sx={{
-                      flexGrow: 1,
-                      display: "flex",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <Box display="flex" alignItems="center">
-                      <Box
-                        sx={{
-                          width: 56,
-                          height: 56,
-                          backgroundColor: "#22577A",
-                          borderRadius: "50%",
-                          overflow: "hidden",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          mr: 2,
-                          flexShrink: 0,
-                        }}
-                      >
-                        <img
-                          src={service.image}
-                          alt={service.title}
-                          style={{
-                            width: "60%",
-                            height: "60%",
-                            objectFit: "cover",
-                          }}
-                        />
-                      </Box>
-
-                      <Typography
-                        variant="h6"
-                        sx={{
-                          fontWeight: 700,
-                          fontFamily: '"Montserrat", sans-serif',
-                          color: "#000000",
-                          flex: 1,
-                          wordBreak: "break-word",
-                        }}
-                      >
-                        {service.title}
-                      </Typography>
-                    </Box>
-
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        mt: 2,
-                        fontFamily: '"Montserrat", sans-serif',
-                        color: "#000000",
-                        flexGrow: 1,
-                        wordBreak: "break-word",
-                      }}
-                    >
-                      {service.desc}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Box>
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
-    </Container>
-
-    <Box
-      component="img"
-      src={childcare}
-      alt="Elderly care support"
-      sx={{
-          position: "absolute",
-          bottom: 0,
-          right: 0,
-          width: { xs: "250px", md: "420px" }, 
-          height: "auto",
-          pointerEvents: "none", 
-        }}
-    />
-  </Box>
-    );
-  }
-
-
-
-  function WhyParentsTrust() {
+  function WhyAyuja() {
     return (
       <Box
         sx={{
@@ -478,16 +325,17 @@ function ChildCareSection() {
         <Box sx={{ flex: 1,textAlign: "center"}}>
           <Typography
             variant="h4"
-            sx={{ fontWeight: "bold",textAlign: "center",ml:70}}
+            sx={{ fontWeight: "bold",textAlign: "center",ml:30,}}
           >
-            Why Parents Trust Ayuja
+            Why Ayuja’s Emergency Support Stands Out: 
           </Typography>
-          <List sx={{width: "50%",mx: "auto",fontSize: "30px"}}>
+          <List sx={{width: "80%",mx: "auto",fontSize: "30px"}}>  
             {[
-              "Certified and background-checked caregivers",
-              "Age-appropriate engagement and routines",
-              "Real-time updates and communication with parents",
-              "Flexible services based on your family’s lifestyle",
+              "Immediate response coordination via app, phone, or in-person request  ",
+              "Networked with multiple hospitals, clinics, and ambulance providers ",
+              "First responders trained in basic life support (BLS)  ",
+              "Integrated with other Ayuja services for seamless post-emergency care ",
+              "Peace of mind for families — knowing help is just a call away ",
             ].map((text, i) => (
               <ListItem key={i} sx={{ py: 0.5 }}>
                 <ListItemIcon>
@@ -515,7 +363,6 @@ function ChildCareSection() {
               borderRadius: "12px",
             }}
           />
-          <BookAppointment/>
         </Box>
     );
   }
@@ -523,4 +370,5 @@ function ChildCareSection() {
 
 
 
-export default ElderChildCare;
+export default EmergencyCare;
+

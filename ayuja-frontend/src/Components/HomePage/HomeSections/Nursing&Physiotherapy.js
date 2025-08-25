@@ -473,8 +473,8 @@ function PhysiotherapyHomeCareSection() {
         {/* Left Section */}
         <Box sx={{ flex: 1,textAlign: "center"}}>
           <Typography
-            variant="h3"
-            sx={{ fontWeight: "bold",textAlign: "center",ml:70}}
+            variant="h4"
+            sx={{ fontWeight: "bold",textAlign: "center",ml:70,py: 3}}
           >
             Why Choose Ayuja for Nursing & Physiotherapy? 
           </Typography>

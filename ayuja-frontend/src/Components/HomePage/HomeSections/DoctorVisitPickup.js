@@ -4,42 +4,30 @@ import {Typography,Button,Container,Box,Grid,Card,Pagination,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-
 import Footer from "../../Common/Footer";
 
-import ElderImage from "../../Logos/Elder&childcarePage/elder.png"
-import DailyLiving from "../../Logos/Elder&childcarePage/DailyLiving.png"
-import Cognitive from "../../Logos/Elder&childcarePage/Cognitive.png";
-import Emergency from "../../Logos/Elder&childcarePage/Emergency.png";
-import MedicalHealth from "../../Logos/Elder&childcarePage/HealthMedication.png";
-import Post from "../../Logos/Elder&childcarePage/Post.png";
-import eldercareImage from "../../Logos/Elder&childcarePage/ElderlyCare.png";
 import screenimage from "../../Logos/screenimage.png";
-import BookAppointment from "./BookAppointment";
-
-import homeImage from "../../Logos/Elder&childcarePage/home.png";
-import school from "../../Logos/Elder&childcarePage/school.png";
-import special from "../../Logos/Elder&childcarePage/special.png";
-import emergency1 from "../../Logos/Elder&childcarePage/emergency1.png";
-import infrant from "../../Logos/Elder&childcarePage/infrant.png";
-import childcare from "../../Logos/Elder&childcarePage/ChildCare.png";
 import ParentTrust from "../../Logos/Elder&childcarePage/ParentsTrust.png";
-const ElderChildCare = () => {
 
 
+import mainimage from "../../Logos/DoctorVisitPickUP/TopBanner.png";
 
-
-
-
+import appointment from "../../Logos/DoctorVisitPickUP/appointment.png";
+import pickup from "../../Logos/DoctorVisitPickUP/pickup.png";
+import medicalhistory from "../../Logos/DoctorVisitPickUP/medicalhistory.png";
+import doctor from "../../Logos/DoctorVisitPickUP/doctor.png";  
+import coordination from "../../Logos/DoctorVisitPickUP/coordination.png";
+import accomplishment from "../../Logos/DoctorVisitPickUP/accomplishment.png";
+import followup from "../../Logos/DoctorVisitPickUP/followup.png";
+import DoctorVisitPickupDrop from "../../Logos/DoctorVisitPickUP/DoctorVisitPickupDrop.png";
+const DoctorVisitPickup = () => {
     return (
         <Box sx={{ overflowX: "hidden" }}>
           <HeroSection />
           <OverViewSection/>
-          <ElderlyCareSection/>
+          <OfferSection/>
           <ScreenImageSection />
-          <ChildCareSection/>
-          <ScreenImageSection />
-          <WhyParentsTrust/>
+          <WhyAyuja/>
           <Footer/>
         </Box>
       );
@@ -53,7 +41,7 @@ const ElderChildCare = () => {
                 sx={{
                     width: { xs: "100%", md: "100%" },
                     minHeight: "350px",
-                    backgroundImage: `url(${ElderImage})`,
+                    backgroundImage: `url(${mainimage})`,
                     backgroundSize: "cover",       
                     backgroundPosition: "center", 
                     p: 4,                      
@@ -84,9 +72,9 @@ const ElderChildCare = () => {
                         lineHeight: "1.3",
                     }}
                     >
-                    Personalized <br/>
-                    In-Home Care for <br/>
-                    Every Stage of Life
+                       End-to-End Assistance<br/>
+                        for Your Medical<br/>
+                         Appointments 
                     </Typography>
                     <Button
                     variant="contained"
@@ -129,49 +117,65 @@ function OverViewSection() {
           <Typography
             variant="body1"
             sx={{maxWidth: 1000,fontSize: "1.3em",color: "#0161AB",textAlign: "center",mx: "auto", }} >
-            At&nbsp;
-            <Box component="span" sx={{ fontSize: "1.8rem", fontWeight: "bold" }}>
-                Ayuja
+
+            Managing doctor visits — especially for elderly patients, children, or those with chronic conditions — 
+            can be stressful and time-consuming. At&nbsp;
+            <Box component="span" sx={{ fontSize: "1.3rem", fontWeight: "bold" }}>
+            Ayuja
             </Box>{" "}
-            we understand that every stage of life brings unique needs. Whether it's a senior requiring assistance with
-            daily routines or a child needing nurturing support, our caregivers provide personalized attention in the comfort of
-            your home. Our goal is to ensure safety, dignity, and emotional well-being for your loved ones — all while giving you
-            peace of mind.
+            , we simplify the entire process by offering&nbsp; 
+            <Box component="span" sx={{ fontSize: "1.3rem", fontWeight: "bold" }}>
+            door-to-door transport, appointment scheduling, 
+            </Box>{" "}
+           
+            and medical history coordination so that you or your loved ones can focus on recovery, not logistics.  
           </Typography>
         </Container>
       </Box>
     );
   }
-  
+
+
+
   const services = [
     {
-      title: "Daily Living Assistance ",
-      desc: "Support with bathing, dressing, meals, and mobility. ",
-      image: DailyLiving,
+      title: "Appointment Scheduling",
+      desc: "We book appointments on your behalf and coordinate timings based on availability and urgency.",
+      image: appointment,
     },
     {
-      title: "Health & Medication Monitoring ",
-      desc: "Support with bathing, dressing, meals, and mobility. ",
-      image: MedicalHealth,
+      title: "Pickup & Drop Services",
+      desc: "Safe, hygienic, and punctual transport to and from hospitals or clinics. ",
+      image: pickup,
     },
     {
-      title: "Post-Hospitalization & Recovery Support",
-      desc: "Care during recovery, including wound and mobility support. ",
-      image: Post,
+      title: "Medical History Management",
+      desc: "We securely store your medical history, test results, prescriptions, and treatments.",
+      image: medicalhistory,
     },
     {
-      title: "Cognitive Engagement ",
-      desc: "Mind-stimulating games, memory exercises, and creative activities.",
-      image: Cognitive,
+      title: "Doctor Coordination ",
+      desc: "We share your medical history with doctors before visits to improve diagnosis and care.",
+      image: doctor,
     },
     {
-      title: "Emergency Response Coordination",
-      desc: "24/7 assistance during health emergencies or sudden symptoms. ",
-      image: Emergency,
-    }
+      title: "Medication Summary Post-Visit",
+      desc: "After your visit, we share a simple medication and next-steps summary—like a caregiver would.",
+      image: coordination,
+    },
+    {
+      title: "Accompaniment on Visits",
+      desc: "A trained attendant can join your visit for support and help clarify the doctor’s instructions.",
+      image: accomplishment,
+    },
+    {
+      title: "Follow-Up Care Support",
+      desc: "Assistance in managing post-visit tasks like tests, medicine purchases, or therapy scheduling.",
+      image: followup,
+    } 
   ];
 
-  function ElderlyCareSection() {
+  function OfferSection() {
       return (
 
     <Box sx={{backgroundColor: "#006D77",py: 0,mb: 0,position: "relative",}}>
@@ -186,13 +190,7 @@ function OverViewSection() {
             color: "#B3FFC4",
           }}
         >
-          Elderly Care
-        </Typography>
-        <Typography
-          variant="body1"
-          sx={{ mb: 3, color: "#B3FFC4", lineHeight: 1.6, textAlign: "center" }}
-        >
-          Care with Compassion and Dignity
+          What We Offer
         </Typography>
         <Box sx={{ py: 1 }}>
           <Grid container spacing={4} justifyContent="center">
@@ -237,8 +235,8 @@ function OverViewSection() {
                             src={service.image}
                             alt={service.title}
                             style={{
-                              width: "60%",
-                              height: "60%",
+                              width: "100%",
+                              height: "150%",
                               objectFit: "cover",
                             }}
                           />
@@ -281,13 +279,13 @@ function OverViewSection() {
 
       <Box
         component="img"
-        src={eldercareImage}
-        alt="Elderly care support"
+        src={DoctorVisitPickupDrop}
+        alt="Doctor Visit Pick up Drop"
         sx={{
             position: "absolute",
             bottom: 0,
             right: 0,
-            width: { xs: "250px", md: "420px" }, 
+            width: { xs: "150px", md: "380px" }, 
             height: "auto",
             pointerEvents: "none", 
           }}
@@ -305,165 +303,8 @@ function OverViewSection() {
 }
 
 
-const childservices = [
-    {
-      title: "At-Home Babysitting",
-      desc: "Reliable care while parents are away or working. ",
-      image: homeImage,
-    },
-    {
-      title: "After-School Supervision",
-      desc: "Support with homework, meals, and safe activities. ",
-      image: school,
-    },
-    {
-      title: "Infant & Toddler Care",
-      desc: "Help with feeding, hygiene, naps, and playtime.",
-      image: infrant,
-    },
-    {
-      title: "Special Needs Assistance ",
-      desc: "Trained caregivers for children with unique care needs.",
-      image: special,
-    },
-    {
-      title: "Emergency Backup Care",
-      desc: "Quick, trusted care when regular support is unavailable.",
-      image: emergency1,
-    }
-  ];
 
-
-
-
-function ChildCareSection() {
-    return (
-
-  <Box sx={{backgroundColor: "#006D77",py: 0,mb: 0,position: "relative",}}>
-    <Container sx={{ py: 3, mb: 0 }}>
-      <Typography
-        variant="h4"
-        align="center"
-        gutterBottom
-        sx={{
-          fontWeight: "bold",
-          fontFamily: '"Montserrat", sans-serif',
-          color: "#B3FFC4",
-        }}
-      >
-        Child Care
-      </Typography>
-      <Typography
-        variant="body1"
-        sx={{ mb: 3, color: "#B3FFC4", lineHeight: 1.6, textAlign: "center" }}
-      >
-        Trusted Support for Your Little Ones
-      </Typography>
-      <Box sx={{ py: 1 }}>
-        <Grid container spacing={4} justifyContent="center">
-          {childservices.map((service, idx) => (
-            <Grid item xs={12} sm={6} md={4} key={idx} justifyContent="center">
-              <Box display="flex" justifyContent="center">
-                <Card
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                    backgroundColor: "#B3FFC4",
-                    border: "1.5px solid #B3FFC4",
-                    borderRadius: 2,
-                    p: 2,
-                    maxWidth: 320,
-                  }}
-                >
-                  <CardContent
-                    sx={{
-                      flexGrow: 1,
-                      display: "flex",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <Box display="flex" alignItems="center">
-                      <Box
-                        sx={{
-                          width: 56,
-                          height: 56,
-                          backgroundColor: "#22577A",
-                          borderRadius: "50%",
-                          overflow: "hidden",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          mr: 2,
-                          flexShrink: 0,
-                        }}
-                      >
-                        <img
-                          src={service.image}
-                          alt={service.title}
-                          style={{
-                            width: "60%",
-                            height: "60%",
-                            objectFit: "cover",
-                          }}
-                        />
-                      </Box>
-
-                      <Typography
-                        variant="h6"
-                        sx={{
-                          fontWeight: 700,
-                          fontFamily: '"Montserrat", sans-serif',
-                          color: "#000000",
-                          flex: 1,
-                          wordBreak: "break-word",
-                        }}
-                      >
-                        {service.title}
-                      </Typography>
-                    </Box>
-
-                    <Typography
-                      variant="body2"
-                      sx={{
-                        mt: 2,
-                        fontFamily: '"Montserrat", sans-serif',
-                        color: "#000000",
-                        flexGrow: 1,
-                        wordBreak: "break-word",
-                      }}
-                    >
-                      {service.desc}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Box>
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
-    </Container>
-
-    <Box
-      component="img"
-      src={childcare}
-      alt="Elderly care support"
-      sx={{
-          position: "absolute",
-          bottom: 0,
-          right: 0,
-          width: { xs: "250px", md: "420px" }, 
-          height: "auto",
-          pointerEvents: "none", 
-        }}
-    />
-  </Box>
-    );
-  }
-
-
-
-  function WhyParentsTrust() {
+  function WhyAyuja() {
     return (
       <Box
         sx={{
@@ -478,16 +319,16 @@ function ChildCareSection() {
         <Box sx={{ flex: 1,textAlign: "center"}}>
           <Typography
             variant="h4"
-            sx={{ fontWeight: "bold",textAlign: "center",ml:70}}
+            sx={{ fontWeight: "bold",textAlign: "center",ml:30,}}
           >
-            Why Parents Trust Ayuja
+            Why Choose Ayuja for Doctor Visits & Transport? 
           </Typography>
-          <List sx={{width: "50%",mx: "auto",fontSize: "30px"}}>
+          <List sx={{width: "80%",mx: "auto",fontSize: "30px"}}>  
             {[
-              "Certified and background-checked caregivers",
-              "Age-appropriate engagement and routines",
-              "Real-time updates and communication with parents",
-              "Flexible services based on your family’s lifestyle",
+              "Coordination with doctors for smoother, more informed consultations ",
+              "Safe and supportive environment for elderly, children, and post-op patients ",
+              "Peace of mind for family members — we act as an extended support system  ",
+              "End-to-end service from scheduling to transport to care follow-up  ",
             ].map((text, i) => (
               <ListItem key={i} sx={{ py: 0.5 }}>
                 <ListItemIcon>
@@ -515,7 +356,6 @@ function ChildCareSection() {
               borderRadius: "12px",
             }}
           />
-          <BookAppointment/>
         </Box>
     );
   }
@@ -523,4 +363,5 @@ function ChildCareSection() {
 
 
 
-export default ElderChildCare;
+export default DoctorVisitPickup;
+
