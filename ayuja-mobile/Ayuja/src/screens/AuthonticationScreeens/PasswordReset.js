@@ -1,5 +1,4 @@
 
-
 import React, { useState, useEffect } from "react";
 import {
   View,
@@ -10,10 +9,18 @@ import {
   KeyboardAvoidingView,
   Platform,
   Keyboard,
+  Alert,
 } from "react-native";
 import { TextInput, Button } from "react-native-paper";
-import loginimage from "./assests/Login.png";
+import loginimage from "../assests/Login.png";
 import Feather from "react-native-vector-icons/Feather";
+import axios from "axios";
+
+import {
+  REACT_APP_PASSWORD_REQUEST_API,
+  REACT_APP_VERIFY_OTP_API,
+  REACT_APP_PASSWORD_RESET_API,
+} from "@env";
 
 export default function PasswordReset({ navigation }) {
   const [step, setStep] = useState(1);
@@ -24,7 +31,8 @@ export default function PasswordReset({ navigation }) {
   const [keyboardVisible, setKeyboardVisible] = useState(false);
   const [passwordSecure, setPasswordSecure] = useState(true);
   const [confirmPasswordSecure, setConfirmPasswordSecure] = useState(true);
-  
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     const showSub = Keyboard.addListener("keyboardDidShow", () =>
       setKeyboardVisible(true)
@@ -40,52 +48,106 @@ export default function PasswordReset({ navigation }) {
 
   const goBack = () => {
     if (step > 1) {
-      setStep(step - 1); 
+      setStep(step - 1);
     } else {
-      navigation.goBack(); 
+      navigation.goBack();
     }
   };
 
-  const handleSendOtp = () => {
+  // ✅ Send OTP
+  const handleSendOtp = async () => {
     if (!email) {
-      alert("Please enter an email");
+      Alert.alert("Error", "Please enter your email");
       return;
     }
-    alert(`OTP sent to ${email}`);
-    setStep(2);
-  };
-
-  const handleVerifyOtp = () => {
-    if (otp === "123456") {
-      setStep(3);
-    } else {
-      alert("Invalid OTP");
+    setLoading(true);
+    try {
+      const res = await axios.post(REACT_APP_PASSWORD_REQUEST_API, {
+        identifier: email,
+      });
+      const message = String(res?.data?.message || "Something went wrong");
+      if (res.data.success) {
+        Alert.alert("Success", "OTP sent successfully");
+        setStep(2);
+      } else {
+        Alert.alert("Error", message);
+      }
+    } catch (err) {
+      console.error(err);
+      Alert.alert("Error", "Failed to send OTP");
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleResetPassword = () => {
+  // ✅ Verify OTP
+  const handleVerifyOtp = async () => {
+    if (!otp) {
+      Alert.alert("Error", "Enter OTP");
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await axios.post(REACT_APP_VERIFY_OTP_API, {
+        identifier: email,
+        otp,
+      });
+      const message = String(res?.data?.message || "Something went wrong");
+      if (res.data.success) {
+        Alert.alert("Success", "OTP Verified");
+        setStep(3);
+      } else {
+        Alert.alert("Error", message);
+      }
+    } catch (err) {
+      console.error(err);
+      Alert.alert("Error", "OTP verification failed");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // ✅ Reset Password
+  const handleResetPassword = async () => {
     if (!password || !confirmPassword) {
-      alert("Please fill both password fields");
+      Alert.alert("Error", "Please fill both password fields");
       return;
     }
     if (password !== confirmPassword) {
-      alert("Passwords do not match");
+      Alert.alert("Error", "Passwords do not match");
       return;
     }
-    // TODO: Call API to reset password
-    alert("Password has been reset successfully");
-    setStep(1);
-    setEmail("");
-    setOtp("");
-    setPassword("");
-    setConfirmPassword("");
+    setLoading(true);
+    try {
+      const res = await axios.post(REACT_APP_PASSWORD_RESET_API, {
+        identifier: email,
+        newPassword: password,
+      });
+      const message = String(res?.data?.message || "Something went wrong");
+      if (res.data.success) {
+        Alert.alert("Success", message);
+        setStep(1);
+        setEmail("");
+        setOtp("");
+        setPassword("");
+        setConfirmPassword("");
+        navigation.navigate("Login");
+      } else {
+        Alert.alert("Error", message);
+      }
+    } catch (err) {
+      console.error(err);
+      Alert.alert("Error", "Password reset failed");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  // Custom heading text per step
+  // Custom heading per step
   const getHeading = () => {
     switch (step) {
       case 1:
-        return "Reset";
+        return "Reset Password";
       case 2:
         return "Verification";
       case 3:
@@ -100,20 +162,17 @@ export default function PasswordReset({ navigation }) {
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-    <TouchableOpacity onPress={goBack} style={styles.backButton}>
-      <Feather name="arrow-left" size={40} color="#006D77" />
-    </TouchableOpacity>
+      <TouchableOpacity onPress={goBack} style={styles.backButton}>
+        <Feather name="arrow-left" size={40} color="#006D77" />
+      </TouchableOpacity>
 
       <Text style={styles.loginText}>{getHeading()}</Text>
 
       {!keyboardVisible && step === 1 && (
-        <Image
-          source={loginimage}
-          style={styles.loginImage}
-          resizeMode="contain"
-        />
+        <Image source={loginimage} style={styles.loginImage} resizeMode="contain" />
       )}
 
+      {/* Step 1 */}
       {step === 1 && (
         <>
           <TextInput
@@ -126,32 +185,27 @@ export default function PasswordReset({ navigation }) {
             style={styles.input}
             outlineColor="#006D77"
             activeOutlineColor="#006D77"
-            theme={{ colors: { placeholder: "#006D77", text: "black" } }}
           />
           <Button
             mode="contained"
             style={styles.loginButton}
             labelStyle={{ color: "#fff", fontSize: 16, fontWeight: "bold" }}
+            loading={loading}
             onPress={handleSendOtp}
           >
-            Send code
+            Send Code
           </Button>
         </>
       )}
 
+      {/* Step 2 */}
       {step === 2 && (
         <>
-          <Text style={{ marginBottom: 8,fontSize: 16, fontWeight: "bold"}}>
+          <Text style={{ marginBottom: 8, fontSize: 16, fontWeight: "bold" }}>
             Enter the code
           </Text>
-          <Text style={{ marginBottom: 8}}>
-            We sent a verification code to your email 
-          </Text>
-          <Text style={{ marginBottom: 8}}>
-            Please enter it below
-          </Text>
           <TextInput
-            label="code"
+            label="Code"
             mode="outlined"
             value={otp}
             onChangeText={setOtp}
@@ -160,15 +214,15 @@ export default function PasswordReset({ navigation }) {
             style={styles.input}
             outlineColor="#006D77"
             activeOutlineColor="#006D77"
-            theme={{ colors: { placeholder: "#006D77", text: "black" } }}
           />
           <Button
             mode="contained"
             style={styles.loginButton}
             labelStyle={{ color: "#fff", fontSize: 16, fontWeight: "bold" }}
+            loading={loading}
             onPress={handleVerifyOtp}
           >
-            Verify 
+            Verify
           </Button>
           <Button
             mode="text"
@@ -181,49 +235,48 @@ export default function PasswordReset({ navigation }) {
         </>
       )}
 
+      {/* Step 3 */}
       {step === 3 && (
         <>
+          <TextInput
+            label="New Password"
+            mode="outlined"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry={passwordSecure}
+            style={styles.input}
+            outlineColor="#006D77"
+            activeOutlineColor="#006D77"
+            right={
+              <TextInput.Icon
+                icon={passwordSecure ? "eye-off" : "eye"}
+                onPress={() => setPasswordSecure(!passwordSecure)}
+              />
+            }
+          />
 
-        <TextInput
-          label="New Password"
-          mode="outlined"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry={passwordSecure}
-          style={styles.input}
-          outlineColor="#006D77"
-          activeOutlineColor="#006D77"
-          theme={{ colors: { placeholder: "#006D77", text: "black" } }}
-          right={
-            <TextInput.Icon
-              icon={passwordSecure ? "eye-off" : "eye"}
-              onPress={() => setPasswordSecure(!passwordSecure)}
-            />
-          }
-        />
-
-        <TextInput
-          label="Confirm Password"
-          mode="outlined"
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-          secureTextEntry={confirmPasswordSecure}
-          style={styles.input}
-          outlineColor="#006D77"
-          activeOutlineColor="#006D77"
-          theme={{ colors: { placeholder: "#006D77", text: "black" } }}
-          right={
-            <TextInput.Icon
-              icon={confirmPasswordSecure ? "eye-off" : "eye"}
-              onPress={() => setConfirmPasswordSecure(!confirmPasswordSecure)}
-            />
-          }
-        />
+          <TextInput
+            label="Confirm Password"
+            mode="outlined"
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+            secureTextEntry={confirmPasswordSecure}
+            style={styles.input}
+            outlineColor="#006D77"
+            activeOutlineColor="#006D77"
+            right={
+              <TextInput.Icon
+                icon={confirmPasswordSecure ? "eye-off" : "eye"}
+                onPress={() => setConfirmPasswordSecure(!confirmPasswordSecure)}
+              />
+            }
+          />
 
           <Button
             mode="contained"
             style={styles.loginButton}
             labelStyle={{ color: "#fff", fontSize: 16, fontWeight: "bold" }}
+            loading={loading}
             onPress={handleResetPassword}
           >
             Reset Password
@@ -258,7 +311,6 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     borderRadius: 8,
     backgroundColor: "#006D77",
-    fontSize: 32,
   },
   backButton: {
     position: "absolute",
@@ -266,10 +318,5 @@ const styles = StyleSheet.create({
     left: 20,
     padding: 10,
     zIndex: 1,
-  },
-  backButtonText: {
-    color: "#006D77",
-    fontWeight: "bold",
-    fontSize: 30,
   },
 });

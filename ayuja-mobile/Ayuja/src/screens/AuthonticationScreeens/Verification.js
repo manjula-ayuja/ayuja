@@ -11,12 +11,12 @@ import {
   SafeAreaView,
 } from 'react-native';
 import Icon from "react-native-vector-icons/MaterialIcons"; 
-import womenImage from "./assests/women.png";
-import Ambulance from "./assests/Ambulance.png";
-import Doctor from "./assests/Doctor.png";
-import Pharmacy from "./assests/Pharmacy.png";
-import verification from "./assests/verification.png";
-import verification1 from "./assests/verification1.png"
+import womenImage from "../assests/women.png";
+import Ambulance from "../assests/Ambulance.png";
+import Doctor from "../assests/Doctor.png";
+import Pharmacy from "../assests/Pharmacy.png";
+import verification from "../assests/verification.png";
+import verification1 from "../assests/verification1.png"
 
 const articles = [
   {

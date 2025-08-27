@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity,StatusBar } from 'react-native';
-import welcome from "./assests/welcome.png";
-import ayujalogo from "./assests/AyujaLogo.png";
+import welcome from "../assests/welcome.png";
+import ayujalogo from "../assests/AyujaLogo.png";
 export default function WelcomeScreen({ navigation }) {
    return (
     <View style={styles.container}>
