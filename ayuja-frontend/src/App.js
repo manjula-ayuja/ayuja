@@ -21,9 +21,13 @@ import SocialWellness from "./Components/HomePage/HomeSections/SocialWellness";
 import EmergencyCare from "./Components/HomePage/HomeSections/EmergencyCareSupport";
 import BookAppointment from "./Components/HomePage/HomeSections/BookAppointment";
 
+// AuthonticationScreens
 import Login from "./Components/HomePage/AuthonticationScreens/Login";
 import Register from "./Components/HomePage/AuthonticationScreens/Register";
-import ForgotPassword from "./Components/HomePage/AuthonticationScreens/ForgotPassword"
+import ForgotPassword from "./Components/HomePage/AuthonticationScreens/ForgotPassword";
+
+// Resident screens
+import ResidentDashboard from "./Components/HomePage/ResidentScreens/ResidentDashboard";
 
 const App = () => {
   return (
@@ -49,14 +53,16 @@ const App = () => {
           <Route path="/emergency-care" element={<EmergencyCare/>}/>
           <Route path="/book-appointment" element={<BookAppointment/>}/>
 
-
+           {/* AuthonticationScreens */}
           <Route path="/Login" element={<Login/>}/>
           <Route path="/Register" element={<Register/>}/>
           <Route path="/ForgotPassword" element={<ForgotPassword/>}/>
 
+          {/* Resident screens */}
+          <Route path="/resident-dashboard" element={<ResidentDashboard/>}/>
 
 
-          
+
           </Route>
         </Routes>
     </Router>

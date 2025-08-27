@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Grid,
@@ -9,32 +9,86 @@ import {
   Checkbox,
   FormControlLabel,
   IconButton,
-  InputAdornment,
+  InputAdornment,Dialog,
+  DialogTitle,
+  DialogContent,CircularProgress,
 } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import ayujalogo from "../../Logos/Ayuja_Logo.jpg"
+import ayujalogo from "../../Logos/AuthScreens/AuthLogo.png"
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import Footer from "../../Common/Footer";
+
 const Login = () => {
   const navigate = useNavigate();
-  const [showPassword, setShowPassword] = React.useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [formData, setFormData] = useState({ identifier: "", password: "" });
+  const [error, setError] = useState("");
+  const [openDialog, setOpenDialog] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const loginAPI = process.env.REACT_APP_LOGIN_API;
+
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+
+
+
+const handleLogin = async () => {
+  setLoading(true); 
+  try {
+    const res = await axios.post(loginAPI, formData);
+    console.log("response in login ::",res)
+
+    // Save token
+    localStorage.setItem("token", res.data.token);
+
+    // ✅ Role-based navigation
+    const userRole = res.data.user.role;
+    console.log("userRole::", userRole);
+
+    if (userRole === "resident") {
+      navigate("/resident-dashboard");
+    } else if (userRole === "admin") {
+      navigate("/admin-dashboard");
+    } else if (userRole === "superadmin") {
+      navigate("/superadmin-dashboard");
+    } else {
+      navigate("/"); 
+    }
+
+  } catch (err) {
+    setError(err.response?.data || { message: "Login failed" });
+    setOpenDialog(true);
+  } finally {
+    setLoading(false); 
+  }
+};
+
+
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    setError(null);
+  };
 
   return (
-<Box
-  sx={{
-    minHeight: "100vh",  
-    width: "100%",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    p: 2,
-    m: 0,
-  }}
->
+    <>
+      <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            p: 5,
+          }}
+        >
 
-      <Card sx={{borderRadius: "16px", overflow: "hidden" , backgroundColor: "red",}}>
+      <Card sx={{borderRadius: "16px", width: "50vw",}}>
         <Grid container>
           
           {/* Left Section */}
@@ -43,7 +97,7 @@ const Login = () => {
             xs={12}   
             md={6}  
             sx={{
-              background: "linear-gradient(135deg, #007a85, #004f54)",
+              background: "linear-gradient(135deg, #004f54, #007a85, #007a85)",
               color: "white",
               display: "flex",
               flexDirection: "column",
@@ -51,25 +105,34 @@ const Login = () => {
               p: 4,width:"60%"
             }}
           >
-            <Typography variant="h4" sx={{ fontWeight: "bold", mb: 2 }}>
-              {/* <img
-                src={ayujalogo}
-                alt="Ayuja Logo"
-                style={{ height: "40px", verticalAlign: "middle", marginRight: "8px" }}
-              /> */}
-              Ayuja
+
+          <Box sx={{display: "flex",justifyContent: "center",alignItems: "center",mb: 2, }}>
+            <img
+              src={ayujalogo}
+              alt="Ayuja Logo"
+              style={{
+                height: "80px",      
+                width: "auto",
+                display: "block",
+              }}
+            />
+          </Box>
+
+            <Typography
+              variant="h4"           
+              sx={{fontWeight: "bold",mb: 2,textAlign: "center"}}>
+              Welcome <br/>
+              Back to Ayuja
             </Typography>
 
-            <Typography variant="h5" sx={{ fontWeight: "bold", mb: 1 }}>
-              Welcome Back to Ayuja
-            </Typography>
-
-            <Typography variant="body1" sx={{ mb: 3 }}>
+            <Typography
+              variant="h6"           
+              sx={{mb: 2,textAlign: "center"}}>
               Your trusted partner in personalized in-home care for every stage of life
             </Typography>
 
             {/* Features */}
-            <Box sx={{ display: "flex", gap: 3, mb: 4 }}>
+            <Box sx={{display: "flex",justifyContent: "center",alignItems: "center",gap: 3, mb: 4 }}>
               <Typography variant="body2" sx={{ display: "flex", alignItems: "center" }}>
                 ✅ 24/7 Support
               </Typography><br/>
@@ -84,7 +147,7 @@ const Login = () => {
                 backgroundColor: "rgba(255, 255, 255, 0.1)",
                 borderRadius: "12px",
                 p: 3,
-                textAlign: "center",width:"50%"
+                textAlign: "center",width:"50%",marginLeft:"100px"
               }}
             >
               <Typography variant="subtitle1" fontWeight="bold" mb={1}>
@@ -97,10 +160,10 @@ const Login = () => {
               <Button
                 variant="contained"
                 sx={{
-                  backgroundColor: "rgba(255,255,255,0.2)",
-                  "&:hover": { backgroundColor: "rgba(255,255,255,0.3)" },
-                  color: "white",
-                  fontWeight: "bold",
+                  backgroundColor: "#80ED99",
+                  "&:hover": { backgroundColor: "#80ED99" },
+                  color: "#22577A",
+                 textTransform:"none",
                   borderRadius: "8px",
                 }}
               >
@@ -129,10 +192,12 @@ const Login = () => {
               Access your personalized care dashboard
             </Typography>
 
-            {/* Email */}
-            <TextField
-              label="Email Address"
-              placeholder="Enter your email address"
+                        <TextField
+              label="Email or Phone"
+              name="identifier"
+              value={formData.identifier}
+              onChange={handleChange}
+              placeholder="Enter email or 10-digit phone"
               fullWidth
               margin="normal"
             />
@@ -140,6 +205,9 @@ const Login = () => {
             {/* Password */}
             <TextField
               label="Password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
               placeholder="Enter your password"
               type={showPassword ? "text" : "password"}
               fullWidth
@@ -154,7 +222,6 @@ const Login = () => {
                 ),
               }}
             />
-
             <Box
               sx={{
                 display: "flex",
@@ -178,12 +245,16 @@ const Login = () => {
               variant="contained"
               fullWidth
               sx={{
-                backgroundColor: "#007a85",
-                "&:hover": { backgroundColor: "#005f64" },
+                backgroundColor: "#007a85","&:hover": { backgroundColor: "#005f64" },
                 mb: 3,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
               }}
+              onClick={handleLogin}
+              disabled={loading} 
             >
-              Sign In
+              {loading ? <CircularProgress size={24} color="inherit" /> : "Sign In"}
             </Button>
 
             <Typography sx={{ textAlign: "center", mb: 2 }}>
@@ -217,7 +288,22 @@ const Login = () => {
           </Grid>
         </Grid>
       </Card>
+
+
+<Dialog open={openDialog} onClose={handleCloseDialog}>
+  <DialogTitle>Error</DialogTitle>
+  <DialogContent>
+    <Typography>{error?.message || "Login failed"}</Typography>
+  </DialogContent>
+  <Box sx={{ textAlign: "right", p: 1 }}>
+    <Button onClick={handleCloseDialog}>Close</Button>
+  </Box>
+</Dialog>
     </Box>
+
+<Footer/>
+    </>
+
   );
 };
 
