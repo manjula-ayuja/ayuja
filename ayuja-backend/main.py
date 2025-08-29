@@ -4,6 +4,7 @@ from flask import Flask, redirect,jsonify,send_file
 from flask_cors import CORS
 from mongoengine import connect
 from app.routes.auth_routes import auth_blueprint
+from app.routes.booking_routes import *
 import os
 import requests
 from dotenv import load_dotenv
@@ -27,6 +28,10 @@ CORS(app, resources={r"/*": {"origins": origins}})
 # Register your blueprint
 # app.register_blueprint(auth_blueprint)
 app.register_blueprint(auth_blueprint, url_prefix="/api/auth")
+app.register_blueprint(booking_blueprint, url_prefix="/api/booking")
+
+
+
 
 
 

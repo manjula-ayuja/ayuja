@@ -322,6 +322,8 @@ console.log("response in register ::",response)
                 <MenuItem value="resident">Resident</MenuItem>
                 <MenuItem value="admin">Admin</MenuItem>
                 <MenuItem value="superadmin">Super Admin</MenuItem>
+                <MenuItem value="staff">Staff</MenuItem>
+                <MenuItem value="other">Others</MenuItem>
               </TextField>
 
               {/* Register Button */}

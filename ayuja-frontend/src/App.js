@@ -19,8 +19,8 @@ import DoctorVisitPickup from "./Components/HomePage/HomeSections/DoctorVisitPic
 import MedicineDiagnosticDelivery from "./Components/HomePage/HomeSections/MedicineDiagnosticDelivery";
 import SocialWellness from "./Components/HomePage/HomeSections/SocialWellness";
 import EmergencyCare from "./Components/HomePage/HomeSections/EmergencyCareSupport";
-import BookAppointment from "./Components/HomePage/HomeSections/BookAppointment";
 
+import BookAppointment from "./Components/HomePage/BookingAppointmentScreens/BookAppointment";
 // AuthonticationScreens
 import Login from "./Components/HomePage/AuthonticationScreens/Login";
 import Register from "./Components/HomePage/AuthonticationScreens/Register";
@@ -51,7 +51,7 @@ const App = () => {
           <Route path="/medicine-diagnostic-delivery" element={<MedicineDiagnosticDelivery/>}/>
           <Route path="/social-wellness" element={<SocialWellness/>}/>
           <Route path="/emergency-care" element={<EmergencyCare/>}/>
-          <Route path="/book-appointment" element={<BookAppointment/>}/>
+          
 
            {/* AuthonticationScreens */}
           <Route path="/Login" element={<Login/>}/>
@@ -61,7 +61,8 @@ const App = () => {
           {/* Resident screens */}
           <Route path="/resident-dashboard" element={<ResidentDashboard/>}/>
 
-
+          {/* booking screens */}
+          <Route path="/book-appointment" element={<BookAppointment/>}/>
 
           </Route>
         </Routes>
