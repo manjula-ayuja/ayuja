@@ -14,7 +14,7 @@ import {
 import { TextInput, Button } from "react-native-paper";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import loginimage from "../assests/Login.png";
+import loginimage from "../assests/authscreenImages/Login.png";
 import { REACT_APP_REGISTER_URL } from "@env";  
 import DropDownPicker from "react-native-dropdown-picker";
 export default function Register({ navigation }) {
@@ -34,6 +34,8 @@ export default function Register({ navigation }) {
     { label: "Resident", value: "resident" },
     { label: "Admin", value: "admin" },
     { label: "Super Admin", value: "superadmin" },
+    { label: "Staff", value: "staff" },
+    { label: "Others", value: "other" },
   ];
 
   // ✅ Hide logo when keyboard opens

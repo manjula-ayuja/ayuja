@@ -12,7 +12,7 @@ import {
   Alert,
 } from "react-native";
 import { TextInput, Button } from "react-native-paper";
-import loginimage from "../assests/Login.png";
+import loginimage from "../assests/authscreenImages/Login.png";
 import Feather from "react-native-vector-icons/Feather";
 import axios from "axios";
 

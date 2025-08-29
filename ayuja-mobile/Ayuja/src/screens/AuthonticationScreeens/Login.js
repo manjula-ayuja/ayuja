@@ -13,7 +13,7 @@ import {
 import { TextInput, Button } from "react-native-paper";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import loginimage from "../assests/Login.png";
+import loginimage from "../assests/authscreenImages/Login.png";
 import { REACT_APP_LOGIN_API } from "@env";
 
 
