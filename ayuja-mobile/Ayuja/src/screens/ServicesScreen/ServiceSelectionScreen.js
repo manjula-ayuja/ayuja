@@ -1,6 +1,7 @@
 
 import React from "react";
 import { View, Text, StyleSheet, FlatList, Image, TouchableOpacity, SafeAreaView } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 
 import DiagnosticSample from "../assests/servicescreenImages/DiagnosticSampleCollection.png";
@@ -17,42 +18,53 @@ const services = [
     title: "ELDERLY AND CHILDCARE",
     time: "DEC 12, 9:00 AM",
     image: ElderlyCare,
+    screen: "ElderChildCare",
   },
   {
     id: "2",
     title: "NURSING & PHYSIOTHERAPY SERVICES",
     time: "DEC 12, 9:30 AM",
     image: PhysiotherapyatHome,
+    screen: "NursingPysiotherapy",
   },
   {
     id: "3",
     title: "MEDICINE & DIAGNOSTIC DELIVERY",
     time: "DEC 12, 9:00 AM",
     image: DiagnosticSample,
+    screen: "MedicineDiagnosticDelivery",
   },
   {
     id: "4",
     title: "EMERGENCY CARE SUPPORT",
     time: "DEC 12, 9:00 AM",
     image: EmergencyCareSupport,
+    screen: "EmergencyCareSupport",
   },
   {
     id: "5",
     title: "DOCTOR VISIT, PICKUP & DROP",
     time: "DEC 12, 9:00 AM",
     image:DoctorVisit,
+    screen: "DoctorVisitPickUpDrop",
   },
   {
     id: "6",
     title: "SOCIAL WELLNESS ACTIVITIES",
     time: "DEC 12, 9:00 AM",
     image: ForSeniors,
+    screen: "SocialWellnessActivities",
   },
 ];
 
 const ServiceSelectionScreen = () => {
+  const navigation = useNavigation();
   const renderItem = ({ item }) => (
-    <TouchableOpacity style={styles.card}>
+   
+    <TouchableOpacity
+      style={styles.card}
+      onPress={() => navigation.navigate(item.screen)} 
+    >
       <View style={styles.cardText}>
         <Text style={styles.title}>{item.title}</Text>
         <Text style={styles.subtitle}>NEXT AVAILABLE TIME</Text>
@@ -61,7 +73,7 @@ const ServiceSelectionScreen = () => {
       <Image source={item.image} style={styles.cardImage} resizeMode="contain" />
     </TouchableOpacity>
   );
-
+  
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.header}>Please Select Services</Text>
