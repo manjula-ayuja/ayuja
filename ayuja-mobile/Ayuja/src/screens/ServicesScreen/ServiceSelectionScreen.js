@@ -10,7 +10,7 @@ import ElderlyCare from "../assests/servicescreenImages/ElderlyCare.png";
 import EmergencyCareSupport from "../assests/servicescreenImages/EmergencyCareSupport.png";
 import ForSeniors from "../assests/servicescreenImages/ForSeniors.png";
 import PhysiotherapyatHome from "../assests/servicescreenImages/PhysiotherapyatHome.png";
-
+import TopNavScreen from "./TopNavScreen";
 
 const services = [
   {
@@ -60,7 +60,7 @@ const services = [
 const ServiceSelectionScreen = () => {
   const navigation = useNavigation();
   const renderItem = ({ item }) => (
-   
+  
     <TouchableOpacity
       style={styles.card}
       onPress={() => navigation.navigate(item.screen)} 
@@ -75,7 +75,11 @@ const ServiceSelectionScreen = () => {
   );
   
   return (
+    <>
+     <TopNavScreen/>
+   
     <SafeAreaView style={styles.container}>
+      
       <Text style={styles.header}>Please Select Services</Text>
       <FlatList
         data={services}
@@ -85,6 +89,7 @@ const ServiceSelectionScreen = () => {
         contentContainerStyle={{ paddingBottom: 20 }}
       />
     </SafeAreaView>
+    </>
   );
 };
 
@@ -102,6 +107,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "#22577A",
     marginBottom: 20,
+    marginTop:30,textAlign:"center"
   },
   card: {
     backgroundColor: "#fff",

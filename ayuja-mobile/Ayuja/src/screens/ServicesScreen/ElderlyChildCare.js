@@ -5,10 +5,14 @@ import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ElderlyCare from "../assests/servicescreenImages/ElderlyCare.png";
 import CommonFieldsScreen from './CommonFields';
+import TopNavScreen from "./TopNavScreen";
 const ElderlyChildCareScreen = () => {
   const navigation = useNavigation(); 
   return (
+    <>
+         <TopNavScreen/>
     <ScrollView style={styles.container}>
+ 
       {/* Header */}
       <View style={styles.header}>
       <TouchableOpacity onPress={() => navigation.goBack()}> 
@@ -28,8 +32,16 @@ const ElderlyChildCareScreen = () => {
         </View>
       </View>
 
- <CommonFieldsScreen/>
+
+<CommonFieldsScreen
+  serviceData={{
+    serviceTitle: "ELDERLY AND CHILDCARE",
+    serviceImage: ElderlyCare,
+  }}
+/>
+
     </ScrollView>
+    </>
   );
 };
 

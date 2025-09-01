@@ -5,10 +5,15 @@ import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import EmergencyCareSupportImage from "../assests/servicescreenImages/EmergencyCareSupport.png";
 import CommonFieldsScreen from './CommonFields';
+import TopNavScreen from "./TopNavScreen";
 const EmergencyCareSupport = () => {
   const navigation = useNavigation(); 
   return (
+    <>
+       <TopNavScreen/>
+ 
     <ScrollView style={styles.container}>
+   
       {/* Header */}
       <View style={styles.header}>
       <TouchableOpacity onPress={() => navigation.goBack()}> 
@@ -28,8 +33,15 @@ const EmergencyCareSupport = () => {
         </View>
       </View>
 
- <CommonFieldsScreen/>
+
+      <CommonFieldsScreen
+  serviceData={{
+    serviceTitle: "EMERGENCY CARE SUPPORT",
+    serviceImage: EmergencyCareSupportImage,
+  }}
+/>
     </ScrollView>
+    </>
   );
 };
 

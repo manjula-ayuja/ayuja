@@ -1,30 +1,43 @@
 
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView, Image } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, ScrollView } from 'react-native';
 import CalenderBar from './Calenderbar';
-import { useNavigation } from '@react-navigation/native'; 
-const CommonFieldsScreen = () => {
+import { useNavigation ,useRoute} from '@react-navigation/native'; 
+const CommonFieldsScreen = ({serviceData}) => {
   const navigation = useNavigation(); 
+  const route = useRoute();
   const [name, setName] = useState('');
   const [dob, setDob] = useState('');
   const [phone, setPhone] = useState('');
   const [gender, setGender] = useState('');
+  const [selectedDate, setSelectedDate] = useState('');
+
+  const serviceTitle = serviceData?.serviceTitle || route.params?.serviceTitle;
+  const serviceImage = serviceData?.serviceImage || route.params?.serviceImage;
+
+
   const handleContinue = () => {
-    if (!name || !dob || !phone) {
+    if (!name || !dob || !phone || !selectedDate) {
       alert("Please fill all required fields!");
       return;
     }
-    // ✅ Navigate to Payment screen
+ 
     navigation.navigate("SelectPaymentMethod", {
-      name, dob, phone, gender   // passing values if needed
+      name, 
+      dob, 
+      phone, 
+      gender,
+      selectedDate, 
+      serviceTitle, 
+      serviceImage,
     });
+    
   };
   return (
     <ScrollView style={styles.container}>
-    
       {/* Schedule */}
     <View style={styles.container}>
-       <CalenderBar/>
+    <CalenderBar onDateChange={setSelectedDate} />
     </View>
 
       {/* Form */}

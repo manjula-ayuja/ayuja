@@ -5,10 +5,15 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native'; 
 import DiagnosticSample from "../assests/servicescreenImages/DiagnosticSampleCollection.png";
 import CommonFieldsScreen from './CommonFields';
+import TopNavScreen from "./TopNavScreen";
 const MedicineDiagnosticDelivery = () => {
   const navigation = useNavigation(); 
   return (
+    <>
+          <TopNavScreen/>
+  
     <ScrollView style={styles.container}>
+
       {/* Header */}
       <View style={styles.header}>
       <TouchableOpacity onPress={() => navigation.goBack()}> 
@@ -20,7 +25,7 @@ const MedicineDiagnosticDelivery = () => {
             style={styles.image}
           />
           <View style={{ marginLeft: 12 }}>
-            <Text style={styles.title}>MedicineDiagnosticDelivery</Text>
+            <Text style={styles.title}>MEDICINE & DIAGNOSTIC DELIVERY</Text>
             <Text style={styles.subtitle}>
               Ayuja Will Choose Right People For The Timing Of Your Selection
             </Text>
@@ -28,8 +33,14 @@ const MedicineDiagnosticDelivery = () => {
         </View>
       </View>
 
- <CommonFieldsScreen/>
+      <CommonFieldsScreen
+  serviceData={{
+    serviceTitle: "MEDICINE & DIAGNOSTIC DELIVERY",
+    serviceImage: DiagnosticSample,
+  }}
+/>
     </ScrollView>
+    </>
   );
 };
 

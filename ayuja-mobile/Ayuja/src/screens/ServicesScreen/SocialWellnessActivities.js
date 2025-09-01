@@ -5,11 +5,16 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native'; 
 import ForSeniors from "../assests/servicescreenImages/ForSeniors.png";
 import CommonFieldsScreen from './CommonFields';
+import TopNavScreen from "./TopNavScreen";
 const SocialWellnessActivities = () => {
   const navigation = useNavigation();  
 
   return (
+    <>
+      <TopNavScreen/>
+    
     <ScrollView style={styles.container}>
+    
       {/* Header */}
       <View style={styles.header}>
       <TouchableOpacity onPress={() => navigation.goBack()}> 
@@ -29,8 +34,14 @@ const SocialWellnessActivities = () => {
         </View>
       </View>
 
- <CommonFieldsScreen/>
+      <CommonFieldsScreen
+  serviceData={{
+    serviceTitle: "SOCIAL WELLNESS ACTIVITIES",
+    serviceImage: ForSeniors,
+  }}
+/>
     </ScrollView>
+    </>
   );
 };
 

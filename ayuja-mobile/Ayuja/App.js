@@ -18,9 +18,14 @@ import MedicineDiagnosticDelivery from "./src/screens/ServicesScreen/MedicineDia
 import EmergencyCareSupport from "./src/screens/ServicesScreen/EmergencyCareSupport";
 import DoctorVisitPickUpDrop from "./src/screens/ServicesScreen/DoctorVisitPickUpDrop";
 import SocialWellnessActivities from "./src/screens/ServicesScreen/SocialWellnessActivities";
+import MyServicesScreen from "./src/screens/ServicesScreen/MyServicesScreen";
+import RaiseComplaintScreen from "./src/screens/ServicesScreen/RaiseComplaint";
+import SOSScreen from "./src/screens/ServicesScreen/SOSScreen";
+import ComplaintHistoryScreen from "./src/screens/ServicesScreen/ComplaintHistoryScreen";
+import NotificationsScreen from "./src/screens/ServicesScreen/NotificationsScreen";
 
 import PaymentMethodSelectionScreen from "./src/screens/PaymentScreens/SelectPaymentScreen";
-
+import BookingStatusScreen from "./src/screens/BookingAppointment/BookingStatusScreen";
 import BookAppointment from "./src/screens/BookingAppointment/BookAppointment";
 const Stack = createStackNavigator();
 
@@ -48,9 +53,18 @@ export default function App() {
           <Stack.Screen name="EmergencyCareSupport" component={EmergencyCareSupport} />
           <Stack.Screen name="DoctorVisitPickUpDrop" component={DoctorVisitPickUpDrop} />
           <Stack.Screen name="SocialWellnessActivities" component={SocialWellnessActivities} />
+          <Stack.Screen name="BookedServices" component={MyServicesScreen} />
+          <Stack.Screen name="RaiseComplaint" component={RaiseComplaintScreen} />
+          <Stack.Screen name="SOS" component={SOSScreen} />
+          <Stack.Screen name="ComplaintHistory" component={ComplaintHistoryScreen} />
+          <Stack.Screen name="Notifications" component={NotificationsScreen} />
+          
+          
           {/* Payment Method screens */}
           <Stack.Screen name="SelectPaymentMethod" component={PaymentMethodSelectionScreen} />
           <Stack.Screen name="BookAppointment" component={BookAppointment} />
+          <Stack.Screen name="BookingStatus" component={BookingStatusScreen} />
+          
 
         </Stack.Navigator>
       </NavigationContainer>

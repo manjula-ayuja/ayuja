@@ -5,10 +5,15 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native'; 
 import NursingPysiotherapyImage from "../assests/servicescreenImages/PhysiotherapyatHome.png";
 import CommonFieldsScreen from './CommonFields';
+import TopNavScreen from "./TopNavScreen";
 const NursingPysiotherapy = () => {
   const navigation = useNavigation(); 
   return (
+    <>
+     <TopNavScreen/>
+    
     <ScrollView style={styles.container}>
+     
       {/* Header */}
       <View style={styles.header}>
       <TouchableOpacity onPress={() => navigation.goBack()}> 
@@ -28,8 +33,14 @@ const NursingPysiotherapy = () => {
         </View>
       </View>
 
- <CommonFieldsScreen/>
+      <CommonFieldsScreen
+  serviceData={{
+    serviceTitle: "NURSING & PHYSIOTHERAPY SERVICES",
+    serviceImage: NursingPysiotherapyImage,
+  }}
+/>
     </ScrollView>
+    </>
   );
 };
 

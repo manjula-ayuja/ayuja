@@ -5,10 +5,14 @@ import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import DoctorVisit from "../assests/servicescreenImages/DoctorVisit.png";
 import CommonFieldsScreen from './CommonFields';
+import TopNavScreen from "./TopNavScreen";
 const DoctorVisitPickUpDrop = () => {
     const navigation = useNavigation(); 
   return (
+    <>
+    <TopNavScreen/>
     <ScrollView style={styles.container}>
+    
       {/* Header */}
       <View style={styles.header}>
       <TouchableOpacity onPress={() => navigation.goBack()}> 
@@ -28,8 +32,16 @@ const DoctorVisitPickUpDrop = () => {
         </View>
       </View>
 
- <CommonFieldsScreen/>
+
+<CommonFieldsScreen
+  serviceData={{
+    serviceTitle: "DOCTOR VISIT, PICKUP & DROP",
+    serviceImage: DoctorVisit,
+  }}
+/>
+
     </ScrollView>
+    </>
   );
 };
 
