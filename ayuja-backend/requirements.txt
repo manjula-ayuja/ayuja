@@ -1,0 +1,9 @@
+mongoengine
+python-dotenv
+Flask
+firebase_admin
+bcrypt
+flask_bcrypt
+pymongo
+werkzeug
+sendgrid
