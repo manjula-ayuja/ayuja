@@ -41,12 +41,12 @@ function Header() {
           </Button>
 
           <Button
-            onClick={() => navigate("/servies")}
+            onClick={() => navigate("/services")}
             sx={{
               textTransform: "none",
-              color: isActive("/servies") ? "teal" : "#121212",
-              fontWeight: isActive("/servies") ? "bold" : "normal",
-              borderBottom: isActive("/servies") ? "2px solid teal" : "none",
+              color: isActive("/services") ? "teal" : "#121212",
+              fontWeight: isActive("/services") ? "bold" : "normal",
+              borderBottom: isActive("/services") ? "2px solid teal" : "none",
             }}
           >
             Services

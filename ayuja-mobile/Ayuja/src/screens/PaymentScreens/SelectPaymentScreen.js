@@ -60,7 +60,7 @@ const PaymentMethodSelectionScreen = () => {
   const handleContinue = () => {
     if (selected === "5") {
       navigation.navigate("BookingStatus", {
-        status: "success",
+        status,
         serviceTitle,
         serviceImage,
         selectedDate,

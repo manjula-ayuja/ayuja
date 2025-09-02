@@ -82,7 +82,7 @@ function HomePage() {
             <Box display="flex" flexWrap="wrap">
               <Button
                 variant="contained"
-                onClick={() => navigate("/servies")}
+                onClick={() => navigate("/services")}
                 sx={{
                   background: "linear-gradient(to right, seagreen, #22577A)",
                   borderRadius: "24px",

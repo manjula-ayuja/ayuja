@@ -17,7 +17,7 @@ import eldercareImage from "../../Logos/Elder&childcarePage/ElderlyCare.png";
 import screenimage from "../../Logos/screenimage.png";
 
 
-import BookAppointment from "../BookingAppointmentScreens/BookAppointment";
+import BookAppointment from "../../BookingAppointmentScreens/BookAppointment";
 
 import homeImage from "../../Logos/Elder&childcarePage/home.png";
 import school from "../../Logos/Elder&childcarePage/school.png";

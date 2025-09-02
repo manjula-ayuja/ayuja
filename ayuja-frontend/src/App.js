@@ -19,7 +19,12 @@ import MedicineDiagnosticDelivery from "./Components/HomePage/HomeSections/Medic
 import SocialWellness from "./Components/HomePage/HomeSections/SocialWellness";
 import EmergencyCare from "./Components/HomePage/HomeSections/EmergencyCareSupport";
 
-import BookAppointment from "./Components/HomePage/BookingAppointmentScreens/BookAppointment";
+// Booking screens 
+
+import BookAppointment from "./Components/BookingAppointmentScreens/BookAppointment";
+import BookingStatusScreen from "./Components/BookingAppointmentScreens/BookingStatusScreen";
+
+
 // AuthonticationScreens
 import Login from "./Components/HomePage/AuthonticationScreens/Login";
 import Register from "./Components/HomePage/AuthonticationScreens/Register";
@@ -33,6 +38,14 @@ import MedicineDiagnosticDeliveryScreen from "./Components/ServiceScreens/Medici
 import EmergencyCareSupportScreen from "./Components/ServiceScreens/EmergencyCareSupport";
 import DoctorVisitPickupDropScreen from "./Components/ServiceScreens/DoctorVisitPickupDrop";
 import SocialWellnesActivitiesScreen from "./Components/ServiceScreens/SocialWellnesActivities";
+
+
+// payment selection screens
+import PaymentMethodSelection from "./Components/PaymentsScreens/SelectPaymentScreen";
+
+
+
+
 // Resident screens
 import ResidentDashboard from "./Components/HomePage/ResidentScreens/ResidentDashboard";
 
@@ -44,6 +57,9 @@ const App = () => {
         <Route element={<Layout />}>
           <Route path="/" element={<HomePage/>} />
           {/* <Route path="/home-page" element={<HomePage />} /> */}
+
+          {/* Home page screens */}
+
           <Route path="/aboutus" element={<AboutUs/>}/>
           <Route path="/packages" element={<Packages/>}/>
           <Route path="/contactus" element={<ContactUs/>}/>
@@ -69,16 +85,21 @@ const App = () => {
 
           {/* booking screens */}
           <Route path="/book-appointment" element={<BookAppointment/>}/>
+          <Route path="/booking-status" element={<BookingStatusScreen/>}/>
+
+          BookingStatusScreen
 
           {/* ServiceSelectionScreen */}
-          <Route path="/servies" element={<ServiceSelectionScreen/>}/>
+          <Route path="/services" element={<ServiceSelectionScreen/>}/>
           <Route path="/elder-child-care" element={<ElderlyChildCareScreen/>}/>
           <Route path="/nursingPhysiotherapy" element={<NursingPysiotherapyScreen/>}/>
           <Route path="/medicine-diagnostic" element={<MedicineDiagnosticDeliveryScreen/>}/>
           <Route path="/emergencycare" element={<EmergencyCareSupportScreen/>}/>
           <Route path="/doctor-visit" element={<DoctorVisitPickupDropScreen/>}/>
           <Route path="/social-wellness-activities" element={<SocialWellnesActivitiesScreen/>}/>
-          
+
+          {/* payment selection screens */}
+          <Route path="/select-payment-method" element={<PaymentMethodSelection/>}/>
           
           </Route>
         </Routes>

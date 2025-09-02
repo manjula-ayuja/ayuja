@@ -130,7 +130,7 @@ const Footer = () => {
             <Stack spacing={1.5}>
               <Link
                 component={NavLink}
-                to="/servies"
+                to="/services"
                 underline="hover"
                 color="inherit"
                 style={({ isActive }) => ({
