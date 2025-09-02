@@ -15,16 +15,85 @@ from app.services.email_sender import *
 import string
 
 logger = logging.getLogger(__name__)
-SECRET_KEY = os.getenv("SECRET_KEY", "supersecretkey") 
+SECRET_KEY = os.getenv("SECRET_KEY") 
+
+def generate_number():
+    """Generate a random 10-digit number."""
+    return random.randint(100000000, 9999999999)
 
 def generate_otp(length=6):
     return ''.join(random.choices(string.digits, k=length))
 
+def register_user_via_google(data):
+    logger.info("Entered into Google OAuth registration logic")
+
+    try:
+        google_id_token = data.get('googleIdToken')
+        name = data.get('name')
+        email = data.get('email')
+        # phone = data.get('contact')
+        phone = str(generate_number())
+        print("dataaa:::",name,email,phone)
+
+        if not google_id_token or not name or not email:
+            logger.info("Missing Google token, name, or email")
+            return {"error": "Invalid Google registration data."}
+
+        existing_user = User.objects(email=email).first()
+        if existing_user:
+            logger.info("Email already in use: %s", email)
+            return {"error": "The email address is already in use."}
+
+        try:
+            firebase_user = auth.get_user_by_email(email)
+            logger.info("User already exists in Firebase with UID: %s", firebase_user.uid)
+        except auth.UserNotFoundError:
+            firebase_user = auth.create_user(
+                email=email,
+                display_name=name
+            )
+            logger.info("User created in Firebase with UID: %s", firebase_user.uid)
+
+        # Ensure phone is not null if it's being saved
+        user = User(
+            name=name,
+            email=email,
+            firebaseUid=firebase_user.uid,
+            phone=phone
+        )
+        user.save()
+        logger.info("User saved in MongoDB: %s", user.to_mongo())
+
+        retrieved_user = User.objects(email=email).first()
+        if retrieved_user:
+            user_id = str(retrieved_user._id)
+            logger.info("Retrieved user data from MongoDB: %s", retrieved_user.to_mongo())
+
+        token = jwt.encode({
+            'user_id': user_id,
+            'exp': datetime.utcnow() + timedelta(days=1)
+        }, SECRET_KEY, algorithm='HS256')
+
+        user_details = {
+            "userId": user_id,
+            "name": user.name,
+            "email": user.email,
+            "phone": user.phone,
+            "token": token,
+            "status": "User Registered via Google"
+        }
+        logger.info("Google registration successful: %s", user_details)
+
+        return {"user": user_details, "status": "User Registered via Google", "token": token},200
+
+    except Exception as e:
+        logger.critical("Google registration failed: %s", str(e))
+        return {"error": f"Google registration failed: {str(e)}"}
 def register_user(data):
     logger.info("Entered into registration logic")
 
     try:
-        # Extract inputs
+        # ✅ Extract inputs
         name = data.get("name")
         role = data.get("role")
         email = data.get("email")
@@ -34,16 +103,18 @@ def register_user(data):
         if not all([name, role, email, phone, password]):
             return {"error": "All fields are required"}
         
-        # ✅ Always add +91 if not already present
+        # ✅ Normalize phone (always +91 prefix if missing)
         if not phone.startswith("+91"):
             phone = f"+91{phone}"
 
         # ✅ Validate password
         if not re.match(r'^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$', password):
             logger.warning("Password validation failed for: %s", password)
-            return {"error": "Password must contain at least one uppercase letter, one number, one special character, and be at least 8 characters long."}
+            return {
+                "error": "Password must contain at least one uppercase letter, one number, one special character, and be at least 8 characters long."
+            }
 
-        # ✅ Check if user exists in MongoDB
+        # ✅ Check if user exists in MongoDB (by phone/email)
         existing_user = User.objects(__raw__={'$or': [{'phone': phone}, {'email': email}] }).first()
         if existing_user:
             if existing_user.phone == phone:
@@ -53,21 +124,22 @@ def register_user(data):
 
         # ✅ Check if user exists in Firebase
         try:
-            firebase_user = auth.get_user_by_email(email)
+            firebase_user = auth.get_user_by_phone_number(phone)
+            logger.info("Found existing Firebase user with UID: %s", firebase_user.uid)
         except auth.UserNotFoundError:
             # Create new Firebase user
             firebase_user = auth.create_user(
+                phone_number=phone,
                 email=email,
-                password=password,
                 display_name=name,
-                phone_number=f"+{phone}" if not phone.startswith("+") else phone
+                password=password
             )
-            logger.info("User created in Firebase with UID: %s", firebase_user.uid)
+            logger.info("New Firebase user created with UID: %s", firebase_user.uid)
 
-        # ✅ Hash password for MongoDB
+        # ✅ Hash password for MongoDB (keep for app-side auth)
         hashed_password = bcrypt.generate_password_hash(password).decode("utf-8")
 
-        # ✅ Save to MongoDB
+        # ✅ Save user in MongoDB
         user = User(
             name=name,
             role=role,
@@ -80,13 +152,15 @@ def register_user(data):
             documents=data.get("documents", [])
         )
         user.save()
+        logger.info("User saved in MongoDB: %s", user.to_mongo())
 
-        # ✅ JWT Token
+        # ✅ JWT Token (for your backend, not Firebase)
         token = jwt.encode({
-            'user_id': str(user.user_id),
-            'exp': datetime.utcnow() + timedelta(days=1)
-        }, SECRET_KEY, algorithm='HS256')
+            "user_id": str(user.user_id),
+            "exp": datetime.utcnow() + timedelta(days=1)
+        }, SECRET_KEY, algorithm="HS256")
 
+        # ✅ Prepare response
         user_details = {
             "userId": str(user.user_id),
             "firebaseUid": user.firebaseUid,
@@ -105,6 +179,92 @@ def register_user(data):
     except Exception as e:
         logger.critical("Registration failed: %s", str(e))
         return {"error": str(e)}
+
+# def register_user(data):
+#     logger.info("Entered into registration logic")
+
+#     try:
+#         # Extract inputs
+#         name = data.get("name")
+#         role = data.get("role")
+#         email = data.get("email")
+#         phone = data.get("phone")
+#         password = data.get("password")
+
+#         if not all([name, role, email, phone, password]):
+#             return {"error": "All fields are required"}
+        
+#         # ✅ Always add +91 if not already present
+#         if not phone.startswith("+91"):
+#             phone = f"+91{phone}"
+
+#         # ✅ Validate password
+#         if not re.match(r'^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$', password):
+#             logger.warning("Password validation failed for: %s", password)
+#             return {"error": "Password must contain at least one uppercase letter, one number, one special character, and be at least 8 characters long."}
+
+#         # ✅ Check if user exists in MongoDB
+#         existing_user = User.objects(__raw__={'$or': [{'phone': phone}, {'email': email}] }).first()
+#         if existing_user:
+#             if existing_user.phone == phone:
+#                 return {"error": "The phone number is already in use."}
+#             elif existing_user.email == email:
+#                 return {"error": "The email address is already in use."}
+
+#         # ✅ Check if user exists in Firebase
+#         try:
+#             firebase_user = auth.get_user_by_email(email)
+#         except auth.UserNotFoundError:
+#             # Create new Firebase user
+#             firebase_user = auth.create_user(
+#                 email=email,
+#                 password=password,
+#                 display_name=name,
+#                 phone_number=f"+{phone}" if not phone.startswith("+") else phone
+#             )
+#             logger.info("User created in Firebase with UID: %s", firebase_user.uid)
+
+#         # ✅ Hash password for MongoDB
+#         hashed_password = bcrypt.generate_password_hash(password).decode("utf-8")
+
+#         # ✅ Save to MongoDB
+#         user = User(
+#             name=name,
+#             role=role,
+#             email=email,
+#             phone=phone,
+#             firebaseUid=firebase_user.uid,
+#             password_hash=hashed_password,
+#             emergency_contacts=data.get("emergency_contacts", []),
+#             family_members=data.get("family_members", []),
+#             documents=data.get("documents", [])
+#         )
+#         user.save()
+
+#         # ✅ JWT Token
+#         token = jwt.encode({
+#             'user_id': str(user.user_id),
+#             'exp': datetime.utcnow() + timedelta(days=1)
+#         }, SECRET_KEY, algorithm='HS256')
+
+#         user_details = {
+#             "userId": str(user.user_id),
+#             "firebaseUid": user.firebaseUid,
+#             "name": user.name,
+#             "email": user.email,
+#             "phone": user.phone,
+#             "role": user.role,
+#             "token": token,
+#             "status": "User Registered"
+#         }
+
+#         return {"success": True, "user": user_details, "token": token}
+
+#     except NotUniqueError:
+#         return {"error": "User already exists in MongoDB"}
+#     except Exception as e:
+#         logger.critical("Registration failed: %s", str(e))
+#         return {"error": str(e)}
 
 
 def login_user(identifier, password):
