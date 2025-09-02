@@ -5,7 +5,6 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Layout from "./Components/Layout";
 import HomePage from "./Components/HomePage/HomePage";
-import ServicesPage from "./Components/HomePage/HomeSections/services";
 import AboutUs from "./Components/HomePage/HomeSections/Aboutus";
 import Packages from "./Components/HomePage/HomeSections/Packages";
 import ContactUs from "./Components/HomePage/HomeSections/contact";
@@ -26,6 +25,11 @@ import Login from "./Components/HomePage/AuthonticationScreens/Login";
 import Register from "./Components/HomePage/AuthonticationScreens/Register";
 import ForgotPassword from "./Components/HomePage/AuthonticationScreens/ForgotPassword";
 
+// serviceselection screens
+import ServiceSelectionScreen from "./Components/ServiceScreens/ServiceSelectionScreen";
+import ElderlyChildCareScreen from "./Components/ServiceScreens/ElderlyChildCareScreen";
+import NursingPysiotherapyScreen from "./Components/ServiceScreens/NursingPysiotherapy";
+import MedicineDiagnosticDeliveryScreen from "./Components/ServiceScreens/MedicineDiagnosticDelivery";
 // Resident screens
 import ResidentDashboard from "./Components/HomePage/ResidentScreens/ResidentDashboard";
 
@@ -37,7 +41,6 @@ const App = () => {
         <Route element={<Layout />}>
           <Route path="/" element={<HomePage/>} />
           {/* <Route path="/home-page" element={<HomePage />} /> */}
-          <Route path="/servies" element={<ServicesPage/>}/>
           <Route path="/aboutus" element={<AboutUs/>}/>
           <Route path="/packages" element={<Packages/>}/>
           <Route path="/contactus" element={<ContactUs/>}/>
@@ -64,6 +67,14 @@ const App = () => {
           {/* booking screens */}
           <Route path="/book-appointment" element={<BookAppointment/>}/>
 
+          {/* ServiceSelectionScreen */}
+          <Route path="/servies" element={<ServiceSelectionScreen/>}/>
+          <Route path="/elder-child-care" element={<ElderlyChildCareScreen/>}/>
+          <Route path="/nursingPhysiotherapy" element={<NursingPysiotherapyScreen/>}/>
+          <Route path="/medicine-diagnostic" element={<MedicineDiagnosticDeliveryScreen/>}/>
+
+     
+          
           </Route>
         </Routes>
     </Router>
