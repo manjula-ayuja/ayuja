@@ -47,7 +47,7 @@ const services = [
     title: "EMERGENCY CARE SUPPORT",
     time: "DEC 12, 9:00 AM",
     image: EmergencyCareSupport,
-    screen: "/emergency-care",
+    screen: "/emergencycare",
   },
   {
     id: "5",
@@ -61,7 +61,7 @@ const services = [
     title: "SOCIAL WELLNESS ACTIVITIES",
     time: "DEC 12, 9:00 AM",
     image: ForSeniors,
-    screen: "/social-wellness",
+    screen: "/social-wellness-activities",
   },
 ];
 

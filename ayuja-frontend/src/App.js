@@ -30,6 +30,9 @@ import ServiceSelectionScreen from "./Components/ServiceScreens/ServiceSelection
 import ElderlyChildCareScreen from "./Components/ServiceScreens/ElderlyChildCareScreen";
 import NursingPysiotherapyScreen from "./Components/ServiceScreens/NursingPysiotherapy";
 import MedicineDiagnosticDeliveryScreen from "./Components/ServiceScreens/MedicineDiagnosticDelivery";
+import EmergencyCareSupportScreen from "./Components/ServiceScreens/EmergencyCareSupport";
+import DoctorVisitPickupDropScreen from "./Components/ServiceScreens/DoctorVisitPickupDrop";
+import SocialWellnesActivitiesScreen from "./Components/ServiceScreens/SocialWellnesActivities";
 // Resident screens
 import ResidentDashboard from "./Components/HomePage/ResidentScreens/ResidentDashboard";
 
@@ -72,8 +75,10 @@ const App = () => {
           <Route path="/elder-child-care" element={<ElderlyChildCareScreen/>}/>
           <Route path="/nursingPhysiotherapy" element={<NursingPysiotherapyScreen/>}/>
           <Route path="/medicine-diagnostic" element={<MedicineDiagnosticDeliveryScreen/>}/>
-
-     
+          <Route path="/emergencycare" element={<EmergencyCareSupportScreen/>}/>
+          <Route path="/doctor-visit" element={<DoctorVisitPickupDropScreen/>}/>
+          <Route path="/social-wellness-activities" element={<SocialWellnesActivitiesScreen/>}/>
+          
           
           </Route>
         </Routes>
