@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -14,7 +14,14 @@ import EmergencyCareSupport from "../Logos/EmergencyCareSupport/EmergencyCareSup
 import Footer from "../Common/Footer"
 const EmergencyCareSupportScreen = () => {
   const navigate = useNavigate();
+  const [user, setUser] = useState(null);
 
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user"); 
+    if (storedUser) {
+      setUser(JSON.parse(storedUser)); 
+    }
+  }, []);
   return (
     <>
       {/* Top Navigation */}

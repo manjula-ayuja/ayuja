@@ -14,18 +14,24 @@ const BookingStatusScreen = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Get params from navigation
   const {
-    status,
+    booking_id,
+    message,
+    payment_method,
+    payment_status,
+    user_id,
+    user_type,
     serviceTitle,
     serviceImage,
     selectedDate,
+    name,
+    email,
+    phone,
   } = location.state || {};
 
-  console.log("dadarrra::::",status,serviceImage,serviceTitle,selectedDate)
-  const isSuccess = status === "success";
-  const isCancelled = status === "cancelled";
-  const isFailed = status === "failed";
+  const isSuccess = payment_status === "success";
+  const isCancelled = payment_status === "cancelled";
+  const isFailed = payment_status === "failed";
 
   return (
     <>

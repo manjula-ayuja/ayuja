@@ -27,7 +27,8 @@ const PaymentMethodSelection = ({ routeParams }) => {
   const navigate = useNavigate();
 
   const location = useLocation();
-
+  const bookAppointmentApi = process.env.REACT_APP_BOOK_APPOINTMENT_API;
+  const prescriptionApi = process.env.REACT_APP_PRESCRIPTION_STORE_API;
   const {
     name,
     dob,
@@ -35,33 +36,112 @@ const PaymentMethodSelection = ({ routeParams }) => {
     gender,
     selectedDate,
     serviceTitle,
-    serviceImage,
+    serviceImage,storedUser,prescription
   } = location.state || {};  
 
-  const handleContinue = () => {
-    let bookingData = {
-      serviceTitle,
-      serviceImage,
-      selectedDate,
-      name,
-      dob,
-      phone,
-      gender,
+  const handleContinue = async () => {
+    const storedUser = JSON.parse(localStorage.getItem("user")) || {};
+  
+    // Map selected option to payment method
+    let paymentMethod = "upi";
+    if (selected === "1") paymentMethod = "wallet";
+    else if (selected === "2" || selected === "3") paymentMethod = "card";
+    else if (selected === "4") paymentMethod = "upi";
+    else if (selected === "5") paymentMethod = "offline";
+  
+    // Build payment object
+    const paymentData = {
+      amount: 500,
+      method: paymentMethod,
+      status: "success", // assuming success for now
+      transaction_history: [
+        { timestamp: new Date().toISOString(), method: paymentMethod },
+      ],
     };
-console.log("booking data:::",bookingData)
-    if (selected === "5") {
-      bookingData.status = "success";
-    } else if (selected === "2") {
-      bookingData.status = "cancelled";
-    } else if (selected === "4") {
-      bookingData.status = "failed";
-    } else {
-      bookingData.method = selected;
+  
+    // ✅ Ensure selectedDate is ISO string
+    let isoDate = selectedDate;
+    if (selectedDate) {
+      // isoDate = new Date(selectedDate).toISOString();
+      isoDate = new Date(selectedDate).toISOString().replace("Z", "");
+
     }
 
-    // ✅ Navigate to BookingStatusScreen with state
-    navigate("/booking-status", { state: bookingData });
+
+    // Build booking payload
+
+    const bookingData = {
+      name,
+      email: storedUser.email,
+      phone: storedUser.phone,
+      gender,
+      age: dob,
+      service_type: serviceTitle,
+      date: isoDate,  
+      notes: "",
+      payment: paymentData,
+      prescription,
+    };
+
+  
+    try {
+      // 1️⃣ Book appointment
+      const response = await fetch(bookAppointmentApi, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(bookingData),
+      });
+  
+      const result = await response.json();
+      console.log("Booking Response :::", result);
+  
+      if (!response.ok) {
+        alert(result.error || "Booking failed");
+        return;
+      }
+  
+      const bookingId = result.booking_id;
+  
+      // 2️⃣ Upload prescriptions if available
+      if (prescription?.length > 0) {
+        for (const file of prescription) {
+          const formDataObj = new FormData();
+          formDataObj.append("file", file);
+  
+          const uploadRes = await fetch(`${prescriptionApi}/${bookingId}`, {
+            method: "POST",
+            body: formDataObj,
+          });
+  
+          const uploadData = await uploadRes.json();
+  
+          if (uploadRes.ok) {
+            console.log("📄 Prescription uploaded:", uploadData.file_path);
+          } else {
+            console.error("❌ Upload failed:", uploadData.error);
+          }
+        }
+      }
+  
+      // 3️⃣ Navigate to booking status
+      navigate("/booking-status", { 
+        state: { 
+          ...result, 
+          serviceTitle, 
+          serviceImage, 
+          selectedDate,
+          name:storedUser.name,
+          email: storedUser.email, 
+          phone: storedUser.phone 
+        } 
+      });
+      
+    } catch (err) {
+      console.error("Error booking appointment:", err);
+      alert("Something went wrong, please try again.");
+    }
   };
+  
 
   return (
     <>

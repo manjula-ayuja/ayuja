@@ -85,7 +85,7 @@ console.log("response in register ::",response)
       const userRole = response.data.user.role; 
       console.log("userRole::",userRole)
       if (userRole === "resident") {
-        navigate("/resident-dashboard");
+        navigate("/services");
       } else if (userRole === "admin") {
         navigate("/admin-dashboard");
       } else if (userRole === "superadmin") {

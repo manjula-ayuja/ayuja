@@ -16,42 +16,36 @@ const services = [
   {
     id: "1",
     title: "ELDERLY AND CHILDCARE",
-    time: "DEC 12, 9:00 AM",
     image: ElderlyCare,
     screen: "ElderChildCare",
   },
   {
     id: "2",
     title: "NURSING & PHYSIOTHERAPY SERVICES",
-    time: "DEC 12, 9:30 AM",
     image: PhysiotherapyatHome,
     screen: "NursingPysiotherapy",
   },
   {
     id: "3",
     title: "MEDICINE & DIAGNOSTIC DELIVERY",
-    time: "DEC 12, 9:00 AM",
     image: DiagnosticSample,
     screen: "MedicineDiagnosticDelivery",
   },
   {
     id: "4",
     title: "EMERGENCY CARE SUPPORT",
-    time: "DEC 12, 9:00 AM",
     image: EmergencyCareSupport,
     screen: "EmergencyCareSupport",
   },
   {
     id: "5",
     title: "DOCTOR VISIT, PICKUP & DROP",
-    time: "DEC 12, 9:00 AM",
     image:DoctorVisit,
     screen: "DoctorVisitPickUpDrop",
   },
   {
     id: "6",
     title: "SOCIAL WELLNESS ACTIVITIES",
-    time: "DEC 12, 9:00 AM",
     image: ForSeniors,
     screen: "SocialWellnessActivities",
   },
@@ -67,8 +61,6 @@ const ServiceSelectionScreen = () => {
     >
       <View style={styles.cardText}>
         <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.subtitle}>NEXT AVAILABLE TIME</Text>
-        <Text style={styles.time}>{item.time}</Text>
       </View>
       <Image source={item.image} style={styles.cardImage} resizeMode="contain" />
     </TouchableOpacity>
@@ -133,16 +125,7 @@ const styles = StyleSheet.create({
     color: "#22577A",
     marginBottom: 20,
   },
-  subtitle: {
-    fontSize: 12,
-    color: "#888",
-  },
-  time: {
-    fontSize: 13,
-    fontWeight: "500",
-    color: "#000",
-    marginTop: 4,
-  },
+
   cardImage: {
     width: 80,
     height: 80,

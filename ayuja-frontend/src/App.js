@@ -18,7 +18,7 @@ import DoctorVisitPickup from "./Components/HomePage/HomeSections/DoctorVisitPic
 import MedicineDiagnosticDelivery from "./Components/HomePage/HomeSections/MedicineDiagnosticDelivery";
 import SocialWellness from "./Components/HomePage/HomeSections/SocialWellness";
 import EmergencyCare from "./Components/HomePage/HomeSections/EmergencyCareSupport";
-
+import ServiceScreen from "./Components/HomePage/HomeSections/services";
 // Booking screens 
 
 import BookAppointment from "./Components/BookingAppointmentScreens/BookAppointment";
@@ -49,6 +49,15 @@ import PaymentMethodSelection from "./Components/PaymentsScreens/SelectPaymentSc
 // Resident screens
 import ResidentDashboard from "./Components/HomePage/ResidentScreens/ResidentDashboard";
 
+// admin dashboard screens
+import AdminDashboard from "./Components/AdminDashBoardScreens/AdminDashboard";
+
+
+// menuitems screens
+import RaiseComplaintScreen from "./Components/HomePage/MenuItemScreens/RaiseComplaint";
+import SOSScreen from "./Components/HomePage/MenuItemScreens/SOS";
+import ProfilePage from "./Components/HomePage/MenuItemScreens/ProfilePage";
+
 const App = () => {
   return (
     <Router> 
@@ -59,7 +68,7 @@ const App = () => {
           {/* <Route path="/home-page" element={<HomePage />} /> */}
 
           {/* Home page screens */}
-
+          <Route path="/serviceweprovide" element={<ServiceScreen/>}/>
           <Route path="/aboutus" element={<AboutUs/>}/>
           <Route path="/packages" element={<Packages/>}/>
           <Route path="/contactus" element={<ContactUs/>}/>
@@ -87,7 +96,7 @@ const App = () => {
           <Route path="/book-appointment" element={<BookAppointment/>}/>
           <Route path="/booking-status" element={<BookingStatusScreen/>}/>
 
-          BookingStatusScreen
+      
 
           {/* ServiceSelectionScreen */}
           <Route path="/services" element={<ServiceSelectionScreen/>}/>
@@ -100,7 +109,17 @@ const App = () => {
 
           {/* payment selection screens */}
           <Route path="/select-payment-method" element={<PaymentMethodSelection/>}/>
+
+          {/* menuitems screens */}
+          <Route path="/raise-complaint" element={<RaiseComplaintScreen/>}/>
+          <Route path="/sos" element={<SOSScreen/>}/>
+          <Route path="/profile-details" element={<ProfilePage/>}/>
+
           
+
+          {/* AdminDashbaord */}
+          <Route path="/admin-dashboard" element={<AdminDashboard/>}/>
+
           </Route>
         </Routes>
     </Router>

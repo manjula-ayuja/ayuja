@@ -1,4 +1,5 @@
-import React from "react";
+
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -14,6 +15,15 @@ import ElderlyCare from "../Logos/Elder&childcarePage/ElderlyCare.png";
 import Footer from "../Common/Footer"
 const ElderlyChildCareScreen = () => {
   const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user"); 
+    console.log("storedUser:::::",storedUser)
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));  
+    }
+  }, []);
 
   return (
     <>

@@ -48,12 +48,15 @@ const handleLogin = async () => {
     // Save token
     localStorage.setItem("token", res.data.token);
 
+    // Save user data (convert to string before storing)
+    localStorage.setItem("user", JSON.stringify(res.data.user));
+
     // ✅ Role-based navigation
     const userRole = res.data.user.role;
     console.log("userRole::", userRole);
 
     if (userRole === "resident") {
-      navigate("/resident-dashboard");
+      navigate("/services");
     } else if (userRole === "admin") {
       navigate("/admin-dashboard");
     } else if (userRole === "superadmin") {

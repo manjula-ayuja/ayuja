@@ -1,6 +1,6 @@
 
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Typography,
   Grid,
@@ -11,15 +11,15 @@ import {
   Box,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import Footer from "../Common/Footer";
+import Footer from "../../Common/Footer";
 
 // Import your images
-import DiagnosticSample from "../Logos/DiagnoisticDelivery/DiagnosticSampleCollection.png";
-import DoctorVisitPickupDrop from "../Logos/DoctorVisitPickUP/DoctorVisitPickupDrop.png";
-import ElderlyCare from "../Logos/Elder&childcarePage/ElderlyCare.png";
-import EmergencyCareSupport from "../Logos/EmergencyCareSupport/EmergencyCareSupport.png";
-import ForSeniors from "../Logos/SocialWellness/ForSeniors.png";
-import PhysiotherapyatHome from "../Logos/Nursing/PhysiotherapyatHome.png";
+import DiagnosticSample from "../../Logos/DiagnoisticDelivery/DiagnosticSampleCollection.png";
+import DoctorVisitPickupDrop from "../../Logos/DoctorVisitPickUP/DoctorVisitPickupDrop.png";
+import ElderlyCare from "../../Logos/Elder&childcarePage/ElderlyCare.png";
+import EmergencyCareSupport from "../../Logos/EmergencyCareSupport/EmergencyCareSupport.png";
+import ForSeniors from "../../Logos/SocialWellness/ForSeniors.png";
+import PhysiotherapyatHome from "../../Logos/Nursing/PhysiotherapyatHome.png";
 
 const services = [
   { id: "1", title: "ELDERLY AND CHILDCARE", image: ElderlyCare, screen: "/elder-child-care" },
@@ -30,7 +30,7 @@ const services = [
   { id: "6", title: "SOCIAL WELLNESS ACTIVITIES", image: ForSeniors, screen: "/social-wellness-activities" },
 ];
 
-const ServiceSelectionScreen = () => {
+const ServiceScreen = () => {
   const navigate = useNavigate();
 
   return (
@@ -41,7 +41,7 @@ const ServiceSelectionScreen = () => {
           align="center"
           sx={{ fontWeight: "900", color: "#22577A", mb: 4, mt: 2 }}
         >
-          Please Select Services
+           Services We Provide
         </Typography>
 
         <Grid container spacing={3}>
@@ -60,7 +60,7 @@ const ServiceSelectionScreen = () => {
                   "&:hover": { transform: "scale(1.03)" },height: 300,
                   width: 400,
                 }}
-                onClick={() => navigate(service.screen)}
+             
               >
                 {/* Fixed image area */}
                 <Box
@@ -114,5 +114,5 @@ const ServiceSelectionScreen = () => {
   );
 };
 
-export default ServiceSelectionScreen;
+export default ServiceScreen;
 

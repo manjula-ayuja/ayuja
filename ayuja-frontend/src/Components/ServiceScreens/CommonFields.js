@@ -16,8 +16,8 @@ const CommonFieldsScreen = ({ serviceData }) => {
 
   const [name, setName] = useState("");
   const [dob, setDob] = useState("");
-  const [phone, setPhone] = useState("");
   const [gender, setGender] = useState("");
+  const [prescription ,setPrescription] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
 
   // service details (from props or navigation)
@@ -28,21 +28,11 @@ const CommonFieldsScreen = ({ serviceData }) => {
 
 
   const validateName = (value) => /^[A-Za-z\s]+$/.test(value);
-  const validateDOB = (value) =>
-    /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/.test(value);
-  const validatePhone = (value) => /^[0-9]{10}$/.test(value);
+
 
   const handleContinue = () => {
     if (!validateName(name)) {
       alert("Name should contain only alphabets!");
-      return;
-    }
-    if (!validateDOB(dob)) {
-      alert("Date of Birth should be in DD/MM/YYYY format!");
-      return;
-    }
-    if (!/^\d{10}$/.test(phone)) {
-      alert("Phone number must be exactly 10 digits!");
       return;
     }
     if (!gender) {
@@ -53,16 +43,19 @@ const CommonFieldsScreen = ({ serviceData }) => {
       alert("Please select a date!");
       return;
     }
+      // 🔹 Get logged-in user details from localStorage
+    const storedUser = JSON.parse(localStorage.getItem("user")) || {};
 
     navigate("/select-payment-method", {
       state: {
         name,
         dob,
-        phone,
         gender,
         selectedDate,
         serviceTitle,
         serviceImage,
+        prescription,
+        storedUser,
       },
     });
   };
@@ -88,32 +81,19 @@ const CommonFieldsScreen = ({ serviceData }) => {
             onChange={(e) => setName(e.target.value)}
           />
           <Typography fontWeight={600} fontSize={14} mt={3} mb={1}>
-            Date of Birth*
+            Age
           </Typography>
           <TextField
             fullWidth
             size="small"
-            placeholder="DD/MM/YYYY"
+            placeholder="Enter The patient Age"
             value={dob}
+            type="number"
             onChange={(e) => setDob(e.target.value)}
           />
 
-          <Typography fontWeight={600} fontSize={14} mt={3} mb={1}>
-            Phone Number*
-          </Typography>
-          <TextField
-            fullWidth
-            size="small"
-            placeholder="9876543210"
-            type="tel"
-            value={phone}
-            onChange={(e) => {
-              if (/^\d*$/.test(e.target.value)) {
-                setPhone(e.target.value);
-              }
-            }}
-            inputProps={{ maxLength: 10 }}
-          />
+
+
 
           <Typography fontWeight={600} fontSize={14} mt={3} mb={1}>
             Gender
@@ -133,6 +113,37 @@ const CommonFieldsScreen = ({ serviceData }) => {
             <MenuItem value="Female">Female</MenuItem>
           </TextField>
         </Box>
+
+        <Typography fontWeight={600} fontSize={14} mt={3} mb={1}>
+          Upload Prescriptions
+        </Typography>
+        <TextField
+          type="file"
+          name="prescription"
+          inputProps={{ multiple: true, accept: "image/*,.pdf" }}
+          onChange={(e) => setPrescription(Array.from(e.target.files))}
+          variant="outlined"
+          fullWidth
+          sx={{ mb: 2, backgroundColor: "#fff", borderRadius: 4 }}
+        />
+
+        {/* Show selected files */}
+        {prescription.length > 0 && (
+          <Box sx={{ mt: 1 }}>
+            <Typography variant="body2" fontWeight={600} mb={1}>
+              Selected Files:
+            </Typography>
+            {prescription.map((file, index) => (
+              <Typography
+                key={index}
+                variant="body2"
+                sx={{ color: "text.secondary" }}
+              >
+                📄 {file.name}
+              </Typography>
+            ))}
+          </Box>
+        )}
 
         {/* Button */}
         <Button

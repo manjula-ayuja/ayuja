@@ -50,11 +50,12 @@ const CommonFieldsScreen = ({serviceData}) => {
           onChangeText={setName}
         />
 
-        <Text style={styles.label}>Date Of Birth*</Text>
+        <Text style={styles.label}>Age</Text>
         <TextInput
           style={styles.input}
-          placeholder="DD/MM/YYYY"
+          placeholder="Enter The patient Age"
           value={dob}
+          type="number"
           onChangeText={setDob}
         />
 
