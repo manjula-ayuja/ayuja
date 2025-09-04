@@ -17,7 +17,9 @@ from flask_cors import CORS
 # Base path of backend
 base = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..'))
 
-cred_path = os.path.join(base, 'FirbaseServices', 'ayuja-d237b-firebase-adminsdk-fbsvc-0d283915d7.json')
+
+cred_path = os.path.join(base, 'FirbaseServices', 'ayuja-d237b-firebase-adminsdk-fbsvc-295b8c6ef6.json')
+
 cred = credentials.Certificate(cred_path)
 firebase_admin.initialize_app(cred, {
     'storageBucket': 'ayuja-d237b.appspot.com'   
@@ -59,16 +61,33 @@ class User(Document):
         return bcrypt.check_password_hash(self.password_hash, password)
     
 
+#  Payment Schema
+class Payment(EmbeddedDocument):
+    payment_id = StringField(default=lambda: str(uuid.uuid4()), unique=True) 
+    amount = FloatField(required=True)
+    method = StringField(choices=["upi", "card", "wallet","offline"], required=True)
+    status = StringField(choices=["success", "failed", "refunded", "cancelled"], required=True)
+    transaction_history = ListField(DictField())  
+    discount_code = StringField()
+    meta = {"collection": "payments"}
 
 # Booking Schema
 class Booking(Document):
     booking_id = StringField(default=lambda: str(uuid.uuid4()), unique=True)
 
-    # Reference to User
-    resident = ReferenceField(User, required=True, reverse_delete_rule=CASCADE)  
+    # Reference to User (if registered)
+    resident = ReferenceField(User, required=False, reverse_delete_rule=CASCADE)
+
+    # Guest details if no user found
+    guest_name = StringField()
+    guest_email = StringField()
+    guest_phone = StringField()
+    guest_gender = StringField()
 
     service_type = StringField(required=True)
+    gender = StringField(required=True)  # still keeping for consistency
     date = DateTimeField(required=True)
+    age = StringField(required=True)
     status = StringField(
         choices=["new", "assigned", "in-progress", "completed", "cancelled"],
         default="new"
@@ -76,8 +95,13 @@ class Booking(Document):
     staff_id = StringField()
     notes = StringField()
     invoice_url = StringField()
-    prescriptions = ListField(DictField())  
+    prescriptions = ListField(DictField())
     created_at = DateTimeField(default=datetime.utcnow)
+    
+        # Embedded Payment
+    payment = EmbeddedDocumentField(Payment)
+    
+    feedback = DictField() 
 
     meta = {"collection": "bookings"}
 
@@ -85,19 +109,8 @@ class Booking(Document):
 
 
 
-# 3. Payment Schema
-class Payment(Document):
-    payment_id = StringField(default=lambda: str(uuid.uuid4()), unique=True)
-    booking_id = StringField(required=True)  
-    amount = FloatField(required=True)
-    method = StringField(choices=["upi", "card", "wallet"], required=True)
-    status = StringField(choices=["success", "failed", "refunded"], required=True)
-    transaction_history = ListField(DictField())   # can store each txn detail
-    discount_code = StringField()
-    meta = {"collection": "payments"}
 
-
-# 4. Complaint Schema
+# Complaint Schema
 class Complaint(Document):
     complaint_id = StringField(default=lambda: str(uuid.uuid4()), unique=True)
     resident_id = StringField(required=True)
@@ -109,7 +122,7 @@ class Complaint(Document):
     meta = {"collection": "complaints"}
 
 
-# 5. Emergency Schema
+# Emergency Schema
 class Emergency(Document):
     emergency_id = StringField(default=lambda: str(uuid.uuid4()), unique=True)
     resident_id = StringField(required=True)
@@ -120,7 +133,7 @@ class Emergency(Document):
     meta = {"collection": "emergencies"}
 
 
-# 6. Notification Schema
+# Notification Schema
 class Notification(Document):
     notification_id = StringField(default=lambda: str(uuid.uuid4()), unique=True)
     user_id = StringField(required=True)

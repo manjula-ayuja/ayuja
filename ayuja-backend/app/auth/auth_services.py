@@ -13,6 +13,7 @@ import bcrypt
 import random
 from app.services.email_sender import *
 import string
+from flask_jwt_extended import create_access_token
 
 logger = logging.getLogger(__name__)
 SECRET_KEY = os.getenv("SECRET_KEY") 
@@ -33,7 +34,6 @@ def register_user_via_google(data):
         email = data.get('email')
         # phone = data.get('contact')
         phone = str(generate_number())
-        print("dataaa:::",name,email,phone)
 
         if not google_id_token or not name or not email:
             logger.info("Missing Google token, name, or email")
@@ -155,10 +155,13 @@ def register_user(data):
         logger.info("User saved in MongoDB: %s", user.to_mongo())
 
         # ✅ JWT Token (for your backend, not Firebase)
-        token = jwt.encode({
-            "user_id": str(user.user_id),
-            "exp": datetime.utcnow() + timedelta(days=1)
-        }, SECRET_KEY, algorithm="HS256")
+        token = create_access_token(
+            identity=str(user.user_id),
+            additional_claims={
+                "email": user.email,
+                "role": user.role
+            }
+        )
 
         # ✅ Prepare response
         user_details = {
@@ -179,92 +182,6 @@ def register_user(data):
     except Exception as e:
         logger.critical("Registration failed: %s", str(e))
         return {"error": str(e)}
-
-# def register_user(data):
-#     logger.info("Entered into registration logic")
-
-#     try:
-#         # Extract inputs
-#         name = data.get("name")
-#         role = data.get("role")
-#         email = data.get("email")
-#         phone = data.get("phone")
-#         password = data.get("password")
-
-#         if not all([name, role, email, phone, password]):
-#             return {"error": "All fields are required"}
-        
-#         # ✅ Always add +91 if not already present
-#         if not phone.startswith("+91"):
-#             phone = f"+91{phone}"
-
-#         # ✅ Validate password
-#         if not re.match(r'^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$', password):
-#             logger.warning("Password validation failed for: %s", password)
-#             return {"error": "Password must contain at least one uppercase letter, one number, one special character, and be at least 8 characters long."}
-
-#         # ✅ Check if user exists in MongoDB
-#         existing_user = User.objects(__raw__={'$or': [{'phone': phone}, {'email': email}] }).first()
-#         if existing_user:
-#             if existing_user.phone == phone:
-#                 return {"error": "The phone number is already in use."}
-#             elif existing_user.email == email:
-#                 return {"error": "The email address is already in use."}
-
-#         # ✅ Check if user exists in Firebase
-#         try:
-#             firebase_user = auth.get_user_by_email(email)
-#         except auth.UserNotFoundError:
-#             # Create new Firebase user
-#             firebase_user = auth.create_user(
-#                 email=email,
-#                 password=password,
-#                 display_name=name,
-#                 phone_number=f"+{phone}" if not phone.startswith("+") else phone
-#             )
-#             logger.info("User created in Firebase with UID: %s", firebase_user.uid)
-
-#         # ✅ Hash password for MongoDB
-#         hashed_password = bcrypt.generate_password_hash(password).decode("utf-8")
-
-#         # ✅ Save to MongoDB
-#         user = User(
-#             name=name,
-#             role=role,
-#             email=email,
-#             phone=phone,
-#             firebaseUid=firebase_user.uid,
-#             password_hash=hashed_password,
-#             emergency_contacts=data.get("emergency_contacts", []),
-#             family_members=data.get("family_members", []),
-#             documents=data.get("documents", [])
-#         )
-#         user.save()
-
-#         # ✅ JWT Token
-#         token = jwt.encode({
-#             'user_id': str(user.user_id),
-#             'exp': datetime.utcnow() + timedelta(days=1)
-#         }, SECRET_KEY, algorithm='HS256')
-
-#         user_details = {
-#             "userId": str(user.user_id),
-#             "firebaseUid": user.firebaseUid,
-#             "name": user.name,
-#             "email": user.email,
-#             "phone": user.phone,
-#             "role": user.role,
-#             "token": token,
-#             "status": "User Registered"
-#         }
-
-#         return {"success": True, "user": user_details, "token": token}
-
-#     except NotUniqueError:
-#         return {"error": "User already exists in MongoDB"}
-#     except Exception as e:
-#         logger.critical("Registration failed: %s", str(e))
-#         return {"error": str(e)}
 
 
 def login_user(identifier, password):
@@ -288,13 +205,13 @@ def login_user(identifier, password):
         return {"message": "Invalid credentials"}, 401
 
     # Generate JWT
-    payload = {
-        "user_id": str(user.user_id),
-        "email": user.email,
-        "role": user.role,
-        "exp": datetime.utcnow() + timedelta(days=1)
-    }
-    token = jwt.encode(payload, SECRET_KEY, algorithm="HS256")
+    token = create_access_token(
+        identity=str(user.user_id),
+        additional_claims={
+            "email": user.email,
+            "role": user.role
+        }
+    )
 
     return {
         "message": "Login successful",
@@ -370,3 +287,71 @@ def reset_password(identifier, new_password):
     user.otp = None  # clear OTP
     user.save()
     return True, "Password updated successfully"
+
+
+def update_user_profile(user_id, data):
+    """
+    Update user profile fields.
+    Returns updated user object.
+    """
+    user = User.objects(user_id=user_id).first()
+    if not user:
+        return None, "User not found"
+
+    # Update simple fields
+    if "name" in data:
+        user.name = data["name"]
+    if "email" in data:
+        user.email = data["email"]
+    if "phone" in data:
+        user.phone = data["phone"]
+
+    # Emergency contacts as ["Name:Phone"]
+    if "emergency_contacts" in data:
+        updated_contacts = []
+        for ec in data["emergency_contacts"]:
+            if isinstance(ec, dict):
+                updated_contacts.append(f"{ec.get('name')}:{ec.get('phone')}")
+            elif isinstance(ec, str):
+                updated_contacts.append(ec)
+        user.emergency_contacts = updated_contacts
+
+    # Family members as ["Name:Relation"]
+    if "family_members" in data:
+        updated_members = []
+        for fm in data["family_members"]:
+            if isinstance(fm, dict):
+                updated_members.append(f"{fm.get('name')}:{fm.get('relation')}")
+            elif isinstance(fm, str):
+                updated_members.append(fm)
+        user.family_members = updated_members
+
+    # Documents as list of dicts
+    if "documents" in data:
+        user.documents = [
+            {"type": doc.get("type"), "number": doc.get("number")}
+            for doc in data["documents"]
+        ]
+
+    user.save()
+    return user, None
+
+
+def change_user_password(user_id, new_password, confirm_password):
+    """
+    Change user password after validation.
+    Returns error message if any, else None.
+    """
+    user = User.objects(user_id=user_id).first()
+    if not user:
+        return "User not found"
+
+    if not new_password or not confirm_password:
+        return "Both new_password and confirm_password are required"
+
+    if new_password != confirm_password:
+        return "Passwords do not match"
+
+    user.set_password(new_password)
+    user.save()
+    return None

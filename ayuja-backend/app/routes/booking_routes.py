@@ -1,5 +1,4 @@
 
-
 from flask import Blueprint, request, jsonify
 from datetime import datetime
 from app.auth.booking_services import *
@@ -10,35 +9,54 @@ booking_blueprint = Blueprint("booking", __name__)
 def create_booking():
     try:
         data = request.json
+
+        # Extract fields
         name = data.get("name")
         email = data.get("email")
         phone = data.get("phone")
-        role = data.get("role", "resident")  # default role
+        gender = data.get("gender", "male")
         service_type = data.get("service_type")
         date_str = data.get("date")
+        age = data.get("age")
         notes = data.get("notes")
+        payment_data = data.get("payment")  # embedded payment object
 
-        if not all([name, email, phone, service_type, date_str]):
+        # Validate required fields
+        if not all([name, email, phone, service_type, date_str, age, payment_data]):
             return jsonify({"error": "Missing required fields"}), 400
 
         date = datetime.fromisoformat(date_str)
 
+        # Create booking with payment
         booking = book_appointment(
             name=name,
             email=email,
             phone=phone,
-            role=role,
+            gender=gender,
             service_type=service_type,
             date=date,
+            age=age,
             notes=notes,
+            payment_data=payment_data,
         )
 
-        return jsonify({
+        response = {
             "message": "Booking created successfully",
             "booking_id": str(booking.booking_id),
-            "user_id": str(booking.resident.user_id)
-        }), 201
+            "payment_status": booking.payment.status,
+            "payment_method": booking.payment.method,
+        }
 
+        if booking.resident:
+            response["user_id"] = str(booking.resident.user_id)
+            response["user_type"] = "registered"
+        else:
+            response["user_type"] = "guest"
+
+        return jsonify(response), 201
+
+    except ValueError as ve:
+        return jsonify({"error": str(ve)}), 400
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
@@ -55,9 +73,95 @@ def upload_prescription_route(booking_id):
         result = upload_prescription(booking_id, file)
         print("resuli in the line 102 :::",result)
 
-        return jsonify(result), 201
+        return jsonify(result), 200
 
     except ValueError as ve:
         return jsonify({"error": str(ve)}), 400
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
+@booking_blueprint.route("/process-payment", methods=["POST"])
+def process_payment():
+    data = request.get_json()
+    
+    # Mock payment processing
+    method = data.get("method")
+    details = data.get("details", {})
+    
+    # Simulate success
+    payment_status = "success"
+    transaction_id = str(uuid.uuid4())
+
+    return jsonify({
+        "status": payment_status,
+        "method": method,
+        "details": details,
+        "transaction_id": transaction_id,
+        "timestamp": datetime.datetime.now().isoformat()
+    })
+    
+    
+
+@booking_blueprint.route("/my-bookings", methods=["GET"])
+def get_user_bookings():
+    try:
+        email = request.args.get("email")
+        phone = request.args.get("phone")
+
+        bookings = get_bookings_by_user(email=email, phone=phone)
+
+        return jsonify({"bookings": bookings}), 200
+
+    except ValueError as ve:
+        return jsonify({"error": str(ve)}), 400
+    except Exception as e:
+        # 👀 log the actual error for debugging
+        import traceback; traceback.print_exc()
+        return jsonify({"error": str(e)}), 500
+    
+ 
+
+@booking_blueprint.route("/feedback/<booking_id>", methods=["POST"])
+def submit_feedback(booking_id):
+    try:
+        data = request.json
+        rating = data.get("rating")
+        comment = data.get("comment")
+
+        booking = Booking.objects(booking_id=booking_id).first()
+        if not booking:
+            return jsonify({"error": "Booking not found"}), 404
+
+        booking.feedback = {"rating": rating, "comment": comment}
+        booking.save()
+
+        return jsonify({"message": "Feedback submitted successfully"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+@booking_blueprint.route("/complaint/<booking_id>", methods=["POST"])
+def raise_complaint(booking_id):
+    try:
+        data = request.json
+        resident_id = data.get("resident_id")
+        category = data.get("category", "general")
+        feedback = {
+            "rating": data.get("rating"),
+            "comment": data.get("comment")
+        }
+
+        booking = Booking.objects(booking_id=booking_id).first()
+        if not booking:
+            return jsonify({"error": "Booking not found"}), 404
+
+        complaint = Complaint(
+            resident_id=resident_id,
+            booking_id=booking_id,
+            category=category,
+            feedback=feedback
+        )
+        complaint.save()
+
+        return jsonify({"message": "Complaint raised successfully"}), 201
     except Exception as e:
         return jsonify({"error": str(e)}), 500

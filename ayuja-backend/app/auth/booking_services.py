@@ -18,43 +18,63 @@ def allowed_file(filename):
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
-def book_appointment(name, email, phone, role, service_type, date, notes=None):
+
+
+
+def book_appointment(name, email, phone, gender, service_type, date, age, notes=None, payment_data=None):
+    """
+    Create a booking with optional embedded payment.
+    Booking is only stored if payment is successful.
+    """
+    # Ensure payment is provided and successful
+    if not payment_data or payment_data.get("status") != "success":
+        raise ValueError("Payment not successful. Booking not created.")
+
     user = User.objects(email=email).first() or User.objects(phone=phone).first()
 
-    # If user not found, create one in MongoDB and Firebase
-    if not user:
-        user = User(
-            name=name,
-            email=email,
-            phone=phone,
-            role=role
-        )
-        user.set_password(email)  
-        user.save()
-
-        # 🔥 Create user in Firebase Authentication
-        try:
-            firebase_user = auth.create_user(
-                email=email,
-                email_verified=False,
-                password=email,  # same as Mongo default
-                display_name=name,
-                phone_number=f"+91{phone}" if not phone.startswith("+") else phone,  # optional
-                disabled=False,
-            )
-            print(f"✅ Firebase user created: {firebase_user.uid}")
-        except Exception as e:
-            print(f"⚠️ Firebase user creation failed: {e}")
-
-    # Create the booking
-    booking = Booking(
-        resident=user,
-        service_type=service_type,
-        date=date,
-        notes=notes
+    
+        # ✅ FIX: Always set a unique payment_id
+    payment = Payment(
+        payment_id=payment_data.get("payment_id") or str(uuid.uuid4()),  
+        amount=payment_data["amount"],
+        method=payment_data["method"],
+        status=payment_data["status"],
+        discount_code=payment_data.get("discount_code"),
+        transaction_history=payment_data.get("transaction_history", [])
     )
+
+
+    if user:
+        # Registered user booking
+        booking = Booking(
+            resident=user,
+            service_type=service_type,
+            gender=gender,
+            date=date,
+            age=age,
+            notes=notes,
+            payment=payment,
+            status="completed"  # mark as completed since payment success
+        )
+    else:
+        # Guest booking
+        booking = Booking(
+            guest_name=name,
+            guest_email=email,
+            guest_phone=phone,
+            guest_gender=gender,
+            service_type=service_type,
+            gender=gender,
+            date=date,
+            age=age,
+            notes=notes,
+            payment=payment,
+            status="completed"
+        )
+
     booking.save()
     return booking
+
 
 def upload_prescription(booking_id, file):
     """Upload prescription for a booking"""
@@ -89,3 +109,55 @@ def upload_prescription(booking_id, file):
         "message": "Prescription uploaded successfully",
         "file_path": file_path
     }
+
+
+def get_bookings_by_user(email=None, phone=None):
+    """
+    Fetch bookings only for registered users via User->Booking relationship.
+    Guest bookings are ignored.
+    """
+    if not email and not phone:
+        raise ValueError("Email or phone required")
+
+    # 🔹 Find registered user by email/phone
+    user = None
+    if email:
+        user = User.objects(email=email).first()
+    if not user and phone:
+        user = User.objects(phone=phone).first()
+
+    if not user:
+        # If no registered user found → return empty
+        return []
+
+    # 🔹 Fetch bookings linked to this registered user
+    bookings = Booking.objects(resident=user)
+
+    # 🔹 Format response
+    booking_list = []
+    for b in bookings:
+        booking_list.append({
+            "booking_id": str(b.booking_id),
+            "service_type": b.service_type,
+            "gender": b.gender,
+            "date": b.date.isoformat() if b.date else None,
+            "age": b.age,
+            "status": b.status,
+            "notes": b.notes,
+            "staff_id": b.staff_id,
+            "invoice_url": b.invoice_url,
+            "resident": {
+                "name": b.resident.name if b.resident else None,
+                "email": b.resident.email if b.resident else None,
+                "phone": b.resident.phone if b.resident else None,
+            },
+            "payment": {
+                "payment_id": str(b.payment.payment_id) if b.payment else None,
+                "amount": b.payment.amount if b.payment else None,
+                "method": b.payment.method if b.payment else None,
+                "status": b.payment.status if b.payment else None,
+            } if b.payment else None,
+            "created_at": b.created_at.isoformat() if b.created_at else None
+        })
+
+    return booking_list
