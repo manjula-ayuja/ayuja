@@ -54,10 +54,10 @@ import AdminDashboard from "./Components/AdminDashBoardScreens/AdminDashboard";
 
 
 // menuitems screens
-import RaiseComplaintScreen from "./Components/HomePage/MenuItemScreens/RaiseComplaint";
+import MyBookingsScreen from "./Components/HomePage/MenuItemScreens/MyBookings";
 import SOSScreen from "./Components/HomePage/MenuItemScreens/SOS";
 import ProfilePage from "./Components/HomePage/MenuItemScreens/ProfilePage";
-
+import MyComplaintsScreen from "./Components/HomePage/MenuItemScreens/MyComplaints";
 const App = () => {
   return (
     <Router> 
@@ -111,12 +111,12 @@ const App = () => {
           <Route path="/select-payment-method" element={<PaymentMethodSelection/>}/>
 
           {/* menuitems screens */}
-          <Route path="/raise-complaint" element={<RaiseComplaintScreen/>}/>
+          <Route path="/my-bookings" element={<MyBookingsScreen/>}/>
           <Route path="/sos" element={<SOSScreen/>}/>
           <Route path="/profile-details" element={<ProfilePage/>}/>
-
+          <Route path="/my-complaints" element={<MyComplaintsScreen/>}/>
           
-
+          
           {/* AdminDashbaord */}
           <Route path="/admin-dashboard" element={<AdminDashboard/>}/>
 

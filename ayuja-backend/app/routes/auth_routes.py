@@ -83,6 +83,7 @@ def get_profile():
                 "name": user.name,
                 "email": user.email,
                 "phone": user.phone,
+                "address": user.address,
                 "emergency_contacts": user.emergency_contacts,
                 "family_members": user.family_members,
                 "documents": user.documents
@@ -111,6 +112,7 @@ def update_profile():
                 "name": user.name,
                 "email": user.email,
                 "phone": user.phone,
+                "address": user.address,
                 "emergency_contacts": user.emergency_contacts,
                 "family_members": user.family_members,
                 "documents": user.documents

@@ -305,6 +305,8 @@ def update_user_profile(user_id, data):
         user.email = data["email"]
     if "phone" in data:
         user.phone = data["phone"]
+    if "address" in data:
+        user.address = data["address"]      
 
     # Emergency contacts as ["Name:Phone"]
     if "emergency_contacts" in data:

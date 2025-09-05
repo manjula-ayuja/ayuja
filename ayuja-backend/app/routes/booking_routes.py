@@ -139,29 +139,4 @@ def submit_feedback(booking_id):
         return jsonify({"message": "Feedback submitted successfully"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-@booking_blueprint.route("/complaint/<booking_id>", methods=["POST"])
-def raise_complaint(booking_id):
-    try:
-        data = request.json
-        resident_id = data.get("resident_id")
-        category = data.get("category", "general")
-        feedback = {
-            "rating": data.get("rating"),
-            "comment": data.get("comment")
-        }
-
-        booking = Booking.objects(booking_id=booking_id).first()
-        if not booking:
-            return jsonify({"error": "Booking not found"}), 404
-
-        complaint = Complaint(
-            resident_id=resident_id,
-            booking_id=booking_id,
-            category=category,
-            feedback=feedback
-        )
-        complaint.save()
-
-        return jsonify({"message": "Complaint raised successfully"}), 201
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+   

@@ -5,6 +5,7 @@ from flask_cors import CORS
 from mongoengine import connect
 from app.routes.auth_routes import auth_blueprint
 from app.routes.booking_routes import *
+from app.routes.complaints_routes import *
 import os
 import requests
 from dotenv import load_dotenv
@@ -39,7 +40,7 @@ jwt = JWTManager(app)  # ✅ Initialize JWT with the app
 # Register your blueprint
 app.register_blueprint(auth_blueprint, url_prefix="/api/auth")
 app.register_blueprint(booking_blueprint, url_prefix="/api/booking")
-
+app.register_blueprint(complaint_blueprint, url_prefix="/api/complaint")
 
 
 

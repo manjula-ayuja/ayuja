@@ -16,6 +16,7 @@ const ProfilePage = () => {
     name: "",
     email: "",
     phone: "",
+    address:"",
     emergency_contacts: [{ name: "", phone: "" }],
     family_members: [{ name: "", relation: "" }],
     documents: [{ type: "", number: "" }],
@@ -67,6 +68,7 @@ useEffect(() => {
             name: data.user.name || "",
             email: data.user.email || "",
             phone: data.user.phone || "",
+            addess:data.user.address || "",
             emergency_contacts,
             family_members,
             documents: data.user.documents || [{ type: "", number: "" }],
@@ -198,6 +200,7 @@ useEffect(() => {
               <TextField label="Name" name="name" value={formData.name} onChange={handleChange} fullWidth margin="normal" />
               <TextField label="Email" name="email" value={formData.email} onChange={handleChange} fullWidth margin="normal" />
               <TextField label="Phone" name="phone" value={formData.phone} onChange={handleChange} fullWidth margin="normal" />
+              <TextField label="Address" name="address" value={formData.address} onChange={handleChange} fullWidth margin="normal" />
 
               {/* Emergency Contacts */}
               <Typography variant="subtitle1" sx={{ mt: 2 }}>Emergency Contacts</Typography>
@@ -258,6 +261,7 @@ useEffect(() => {
               <Typography><strong>Name:</strong> {user?.name}</Typography>
               <Typography><strong>Email:</strong> {user?.email}</Typography>
               <Typography><strong>Phone:</strong> {user?.phone}</Typography>
+              <Typography><strong>Address:</strong> {user?.address}</Typography>
 
               <Typography sx={{ mt: 2 }}><strong>Emergency Contacts:</strong></Typography>
                 {formData.emergency_contacts.map((c, i) => (

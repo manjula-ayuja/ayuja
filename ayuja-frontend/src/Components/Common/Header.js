@@ -192,11 +192,19 @@ function Header() {
                 </MenuItem>
                 <MenuItem
                   onClick={() => {
-                    navigate("/raise-complaint");
+                    navigate("/my-bookings");
                     handleMenuClose();
                   }}
                 >
-                  Raise Complaint
+                  My Bookings
+                </MenuItem>
+                <MenuItem
+                  onClick={() => {
+                    navigate("/my-complaints");
+                    handleMenuClose();
+                  }}
+                >
+                  My Complaints
                 </MenuItem>
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
               </Menu>

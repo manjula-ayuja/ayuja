@@ -46,6 +46,7 @@ class User(Document):
     phone = StringField(required=True, unique=True)
     password_hash = StringField(required=True)
     firebaseUid = StringField()
+    address = StringField()
     emergency_contacts = ListField(StringField()) 
     family_members = ListField(StringField())    
     documents = ListField(DictField())             
@@ -114,7 +115,7 @@ class Booking(Document):
 class Complaint(Document):
     complaint_id = StringField(default=lambda: str(uuid.uuid4()), unique=True)
     resident_id = StringField(required=True)
-    booking_id = StringField()
+    booking = ReferenceField("Booking", required=False, reverse_delete_rule=CASCADE)
     category = StringField(required=True)  # e.g. service delay, staff issue
     status = StringField(choices=["open", "in-progress", "resolved", "closed"], default="open")
     attachments = ListField(StringField())  # S3 urls
