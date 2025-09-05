@@ -155,6 +155,7 @@ def register_user(data):
         logger.info("User saved in MongoDB: %s", user.to_mongo())
 
         # ✅ JWT Token (for your backend, not Firebase)
+
         token = create_access_token(
             identity=str(user.user_id),
             additional_claims={
@@ -162,6 +163,8 @@ def register_user(data):
                 "role": user.role
             }
         )
+        if isinstance(token, bytes):
+            token = token.decode("utf-8")
 
         # ✅ Prepare response
         user_details = {
@@ -212,7 +215,8 @@ def login_user(identifier, password):
             "role": user.role
         }
     )
-
+    if isinstance(token, bytes):
+        token = token.decode("utf-8")
     return {
         "message": "Login successful",
         "token": token,
