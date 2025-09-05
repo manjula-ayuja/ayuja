@@ -68,10 +68,10 @@ const ServiceSelectionScreen = () => {
   
   return (
     <>
-     <TopNavScreen/>
+   
    
     <SafeAreaView style={styles.container}>
-      
+    
       <Text style={styles.header}>Please Select Services</Text>
       <FlatList
         data={services}
@@ -80,6 +80,7 @@ const ServiceSelectionScreen = () => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 20 }}
       />
+      <TopNavScreen/>
     </SafeAreaView>
     </>
   );

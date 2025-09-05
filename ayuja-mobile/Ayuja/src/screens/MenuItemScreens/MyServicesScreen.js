@@ -5,7 +5,7 @@ import { View, Text, TouchableOpacity, StyleSheet, Image, ScrollView } from "rea
 import { useNavigation } from '@react-navigation/native';
 import girlImage from "../assests/servicescreenImages/girl.png";
 import boyImage from "../assests/servicescreenImages/man.png";
-import TopNavScreen from "./TopNavScreen";
+import TopNavScreen from "../ServicesScreen/TopNavScreen";
 const MyServicesScreen = () => {
      const navigation = useNavigation(); 
   const [selectedId, setSelectedId] = useState(null);
@@ -17,10 +17,15 @@ const MyServicesScreen = () => {
 
   const handleLogout = async () => {
     try {
-      // Clear auth/session data
-      await AsyncStorage.removeItem("authToken");
-
-      // Reset navigation stack → send to Login screen
+      // ✅ Clear web storage
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      sessionStorage.clear();
+      // If using React Native AsyncStorage (optional, skip in web)
+      if (typeof AsyncStorage !== "undefined") {
+        await AsyncStorage.removeItem("authToken");
+      }
+      setUser(null);
       navigation.reset({
         index: 0,
         routes: [{ name: "LoginScreen" }],
@@ -29,6 +34,10 @@ const MyServicesScreen = () => {
       console.error("Error during logout:", error);
     }
   };
+  
+
+
+
 
   return (
     <>

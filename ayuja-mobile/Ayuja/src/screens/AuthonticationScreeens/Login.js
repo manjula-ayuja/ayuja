@@ -67,7 +67,7 @@ export default function Login({ navigation }) {
       console.log("User role:", userRole);
 
       if (userRole === "resident") {
-        navigation.navigate("ResidentDashboard");
+        navigation.navigate("ServiceSelectionDashboard");
       } else if (userRole === "admin") {
         navigation.navigate("AdminDashboard");
       } else if (userRole === "superadmin") {

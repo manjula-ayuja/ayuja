@@ -18,11 +18,14 @@ import MedicineDiagnosticDelivery from "./src/screens/ServicesScreen/MedicineDia
 import EmergencyCareSupport from "./src/screens/ServicesScreen/EmergencyCareSupport";
 import DoctorVisitPickUpDrop from "./src/screens/ServicesScreen/DoctorVisitPickUpDrop";
 import SocialWellnessActivities from "./src/screens/ServicesScreen/SocialWellnessActivities";
-import MyServicesScreen from "./src/screens/ServicesScreen/MyServicesScreen";
-import RaiseComplaintScreen from "./src/screens/ServicesScreen/RaiseComplaint";
 import SOSScreen from "./src/screens/ServicesScreen/SOSScreen";
 import ComplaintHistoryScreen from "./src/screens/ServicesScreen/ComplaintHistoryScreen";
 import NotificationsScreen from "./src/screens/ServicesScreen/NotificationsScreen";
+
+// menuItems
+import MyServicesScreen from "./src/screens/MenuItemScreens/MyServicesScreen"
+import RaiseComplaintScreen from "./src/screens/MenuItemScreens/RaiseComplaint";
+import ProfileScreen from "./src/screens/MenuItemScreens/ProfileScreen";
 
 import PaymentMethodSelectionScreen from "./src/screens/PaymentScreens/SelectPaymentScreen";
 import BookingStatusScreen from "./src/screens/BookingAppointment/BookingStatusScreen";
@@ -34,7 +37,7 @@ export default function App() {
   return (
     <PaperProvider> 
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="ServiceSelectionDashboard" screenOptions={{headerShown: false}}>
+        <Stack.Navigator initialRouteName="WelcomeScreen" screenOptions={{headerShown: false}}>
           {/* Authontication Screens */}
         <Stack.Screen name="WelcomeScreen" component={WelcomeScreen} />
           <Stack.Screen name="Login" component={Login} />
@@ -53,11 +56,16 @@ export default function App() {
           <Stack.Screen name="EmergencyCareSupport" component={EmergencyCareSupport} />
           <Stack.Screen name="DoctorVisitPickUpDrop" component={DoctorVisitPickUpDrop} />
           <Stack.Screen name="SocialWellnessActivities" component={SocialWellnessActivities} />
-          <Stack.Screen name="BookedServices" component={MyServicesScreen} />
-          <Stack.Screen name="RaiseComplaint" component={RaiseComplaintScreen} />
+
           <Stack.Screen name="SOS" component={SOSScreen} />
           <Stack.Screen name="ComplaintHistory" component={ComplaintHistoryScreen} />
           <Stack.Screen name="Notifications" component={NotificationsScreen} />
+
+          {/* Menu item Screens */}
+          <Stack.Screen name="BookedServices" component={MyServicesScreen} />
+          <Stack.Screen name="RaiseComplaint" component={RaiseComplaintScreen} />
+          <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+          
           
           
           {/* Payment Method screens */}

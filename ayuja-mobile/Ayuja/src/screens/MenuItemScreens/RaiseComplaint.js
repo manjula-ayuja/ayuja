@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useNavigation } from '@react-navigation/native'; 
-import TopNavScreen from "./TopNavScreen";
+import TopNavScreen from "../ServicesScreen/TopNavScreen";
 const RaiseComplaintScreen = () => {
     const navigation = useNavigation(); 
   const [name, setName] = useState('');

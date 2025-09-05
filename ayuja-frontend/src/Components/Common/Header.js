@@ -16,26 +16,19 @@ import {
 import { useNavigate, useLocation } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import ayujalogo from "../Logos/Ayuja_Logo.jpg";
+import axios from "axios";
+
 
 const StyledAvatar = styled("div")`
-  font-family: "Roboto";
-  letter-spacing: 0.1px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
+  font-family: "Roboto";letter-spacing: 0.1px;display: flex;
+  align-items: center;justify-content: center;width: 40px;height: 40px;
   background-color: rgba(232, 222, 248, 1);
-  color: black;
-  font-size: 20px;
-  font-weight: 500;
-  border-radius: 50%;
+  color: black;font-size: 20px;font-weight: 500;border-radius: 50%;
 `;
 
 function Header() {
   const navigate = useNavigate();
   const location = useLocation();
-
   const [selected, setSelected] = useState("");
   const [user, setUser] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -50,6 +43,47 @@ function Header() {
     }
   }, [location]);
 
+
+  const EMERGENCY_API = process.env.REACT_APP_EMERGENCY_API;
+  const handleRaiseEmergency = async () => {
+    if (!user) {
+      alert("User not found. Please log in again.");
+      return;
+    }
+
+    try {
+      navigator.geolocation.getCurrentPosition(
+        async (pos) => {
+          const geo_location = {
+            lat: pos.coords.latitude,
+            lng: pos.coords.longitude,
+          };
+
+          const res = await axios.post(`${EMERGENCY_API}`, {
+            resident_id: user.user_id,
+            geo_location,
+          });
+
+          alert(res.data.message);
+        },
+        (err) => {
+          alert("Unable to fetch location. Please enable GPS.");
+          console.error(err);
+        }
+      );
+    } catch (err) {
+      console.error("Error raising emergency:", err);
+      alert("Failed to raise emergency");
+    }
+  };
+
+
+
+
+
+
+
+
   const handleChange = (event, newValue) => {
     if (newValue !== null) setSelected(newValue);
   };
@@ -57,6 +91,7 @@ function Header() {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    sessionStorage.clear();
     setUser(null);
     handleMenuClose();
     navigate("/Login");
@@ -76,13 +111,13 @@ function Header() {
     <AppBar position="static" sx={{ backgroundColor: "#fff", color: "#153f4b" }}>
       <Toolbar sx={{ justifyContent: "space-between" }}>
         {/* Logo */}
-        <Box display="flex" alignItems="center" sx={{ mb: 3, mt: 3 }}>
+        <Box display="flex" alignItems="center" sx={{ mb: 3, mt: 3, }}>
           <img
             src={ayujalogo}
             alt="Ayuja Logo"
             width={150}
             height={48}
-            style={{ marginRight: 10 }}
+            style={{ marginRight: 10,}}
           />
         </Box>
 
@@ -154,9 +189,24 @@ function Header() {
             Contact Us
           </Button>
 
-          {/* ✅ Conditional rendering */}
-          {user ? (
-            <Box sx={{ display: "flex", alignItems: "center", ml: 50 }}>
+
+            {user ? (
+              <>
+              <IconButton
+                onClick={() => {
+                  const confirmEmergency = window.confirm("🚨 Are you sure you want to raise an emergency?");
+                  if (confirmEmergency) {
+                    handleRaiseEmergency();
+                  }
+                }}
+                sx={{backgroundColor: "red",color: "white",fontWeight: "bold",fontSize: "14px",width: 40,height: 40,borderRadius: "50%",
+                  "&:hover": {backgroundColor: "darkred",},}}
+              >
+                SOS
+              </IconButton>
+
+              <Box  sx={{ display: "flex", alignItems: "center", ml: 3 }}>
+              {/* User Avatar */}
               <StyledAvatar>{user?.name?.charAt(0) || "U"}</StyledAvatar>
               <Typography
                 variant="body1"
@@ -165,7 +215,7 @@ function Header() {
                 {user.name}
               </Typography>
 
-              {/* ✅ Profile Menu */}
+              {/* Profile Menu */}
               <IconButton onClick={handleMenuOpen} sx={{ ml: 1 }}>
                 <MenuIcon fontSize="large" />
               </IconButton>
@@ -182,14 +232,7 @@ function Header() {
                 >
                   Profile
                 </MenuItem>
-                <MenuItem
-                  onClick={() => {
-                    navigate("/sos");
-                    handleMenuClose();
-                  }}
-                >
-                  SOS
-                </MenuItem>
+
                 <MenuItem
                   onClick={() => {
                     navigate("/my-bookings");
@@ -208,7 +251,8 @@ function Header() {
                 </MenuItem>
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
               </Menu>
-            </Box>
+              </Box>
+              </>
           ) : (
             <ToggleButtonGroup
               value={selected}

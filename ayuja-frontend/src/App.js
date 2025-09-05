@@ -3,6 +3,11 @@
 
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
+import SessionTimeoutWrapper from "./Components/SessionTimeoutWrapper";
+import ProtectedRoute from "./Components/ProtectedRoute"; 
+
+
 import Layout from "./Components/Layout";
 import HomePage from "./Components/HomePage/HomePage";
 import AboutUs from "./Components/HomePage/HomeSections/Aboutus";
@@ -43,29 +48,27 @@ import SocialWellnesActivitiesScreen from "./Components/ServiceScreens/SocialWel
 // payment selection screens
 import PaymentMethodSelection from "./Components/PaymentsScreens/SelectPaymentScreen";
 
-
-
-
 // Resident screens
 import ResidentDashboard from "./Components/HomePage/ResidentScreens/ResidentDashboard";
 
 // admin dashboard screens
 import AdminDashboard from "./Components/AdminDashBoardScreens/AdminDashboard";
+import EmergencyDashboard from "./Components/AdminDashBoardScreens/EmergencyDashboard"
 
 
 // menuitems screens
 import MyBookingsScreen from "./Components/HomePage/MenuItemScreens/MyBookings";
-import SOSScreen from "./Components/HomePage/MenuItemScreens/SOS";
 import ProfilePage from "./Components/HomePage/MenuItemScreens/ProfilePage";
 import MyComplaintsScreen from "./Components/HomePage/MenuItemScreens/MyComplaints";
 const App = () => {
+
   return (
     <Router> 
-      
+       <SessionTimeoutWrapper>
         <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<HomePage/>} />
-          {/* <Route path="/home-page" element={<HomePage />} /> */}
+
 
           {/* Home page screens */}
           <Route path="/serviceweprovide" element={<ServiceScreen/>}/>
@@ -83,47 +86,47 @@ const App = () => {
           <Route path="/social-wellness" element={<SocialWellness/>}/>
           <Route path="/emergency-care" element={<EmergencyCare/>}/>
           
-
            {/* AuthonticationScreens */}
           <Route path="/Login" element={<Login/>}/>
           <Route path="/Register" element={<Register/>}/>
           <Route path="/ForgotPassword" element={<ForgotPassword/>}/>
-
-          {/* Resident screens */}
-          <Route path="/resident-dashboard" element={<ResidentDashboard/>}/>
-
-          {/* booking screens */}
-          <Route path="/book-appointment" element={<BookAppointment/>}/>
-          <Route path="/booking-status" element={<BookingStatusScreen/>}/>
-
       
+          {/* Resident screens */}
+          <Route element={<ProtectedRoute />}>
+            <Route path="/resident-dashboard" element={<ResidentDashboard/>}/>
 
-          {/* ServiceSelectionScreen */}
-          <Route path="/services" element={<ServiceSelectionScreen/>}/>
-          <Route path="/elder-child-care" element={<ElderlyChildCareScreen/>}/>
-          <Route path="/nursingPhysiotherapy" element={<NursingPysiotherapyScreen/>}/>
-          <Route path="/medicine-diagnostic" element={<MedicineDiagnosticDeliveryScreen/>}/>
-          <Route path="/emergencycare" element={<EmergencyCareSupportScreen/>}/>
-          <Route path="/doctor-visit" element={<DoctorVisitPickupDropScreen/>}/>
-          <Route path="/social-wellness-activities" element={<SocialWellnesActivitiesScreen/>}/>
+            {/* booking screens */}
+            <Route path="/book-appointment" element={<BookAppointment/>}/>
+            <Route path="/booking-status" element={<BookingStatusScreen/>}/>
 
-          {/* payment selection screens */}
-          <Route path="/select-payment-method" element={<PaymentMethodSelection/>}/>
+            {/* ServiceSelectionScreen */}
+            <Route path="/services" element={<ServiceSelectionScreen/>}/>
+            <Route path="/elder-child-care" element={<ElderlyChildCareScreen/>}/>
+            <Route path="/nursingPhysiotherapy" element={<NursingPysiotherapyScreen/>}/>
+            <Route path="/medicine-diagnostic" element={<MedicineDiagnosticDeliveryScreen/>}/>
+            <Route path="/emergencycare" element={<EmergencyCareSupportScreen/>}/>
+            <Route path="/doctor-visit" element={<DoctorVisitPickupDropScreen/>}/>
+            <Route path="/social-wellness-activities" element={<SocialWellnesActivitiesScreen/>}/>
 
-          {/* menuitems screens */}
-          <Route path="/my-bookings" element={<MyBookingsScreen/>}/>
-          <Route path="/sos" element={<SOSScreen/>}/>
-          <Route path="/profile-details" element={<ProfilePage/>}/>
-          <Route path="/my-complaints" element={<MyComplaintsScreen/>}/>
-          
-          
-          {/* AdminDashbaord */}
-          <Route path="/admin-dashboard" element={<AdminDashboard/>}/>
+            {/* payment selection screens */}
+            <Route path="/select-payment-method" element={<PaymentMethodSelection/>}/>
 
+            {/* menuitems screens */}
+            <Route path="/my-bookings" element={<MyBookingsScreen/>}/>
+            <Route path="/profile-details" element={<ProfilePage/>}/>
+            <Route path="/my-complaints" element={<MyComplaintsScreen/>}/>
+            
+            {/* AdminDashbaord */}
+            <Route path="/admin-dashboard" element={<AdminDashboard/>}/>
+            <Route path="/emergency-dashboard" element={<EmergencyDashboard/>}/>
           </Route>
-        </Routes>
+        </Route>
+          </Routes>
+        </SessionTimeoutWrapper>
     </Router>
   );
 };
 
 export default App;
+
+

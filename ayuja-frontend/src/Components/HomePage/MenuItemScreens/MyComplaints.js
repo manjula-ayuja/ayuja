@@ -130,9 +130,6 @@ const MyComplaints = () => {
             <strong>Category:</strong> {c.category}
           </Typography>
           <Typography variant="body1">
-            <strong>Booking ID:</strong> {c.booking?.booking_id || "-"}
-          </Typography>
-          <Typography variant="body1">
             <strong>Name:</strong> {c.booking?.name || "-"}
           </Typography>
           <Typography variant="body1">
@@ -140,9 +137,6 @@ const MyComplaints = () => {
           </Typography>
           <Typography variant="body1">
             <strong>Gender:</strong> {c.booking?.gender || "-"}
-          </Typography>
-          <Typography variant="body1">
-            <strong>Service:</strong> {c.booking?.service_type || "-"}
           </Typography>
           <Typography variant="body1">
             <strong>Date:</strong>{" "}
