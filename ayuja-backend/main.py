@@ -77,8 +77,9 @@ from starlette.middleware.wsgi import WSGIMiddleware
 
 from app.routes.auth_routes import auth_blueprint
 from app.routes.booking_routes import booking_blueprint
-from app.routes.complaints_routes import complaint_blueprint
 from app.routes import emergency_routes_fastapi
+from app.routes import complaints_routes_fastapi
+from app.routes import booking_routes_fastapi
 
 load_dotenv()
 
@@ -103,7 +104,6 @@ jwt = JWTManager(flask_app)
 # Register Flask blueprints
 flask_app.register_blueprint(auth_blueprint, url_prefix="/auth")
 flask_app.register_blueprint(booking_blueprint, url_prefix="/booking")
-flask_app.register_blueprint(complaint_blueprint, url_prefix="/complaint")
 
 # Flask global error handler
 @flask_app.errorhandler(Exception)
@@ -129,6 +129,9 @@ fastapi_app.mount("/api/flask", WSGIMiddleware(flask_app))
 
 
 fastapi_app.include_router(emergency_routes_fastapi.router, prefix="/api/emergency")
+fastapi_app.include_router(complaints_routes_fastapi.router, prefix="/api/complaint")
+fastapi_app.include_router(booking_routes_fastapi.router, prefix="/api/booking")
+
 
 # FastAPI global error handler
 @fastapi_app.exception_handler(Exception)

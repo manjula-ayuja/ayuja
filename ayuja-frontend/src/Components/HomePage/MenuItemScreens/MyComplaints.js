@@ -12,12 +12,14 @@ import {
   Avatar,
   CircularProgress,
   Box,
-  Grid,
+  Grid,IconButton,
 } from "@mui/material";
 import manImg from "../../Logos/GenderImages/man.png";
 import womanImg from "../../Logos/GenderImages/girl.png";
-
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import { useNavigate } from "react-router-dom";
 const MyComplaints = () => {
+    const navigate = useNavigate();
   const [complaints, setComplaints] = useState([]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
@@ -73,6 +75,10 @@ const MyComplaints = () => {
     <>
 
             <Container maxWidth="md" sx={{ py: 4, mb: 10 }}>
+            <IconButton onClick={() => navigate(-1)}>
+            <ArrowBackIosNewIcon />
+            </IconButton>
+
               <Typography
                 variant="h4"
                 align="center"

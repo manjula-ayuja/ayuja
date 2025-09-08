@@ -54,7 +54,7 @@ import ResidentDashboard from "./Components/HomePage/ResidentScreens/ResidentDas
 // admin dashboard screens
 import AdminDashboard from "./Components/AdminDashBoardScreens/AdminDashboard";
 import EmergencyDashboard from "./Components/AdminDashBoardScreens/EmergencyDashboard"
-
+import ComplaintsDashboard from "./Components/AdminDashBoardScreens/ComplaintsDashboard";
 
 // menuitems screens
 import MyBookingsScreen from "./Components/HomePage/MenuItemScreens/MyBookings";
@@ -119,6 +119,10 @@ const App = () => {
             {/* AdminDashbaord */}
             <Route path="/admin-dashboard" element={<AdminDashboard/>}/>
             <Route path="/emergency-dashboard" element={<EmergencyDashboard/>}/>
+            <Route path="/complaints-dashboard" element={<ComplaintsDashboard/>}/>
+
+
+
           </Route>
         </Route>
           </Routes>

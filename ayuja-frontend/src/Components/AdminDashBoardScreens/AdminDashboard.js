@@ -1,86 +1,127 @@
 
+
 import React, { useEffect, useState } from "react";
 import {
-  Table, TableBody, TableCell, TableContainer, TableHead, TableRow,
-  Paper, Typography, Box,
+  Box, Typography, Table, TableContainer, TableHead,
+  TableRow, TableBody, TableCell, Paper, Link
 } from "@mui/material";
-
+import Footer from "../Common/Footer"
+const PRIMARY_BG = "#eaf6f6";
+const ACCENT_GREEN = "#21816b";
 export default function AdminDashboard() {
   const [bookings, setBookings] = useState([]);
+  const totalBookingApi = process.env.REACT_APP_WS_BOOKINGS; 
 
+  // WebSocket connection for bookings
   useEffect(() => {
-    const ws = new WebSocket("ws://localhost:8000/ws/bookings");
+    // const ws = new WebSocket("ws://localhost:5001/api/booking/ws/booking");
+    const ws = new WebSocket(totalBookingApi);
 
-    ws.onopen = () => console.log("WebSocket opened");
     ws.onmessage = (event) => {
-      console.log("Received data:", event.data);
       try {
-        const parsedData = JSON.parse(event.data);
-        if (Array.isArray(parsedData)) {
-          setBookings(parsedData);
-        } else {
-          console.warn("Received data is not an array");
-        }
-      } catch (err) {
-        console.error("Error parsing WebSocket data:", err);
+        const data = JSON.parse(event.data);
+        if (Array.isArray(data)) setBookings(data);
+      } catch (e) {
+        console.error("Bookings WS message parse error", e);
       }
-      ws.send("next"); // Request next update
     };
-    ws.onerror = (error) => {
-      console.error("WebSocket error:", error);
-    };
-    ws.onclose = () => console.log("WebSocket closed");
 
+    ws.onclose = () => console.log("Bookings WS closed");
+    ws.onerror = (e) => console.error("Bookings WS error", e);
+
+    // Cleanup on unmount
     return () => ws.close();
   }, []);
 
-  return (
-    <Box sx={{ padding: 3 }}>
-      <Typography variant="h4" gutterBottom>
-        Admin Bookings Dashboard
-      </Typography>
-
-      <TableContainer component={Paper} sx={{ maxHeight: 600 }}>
-        <Table stickyHeader aria-label="bookings table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Booking ID</TableCell>
-              <TableCell>Resident ID</TableCell>
-              <TableCell>Service Type</TableCell>
-              <TableCell>Date</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>Staff ID</TableCell>
-              <TableCell>Notes</TableCell>
-              <TableCell>Invoice URL</TableCell>
-              <TableCell>Created At</TableCell>
-            </TableRow>
-          </TableHead>
-
-          <TableBody>
-            {bookings.map((b, i) => (
-              <TableRow key={i} hover>
-                <TableCell>{b.booking_id}</TableCell>
-                <TableCell>{b.resident_id}</TableCell>
-                <TableCell>{b.service_type}</TableCell>
-                <TableCell>{b.date}</TableCell>
-                <TableCell>{b.status}</TableCell>
-                <TableCell>{b.staff_id}</TableCell>
-                <TableCell>{b.notes}</TableCell>
-                <TableCell>
-                  {b.invoice_url ? (
-                    <a href={b.invoice_url} target="_blank" rel="noopener noreferrer">
-                      Invoice Link
-                    </a>
-                  ) : (
-                    "N/A"
-                  )}
-                </TableCell>
-                <TableCell>{b.created_at}</TableCell>
-              </TableRow>
+  const DataTable1 = ({ data }) => (
+    <TableContainer component={Paper} sx={{ maxHeight: 600 }}>
+      <Table stickyHeader>
+        <TableHead>
+          <TableRow>
+            {[
+              "Booking ID",
+              "Resident ID",
+              "Service Type",
+              "Date",
+              "Status",
+              "Staff ID",
+              "Notes",
+              "Invoice URL",
+              "Created At",
+            ].map((label) => (
+              <TableCell key={label}>{label}</TableCell>
             ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {data.map((row, idx) => (
+            <TableRow key={idx} hover>
+              <TableCell>{row.booking_id}</TableCell>
+              <TableCell>{row.resident_id ?? "-"}</TableCell>
+              <TableCell>{row.service_type}</TableCell>
+              <TableCell>{row.date}</TableCell>
+              <TableCell>{row.status}</TableCell>
+              <TableCell>{row.staff_id ?? "-"}</TableCell>
+              <TableCell>{row.notes ?? "-"}</TableCell>
+              <TableCell>
+                {row.invoice_url ? (
+                  <Link href={row.invoice_url} target="_blank" rel="noopener noreferrer">
+                    View Link
+                  </Link>
+                ) : (
+                  "-"
+                )}
+              </TableCell>
+              <TableCell>{row.created_at}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+  const DataTable = ({ data }) => (
+    <TableContainer component={Paper} sx={{ maxHeight: 600 }}>
+      <Table stickyHeader>
+        <TableHead>
+          <TableRow>
+            {["Name", "Age", "Service Type", "Gender", "Date","Payment Amount", "Payment Status"].map(
+              (label) => <TableCell key={label}>{label}</TableCell>
+            )}
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {data.map((row, idx) => (
+            <TableRow key={idx} hover>
+              <TableCell>{row.resident_name ?? "-"}</TableCell>
+              <TableCell>{row.age ?? "-"}</TableCell>
+              <TableCell>{row.service_type ?? "-"}</TableCell>
+              <TableCell>{row.gender ?? "-"}</TableCell>
+              <TableCell>{row.date ? new Date(row.date).toLocaleString() : "-"}</TableCell>
+              <TableCell>{row.payment_amount ?? "-"}</TableCell>
+              <TableCell>{row.payment_status ?? "-"}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+  return (
+    <>
+    <Box sx={{ bgcolor: PRIMARY_BG, py: 4 ,}}>
+      <Box sx={{ maxWidth: 1200, mx: "auto", px: 2 }}>
+        <Typography variant="h3" fontWeight="800" sx={{ color: ACCENT_GREEN }}>
+          Admin Dashboard
+        </Typography>
+        <Typography sx={{ mb: 2, mt: 1, color: "#555" }}>
+          Monitor and manage all bookings here.
+        </Typography>
+
+        <DataTable data={bookings} />
+      </Box>
+
     </Box>
+    <Footer/>
+    </>
+
   );
 }

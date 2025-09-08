@@ -18,8 +18,7 @@ const MyServicesScreen = () => {
   const handleLogout = async () => {
     try {
       // ✅ Clear web storage
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
+      localStorage.clear();
       sessionStorage.clear();
       // If using React Native AsyncStorage (optional, skip in web)
       if (typeof AsyncStorage !== "undefined") {

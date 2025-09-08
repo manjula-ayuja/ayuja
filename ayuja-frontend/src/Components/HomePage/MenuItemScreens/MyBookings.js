@@ -2,12 +2,15 @@
 import React, { useEffect, useState } from "react";
 import {
   Box,Typography,Card,CardContent,Grid,Button,Dialog,DialogTitle,DialogContent,DialogActions,
-  TextField,Rating,Link,Container,MenuItem,Select,FormControl,InputLabel, Avatar,CardHeader,
+  TextField,Rating,Link,Container,MenuItem,Select,FormControl,InputLabel, Avatar,CardHeader,IconButton
 } from "@mui/material";
 import Footer from "../../Common/Footer";
 import manImg from "../../Logos/GenderImages/man.png";
 import womanImg from "../../Logos/GenderImages/girl.png";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import { useNavigate } from "react-router-dom";
 const MyBookingsScreen = () => {
+    const navigate = useNavigate();
   const [bookings, setBookings] = useState([]);
   const [user, setUser] = useState(null);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -100,6 +103,10 @@ const MyBookingsScreen = () => {
   return (
     <>
       <Container maxWidth="md" sx={{ py: 4, mb: 10 }}>
+      <IconButton onClick={() => navigate(-1)}>
+<ArrowBackIosNewIcon />
+</IconButton>
+
         <Typography
           variant="h4"
           align="center"
@@ -268,3 +275,4 @@ const MyBookingsScreen = () => {
 };
 
 export default MyBookingsScreen;
+

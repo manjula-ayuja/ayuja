@@ -1,24 +1,16 @@
 
 
 import React, { useEffect, useState } from "react";
-import {
-  Container,
-  Typography,
-  Card,
-  CardContent,
-  CardActions,
-  Button,
-  Grid,
-  List,
-  ListItem,
-  ListItemText,
-  Dialog,
-  DialogContent,
+import {Container,Typography,Card,CardContent,CardActions,Button,Grid,List,ListItem,ListItemText,Dialog,DialogContent,IconButton,
 } from "@mui/material";
+import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
+import { useNavigate } from "react-router-dom";
+import Footer from "../Common/Footer"
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
 const EmergencyDashboard = () => {
+   const navigate = useNavigate();
   const [emergencies, setEmergencies] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
 
@@ -55,7 +47,14 @@ const EmergencyDashboard = () => {
   };
 
   return (
-    <Container maxWidth="lg" sx={{ py: 4 }}>
+    <>
+    <Container maxWidth="lg" sx={{ py: 4, }}>
+
+      <IconButton onClick={() => navigate(-1)}>
+      <ArrowBackIosNewIcon />
+      </IconButton>
+
+
       <Typography variant="h4" gutterBottom align="center" fontWeight="bold">
          Active Emergencies
       </Typography>
@@ -186,7 +185,11 @@ const EmergencyDashboard = () => {
           )}
         </DialogContent>
       </Dialog>
+    
     </Container>
+
+      <Footer/>
+    </>
   );
 };
 

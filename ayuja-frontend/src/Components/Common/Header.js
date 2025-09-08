@@ -1,4 +1,5 @@
 
+
 import React, { useState, useEffect } from "react";
 import {
   AppBar,
@@ -18,12 +19,19 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ayujalogo from "../Logos/Ayuja_Logo.jpg";
 import axios from "axios";
 
-
 const StyledAvatar = styled("div")`
-  font-family: "Roboto";letter-spacing: 0.1px;display: flex;
-  align-items: center;justify-content: center;width: 40px;height: 40px;
+  font-family: "Roboto";
+  letter-spacing: 0.1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
   background-color: rgba(232, 222, 248, 1);
-  color: black;font-size: 20px;font-weight: 500;border-radius: 50%;
+  color: black;
+  font-size: 20px;
+  font-weight: 500;
+  border-radius: 50%;
 `;
 
 function Header() {
@@ -43,8 +51,8 @@ function Header() {
     }
   }, [location]);
 
-
   const EMERGENCY_API = process.env.REACT_APP_EMERGENCY_API;
+
   const handleRaiseEmergency = async () => {
     if (!user) {
       alert("User not found. Please log in again.");
@@ -77,20 +85,12 @@ function Header() {
     }
   };
 
-
-
-
-
-
-
-
   const handleChange = (event, newValue) => {
     if (newValue !== null) setSelected(newValue);
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    localStorage.clear();
     sessionStorage.clear();
     setUser(null);
     handleMenuClose();
@@ -111,13 +111,13 @@ function Header() {
     <AppBar position="static" sx={{ backgroundColor: "#fff", color: "#153f4b" }}>
       <Toolbar sx={{ justifyContent: "space-between" }}>
         {/* Logo */}
-        <Box display="flex" alignItems="center" sx={{ mb: 3, mt: 3, }}>
+        <Box display="flex" alignItems="center" sx={{ mb: 3, mt: 3 }}>
           <img
             src={ayujalogo}
             alt="Ayuja Logo"
             width={150}
             height={48}
-            style={{ marginRight: 10,}}
+            style={{ marginRight: 10 }}
           />
         </Box>
 
@@ -136,7 +136,7 @@ function Header() {
           </Button>
 
           <Button
-            onClick={() => navigate(user ? "/services" : "/serviceweprovide")} 
+            onClick={() => navigate(user ? "/services" : "/serviceweprovide")}
             sx={{
               textTransform: "none",
               color: isActive(user ? "/services" : "/serviceweprovide")
@@ -189,23 +189,35 @@ function Header() {
             Contact Us
           </Button>
 
+          {/* Resident-only SOS button */}
+          {user?.role === "resident" && (
+            <IconButton
+              onClick={() => {
+                const confirmEmergency = window.confirm(
+                  " Are you sure you want to raise an emergency?"
+                );
+                if (confirmEmergency) {
+                  handleRaiseEmergency();
+                }
+              }}
+              sx={{
+                backgroundColor: "red",
+                color: "white",
+                fontWeight: "bold",
+                fontSize: "14px",
+                width: 40,
+                height: 40,
+                borderRadius: "50%",
+                "&:hover": { backgroundColor: "darkred" },
+              }}
+            >
+              SOS
+            </IconButton>
+          )}
 
-            {user ? (
-              <>
-              <IconButton
-                onClick={() => {
-                  const confirmEmergency = window.confirm("🚨 Are you sure you want to raise an emergency?");
-                  if (confirmEmergency) {
-                    handleRaiseEmergency();
-                  }
-                }}
-                sx={{backgroundColor: "red",color: "white",fontWeight: "bold",fontSize: "14px",width: 40,height: 40,borderRadius: "50%",
-                  "&:hover": {backgroundColor: "darkred",},}}
-              >
-                SOS
-              </IconButton>
-
-              <Box  sx={{ display: "flex", alignItems: "center", ml: 3 }}>
+          {/* User Menu */}
+          {user ? (
+            <Box sx={{ display: "flex", alignItems: "center", ml: 3 }}>
               {/* User Avatar */}
               <StyledAvatar>{user?.name?.charAt(0) || "U"}</StyledAvatar>
               <Typography
@@ -233,26 +245,60 @@ function Header() {
                   Profile
                 </MenuItem>
 
-                <MenuItem
-                  onClick={() => {
-                    navigate("/my-bookings");
-                    handleMenuClose();
-                  }}
-                >
-                  My Bookings
-                </MenuItem>
-                <MenuItem
-                  onClick={() => {
-                    navigate("/my-complaints");
-                    handleMenuClose();
-                  }}
-                >
-                  My Complaints
-                </MenuItem>
+                {user?.role === "resident" && [
+                    <MenuItem
+                      key="book -appointment"
+                      onClick={() => {
+                        navigate("/book-appointment");
+                        handleMenuClose();
+                      }}
+                    >
+                      Book An Appointment
+                  </MenuItem>,
+                  <MenuItem
+                    key="my-bookings"
+                    onClick={() => {
+                      navigate("/my-bookings");
+                      handleMenuClose();
+                    }}
+                  >
+                    My Bookings
+                  </MenuItem>,
+                  <MenuItem
+                    key="my-complaints"
+                    onClick={() => {
+                      navigate("/my-complaints");
+                      handleMenuClose();
+                    }}
+                  >
+                    My Complaints
+                  </MenuItem>,
+                ]}
+
+                {user?.role === "admin" && [
+                  <MenuItem
+                    key="complaints"
+                    onClick={() => {
+                      navigate("/complaints-dashboard");
+                      handleMenuClose();
+                    }}
+                  >
+                    Complaints
+                  </MenuItem>,
+                  <MenuItem
+                    key="emergencies"
+                    onClick={() => {
+                      navigate("/emergency-dashboard");
+                      handleMenuClose();
+                    }}
+                  >
+                    Emergencies
+                  </MenuItem>,
+                ]}
+
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
               </Menu>
-              </Box>
-              </>
+            </Box>
           ) : (
             <ToggleButtonGroup
               value={selected}
