@@ -878,7 +878,7 @@ const BookAppointment = () => {
 
 
 // 1️⃣ Process payment first
-const paymentRes = await fetch("http://localhost:5001/api/booking/process-payment", {
+const paymentRes = await fetch("http://localhost:5001/api/flask/booking/process-payment", {
   method: "POST",
   headers: { "Content-Type": "application/json" },
   body: JSON.stringify({
