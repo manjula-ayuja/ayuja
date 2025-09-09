@@ -135,7 +135,7 @@ function Header() {
             Home
           </Button>
 
-          <Button
+          {/* <Button
             onClick={() => navigate(user ? "/services" : "/serviceweprovide")}
             sx={{
               textTransform: "none",
@@ -151,7 +151,38 @@ function Header() {
             }}
           >
             Services
-          </Button>
+          </Button> */}
+          <Button
+  onClick={() =>
+    navigate(
+      user?.role === "resident" ? "/services" : "/serviceweprovide"
+    )
+  }
+  sx={{
+    textTransform: "none",
+    color:
+      isActive(
+        user?.role === "resident" ? "/services" : "/serviceweprovide"
+      )
+        ? "teal"
+        : "#121212",
+    fontWeight:
+      isActive(
+        user?.role === "resident" ? "/services" : "/serviceweprovide"
+      )
+        ? "bold"
+        : "normal",
+    borderBottom:
+      isActive(
+        user?.role === "resident" ? "/services" : "/serviceweprovide"
+      )
+        ? "2px solid teal"
+        : "none",
+  }}
+>
+  Services
+</Button>
+
 
           <Button
             onClick={() => navigate("/aboutus")}

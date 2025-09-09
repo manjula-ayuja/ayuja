@@ -30,6 +30,7 @@ function HomePage() {
       <WhyAyuja/>
       <SubscriptionPlans/>
       <TestimonialsMissionFooter/>
+      <FloatingAppointmentButton/>
     </div>
   );
 }
@@ -82,7 +83,7 @@ function HomePage() {
             <Box display="flex" flexWrap="wrap">
               <Button
                 variant="contained"
-                onClick={() => navigate("/services")}
+                onClick={() => navigate("/serviceweprovide")}
                 sx={{
                   background: "linear-gradient(to right, seagreen, #22577A)",
                   borderRadius: "24px",
@@ -702,10 +703,90 @@ const inviteOptions = [
       <div>
       <Footer />
     </div>
-
-
     </Box>
   );
 }
+
+
+
+
+
+// function FloatingAppointmentButton() {
+//   const navigate = useNavigate();
+
+//   return (
+//     <Button
+//       variant="contained"
+//       onClick={() => navigate("/book-appointment")}
+//       sx={{
+//         position: "fixed",
+//         right: 24,
+//         bottom: 50,
+//         zIndex: 1000,
+//         backgroundColor: "#087c7c",
+//         color: "#fff",
+//         borderRadius: "50px",
+//         px: 3,
+//         py: 1.5,
+//         textTransform: "none",
+//         fontWeight: "bold",
+//         "&:hover": {
+//           backgroundColor: "#0a6a7a",
+//         },
+//       }}
+//     >
+//       Book Appointment
+//     </Button>
+//   );
+// }
+
+
+function FloatingAppointmentButton() {
+  const navigate = useNavigate();
+
+  return (
+    <Button
+      variant="contained"
+      onClick={() => navigate("/book-appointment")}
+      sx={{
+        position: "fixed",
+        right: 24,
+        zIndex: 1000,
+        backgroundColor: "#087c7c",
+        color: "#fff",
+        borderRadius: "50px",
+        px: 3,
+        py: 1.5,
+        textTransform: "none",
+        fontWeight: "bold",
+        "&:hover": {
+          backgroundColor: "#0a6a7a",
+        },
+        animation: "scrollDown 10s linear infinite",
+      }}
+    >
+      Book Appointment
+
+      {/* Keyframes for continuous scroll */}
+      <style>
+        {`
+          @keyframes scrollDown {
+            0% {
+              top: 0%;
+            }
+            100% {
+              top: 85%; /* adjust how far down it goes */
+            }
+          }
+        `}
+      </style>
+    </Button>
+  );
+}
+
+
+
+
+
 
 export default HomePage;

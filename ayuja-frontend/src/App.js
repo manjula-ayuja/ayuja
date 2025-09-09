@@ -90,13 +90,15 @@ const App = () => {
           <Route path="/Login" element={<Login/>}/>
           <Route path="/Register" element={<Register/>}/>
           <Route path="/ForgotPassword" element={<ForgotPassword/>}/>
+
+          <Route path="/book-appointment" element={<BookAppointment/>}/>
       
           {/* Resident screens */}
           <Route element={<ProtectedRoute />}>
             <Route path="/resident-dashboard" element={<ResidentDashboard/>}/>
 
             {/* booking screens */}
-            <Route path="/book-appointment" element={<BookAppointment/>}/>
+           
             <Route path="/booking-status" element={<BookingStatusScreen/>}/>
 
             {/* ServiceSelectionScreen */}
