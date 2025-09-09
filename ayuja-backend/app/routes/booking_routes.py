@@ -98,7 +98,7 @@ def process_payment():
         "method": method,
         "details": details,
         "transaction_id": transaction_id,
-        "timestamp": datetime.datetime.now().isoformat()
+        "timestamp": datetime.now().isoformat()
     })
     
     
