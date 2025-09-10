@@ -139,4 +139,39 @@ def submit_feedback(booking_id):
         return jsonify({"message": "Feedback submitted successfully"}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-   
+
+
+@booking_blueprint.route("/reschedule-bookings/<booking_id>", methods=["PUT"])
+def reschedule_booking(booking_id):
+    data = request.json
+    try:
+        booking = Booking.objects(booking_id=booking_id).first()
+        if not booking:
+            return jsonify({"error": "Booking not found"}), 404
+
+        # Update booking date & notes
+        if "date" in data:
+            booking.date = datetime.fromisoformat(data["date"])
+        if "notes" in data:
+            booking.notes = data["notes"]
+
+        booking.status = "rescheduled"  # reset status if needed
+        booking.save()
+
+        return jsonify({"message": "Booking rescheduled successfully!"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+    
+
+@booking_blueprint.route("/cancel-booking/<booking_id>", methods=["PUT"])
+def cancel_booking(booking_id):
+    booking = Booking.objects(booking_id=booking_id).first()
+    if not booking:
+        return jsonify({"error": "Booking not found"}), 404
+
+    if booking.status == "cancelled":
+        return jsonify({"error": "Booking already cancelled"}), 400
+
+    booking.status = "cancelled"
+    booking.save()
+    return jsonify({"message": "Booking cancelled successfully", "booking": booking.to_json()}), 200

@@ -33,52 +33,7 @@ export default function AdminDashboard() {
     return () => ws.close();
   }, []);
 
-  const DataTable1 = ({ data }) => (
-    <TableContainer component={Paper} sx={{ maxHeight: 600 }}>
-      <Table stickyHeader>
-        <TableHead>
-          <TableRow>
-            {[
-              "Booking ID",
-              "Resident ID",
-              "Service Type",
-              "Date",
-              "Status",
-              "Staff ID",
-              "Notes",
-              "Invoice URL",
-              "Created At",
-            ].map((label) => (
-              <TableCell key={label}>{label}</TableCell>
-            ))}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {data.map((row, idx) => (
-            <TableRow key={idx} hover>
-              <TableCell>{row.booking_id}</TableCell>
-              <TableCell>{row.resident_id ?? "-"}</TableCell>
-              <TableCell>{row.service_type}</TableCell>
-              <TableCell>{row.date}</TableCell>
-              <TableCell>{row.status}</TableCell>
-              <TableCell>{row.staff_id ?? "-"}</TableCell>
-              <TableCell>{row.notes ?? "-"}</TableCell>
-              <TableCell>
-                {row.invoice_url ? (
-                  <Link href={row.invoice_url} target="_blank" rel="noopener noreferrer">
-                    View Link
-                  </Link>
-                ) : (
-                  "-"
-                )}
-              </TableCell>
-              <TableCell>{row.created_at}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  );
+  
   const DataTable = ({ data }) => (
     <TableContainer component={Paper} sx={{ maxHeight: 600 }}>
       <Table stickyHeader>

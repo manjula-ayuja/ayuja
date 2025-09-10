@@ -67,9 +67,15 @@ const handleSubmit = async (e) => {
       password: formData.password,
       role: formData.role,
     });
-console.log("response in register ::",response)
+    console.log("response in register ::",response)
     if (response.data.success) {
       setSnackbar({ open: true, message: "Registration successful!", severity: "success" });
+
+      // Save token & user in localStorage
+      if (response.data.token) {
+        localStorage.setItem("token", response.data.token);
+      }
+      localStorage.setItem("user", JSON.stringify(response.data.user));
 
       // Reset form
       setFormData({
@@ -80,7 +86,6 @@ console.log("response in register ::",response)
         confirmPassword: "",
         role: "",
       });
-
       // ✅ Role-based navigation
       const userRole = response.data.user.role; 
       console.log("userRole::",userRole)
@@ -91,7 +96,7 @@ console.log("response in register ::",response)
       } else if (userRole === "superadmin") {
         navigate("/superadmin-dashboard");
       } else {
-        navigate("/"); // fallback
+        navigate("/"); 
       }
     }
   } catch (error) {

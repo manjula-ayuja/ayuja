@@ -1,42 +1,83 @@
 
 
-import React, { useEffect, useState } from "react";
-import {Container,Typography,Card,CardContent,CardActions,Button,Grid,List,ListItem,ListItemText,Dialog,DialogContent,IconButton,
+
+
+
+import React, { useEffect, useState, useRef } from "react";
+import {
+  Container,
+  Typography,
+  Card,
+  CardContent,
+  CardActions,
+  Button,
+  Grid,
+  List,
+  ListItem,
+  ListItemText,
+  Dialog,
+  DialogContent,
+  IconButton,
 } from "@mui/material";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { useNavigate } from "react-router-dom";
-import Footer from "../Common/Footer"
+import Footer from "../Common/Footer";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import alarmSound from "../Logos/alarmsound.mp3";
 
 const EmergencyDashboard = () => {
-   const navigate = useNavigate();
+  const navigate = useNavigate();
   const [emergencies, setEmergencies] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
 
-  const EMERGENCY_API = process.env.REACT_APP_EMERGENCYYY_API; 
+  const EMERGENCY_API = process.env.REACT_APP_EMERGENCYYY_API;
   const WS_URL = process.env.REACT_APP_EMERGENCY_WS;
 
+  // Persistent alarm
+  const alarmRef = useRef(new Audio(alarmSound));
+
   useEffect(() => {
-    // Fetch initial active emergencies
+    alarmRef.current.loop = true; // keep looping until stopped
+
+    // Fetch initial emergencies
     fetch(`${EMERGENCY_API}/active`)
       .then((res) => res.json())
-      .then((data) => setEmergencies(data.emergencies || []))
+      .then((data) => {
+        setEmergencies(data.emergencies || []);
+
+        // Play alarm if there are active emergencies
+        if ((data.emergencies || []).length > 0) {
+          alarmRef.current.play().catch((err) => console.log("Audio play error:", err));
+        }
+      })
       .catch((err) => console.error("Error fetching emergencies:", err));
 
     // WebSocket for live updates
     const ws = new WebSocket(WS_URL);
+
     ws.onopen = () => console.log("Connected to Emergency WS");
+
     ws.onmessage = (event) => {
       const newEmergency = JSON.parse(event.data);
       setEmergencies((prev) => [newEmergency, ...prev]);
+
+      // Play alarm for new emergency
+      alarmRef.current.play().catch((err) => console.log("Audio play error:", err));
     };
+
     ws.onclose = () => console.log("WebSocket disconnected");
     ws.onerror = (err) => console.error("WebSocket error:", err);
 
-    return () => ws.close();
+    // Cleanup on unmount
+    return () => {
+      ws.close();
+      alarmRef.current.pause();
+      alarmRef.current.currentTime = 0;
+    };
   }, [EMERGENCY_API, WS_URL]);
 
+  // Resolve emergency
   const handleResolve = async (id) => {
     try {
       await fetch(`${EMERGENCY_API}/resolve/${id}`, { method: "PUT" });
@@ -46,23 +87,38 @@ const EmergencyDashboard = () => {
     }
   };
 
+  // Stop alarm manually
+  const handleStopAlarm = () => {
+    alarmRef.current.pause();
+    alarmRef.current.currentTime = 0;
+  };
+
   return (
     <>
-    <Container maxWidth="lg" sx={{ py: 4, }}>
+      <Container maxWidth="lg" sx={{ py: 4 }}>
+        <IconButton onClick={() => navigate(-1)}>
+          <ArrowBackIosNewIcon />
+        </IconButton>
 
-      <IconButton onClick={() => navigate(-1)}>
-      <ArrowBackIosNewIcon />
-      </IconButton>
+        <Typography variant="h4" gutterBottom align="center" fontWeight="bold">
+          Active Emergencies
+        </Typography>
 
+        {emergencies.length > 0 && (
+          <Button
+            variant="contained"
+            color="error"
+            sx={{ mb: 3 }}
+            onClick={handleStopAlarm}
+          >
+            Stop Alarm
+          </Button>
+        )}
 
-      <Typography variant="h4" gutterBottom align="center" fontWeight="bold">
-         Active Emergencies
-      </Typography>
-
-      {emergencies.length === 0 ? (
-        <Typography align="center">No active emergencies</Typography>
-      ) : (
-        <Grid container spacing={3}>
+        {emergencies.length === 0 ? (
+          <Typography align="center">No active emergencies</Typography>
+        ) : (
+          <Grid container spacing={3}>
           {emergencies.map((e) => (
             <Grid item xs={12} md={6} key={e.emergency_id}>
               <Card sx={{ borderRadius: 3, boxShadow: 3 }}>
@@ -158,37 +214,36 @@ const EmergencyDashboard = () => {
             </Grid>
           ))}
         </Grid>
-      )}
+        )}
 
-      {/* Dialog for Map */}
-      <Dialog
-        open={!!selectedLocation}
-        onClose={() => setSelectedLocation(null)}
-        maxWidth="md"
-        fullWidth
-      >
-        <DialogContent sx={{ height: "400px", padding: 0 }}>
-          {selectedLocation && (
-            <MapContainer
-              center={[selectedLocation.lat, selectedLocation.lng]}
-              zoom={16}
-              style={{ height: "100%", width: "100%" }}
-            >
-              <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-              <Marker position={[selectedLocation.lat, selectedLocation.lng]}>
-                <Popup>
-                  Emergency Location <br />
-                  Lat: {selectedLocation.lat}, Lng: {selectedLocation.lng}
-                </Popup>
-              </Marker>
-            </MapContainer>
-          )}
-        </DialogContent>
-      </Dialog>
-    
-    </Container>
+        {/* Dialog for Map */}
+        <Dialog
+          open={!!selectedLocation}
+          onClose={() => setSelectedLocation(null)}
+          maxWidth="md"
+          fullWidth
+        >
+          <DialogContent sx={{ height: "400px", padding: 0 }}>
+            {selectedLocation && (
+              <MapContainer
+                center={[selectedLocation.lat, selectedLocation.lng]}
+                zoom={16}
+                style={{ height: "100%", width: "100%" }}
+              >
+                <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+                <Marker position={[selectedLocation.lat, selectedLocation.lng]}>
+                  <Popup>
+                    Emergency Location <br />
+                    Lat: {selectedLocation.lat}, Lng: {selectedLocation.lng}
+                  </Popup>
+                </Marker>
+              </MapContainer>
+            )}
+          </DialogContent>
+        </Dialog>
+      </Container>
 
-      <Footer/>
+      <Footer />
     </>
   );
 };

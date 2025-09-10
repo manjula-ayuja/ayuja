@@ -13,7 +13,9 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { useNavigate } from "react-router-dom";
 const ProfilePage = () => {
     const navigate = useNavigate();
-  const [user, setUser] = useState(null);
+  const storedUser = localStorage.getItem("user");
+  const [user, setUser] = useState(storedUser ? JSON.parse(storedUser) : null);
+
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -35,16 +37,14 @@ const ProfilePage = () => {
   const changePasswordAPI = process.env.REACT_APP_CHANGE_PASSWORD_API;
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
     if (storedUser) {
       const parsedStoredUser = JSON.parse(storedUser);
   
       // Merge storedUser into current user state, including role
       setUser(prevUser => ({
         ...prevUser,
-        ...parsedStoredUser,  // this includes role
+        ...parsedStoredUser, 
       }));
-  
       // Update formData as well
       setFormData(prevFormData => ({
         ...prevFormData,
@@ -93,7 +93,10 @@ const ProfilePage = () => {
             return m;
           }) || [{ name: "", relation: "" }];
 
-          setUser(data.user);
+          setUser(prevUser => ({
+            ...prevUser,   
+            ...data.user, 
+          }));
           setFormData({
             name: data.user.name || "",
             email: data.user.email || "",
@@ -232,7 +235,7 @@ const ProfilePage = () => {
                 <TextField label="Phone" name="phone" value={formData.phone} onChange={handleChange} fullWidth margin="normal" />
                 <TextField label="Address" name="address" value={formData.address} onChange={handleChange} fullWidth margin="normal" />
 
-                {user?.role == "admin" && (
+                {user?.role === "resident" && (
                   <>
                     <Typography variant="subtitle1" sx={{ mt: 2 }}>Emergency Contacts</Typography>
                     {formData.emergency_contacts.map((c, idx) => (
@@ -275,7 +278,7 @@ const ProfilePage = () => {
                 <Typography><strong>Phone:</strong> {user?.phone}</Typography>
                 <Typography><strong>Address:</strong> {user?.address}</Typography>
 
-                {user?.role == "admin" && (
+                {user?.role === "resident" && (
                   <>
                     <Typography sx={{ mt: 2 }}><strong>Emergency Contacts:</strong></Typography>
                     {formData.emergency_contacts.map((c, i) => (
