@@ -90,7 +90,7 @@ class Booking(Document):
     date = DateTimeField(required=True)
     age = StringField(required=True)
     status = StringField(
-        choices=["new", "assigned", "in-progress", "completed", "cancelled"],
+        choices=["new", "assigned", "in-progress", "completed", "cancelled","rescheduled"],
         default="new"
     )
     staff_id = StringField()

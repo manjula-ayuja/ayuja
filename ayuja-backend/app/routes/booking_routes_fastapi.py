@@ -19,6 +19,7 @@ def serialize_booking(booking: Booking):
         "booking_id": booking.booking_id,
         "resident_name": booking.resident.name if booking.resident else booking.guest_name,
         "age": booking.age,
+        "status": booking.status,
         "service_type": booking.service_type,
         "gender": booking.gender if booking.gender else booking.guest_gender,
         "date": booking.date.isoformat() if booking.date else None,

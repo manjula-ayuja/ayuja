@@ -26,9 +26,7 @@ const MyBookingsScreen = () => {
   const BOOKED_SERVICES_API = process.env.REACT_APP_BOOKED_SERVICES_API;
   const complaintsAPI = process.env.REACT_APP_COMPLAINTS_API;
   const feedbackAPI = process.env.REACT_APP_SERVICE_FEEDBACK_API;
-  const rescheduleBookingApi = process.env.REACT_APP_RESCHDULE_BOOKING_API;
-  const cancelBookingApi = process.env.REACT_APP_CANCEL_BOOKINGS;
-
+  const updateBookingApi = process.env.REACT_APP_UPDATE_BOOKINGS
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) setUser(JSON.parse(storedUser));
@@ -84,12 +82,12 @@ const MyBookingsScreen = () => {
         status: "open",
       };
     } else if (dialogType === "reschedule") {
-      endpoint = `${rescheduleBookingApi}/${selectedBooking.booking_id}`;
-      payload = { date: formData.date, notes: formData.comment };
+      endpoint = `${updateBookingApi}/${selectedBooking.booking_id}`;
+      payload = { date: formData.date, notes: formData.comment ,action: "reschedule"};
       method = "PUT"; // update booking
     } else if (dialogType === "cancel") {
-      endpoint = `${cancelBookingApi}/${selectedBooking.booking_id}`;
-      payload = { status: "cancelled" };
+      endpoint = `${updateBookingApi}/${selectedBooking.booking_id}`;
+      payload = { action: "cancel",status: "cancelled" };
       method = "PUT";
     } else {
       // feedback

@@ -1,10 +1,17 @@
 
 from app.models.db_utils import *
-import os
+import os,json
 import uuid
 from datetime import datetime
 from werkzeug.utils import secure_filename
+from app.services.email_sender import *
 
+import logging
+logger = logging.getLogger(__name__)
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+with open(os.path.join(BASE_DIR, "services", "email_templates.json")) as f:
+    EMAIL_TEMPLATES = json.load(f)
 
 # Folder to store prescriptions
 UPLOAD_FOLDER = os.path.join(os.getcwd(), "Prescriptions")
@@ -16,9 +23,6 @@ ALLOWED_EXTENSIONS = {"png", "jpg", "jpeg", "pdf"}
 def allowed_file(filename):
     """Check if file extension is allowed"""
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
-
-
-
 
 
 def book_appointment(name, email, phone, gender, service_type, date, age, notes=None, payment_data=None):
@@ -54,7 +58,7 @@ def book_appointment(name, email, phone, gender, service_type, date, age, notes=
             age=age,
             notes=notes,
             payment=payment,
-            status="completed"  # mark as completed since payment success
+            status="new" 
         )
     else:
         # Guest booking
@@ -69,7 +73,7 @@ def book_appointment(name, email, phone, gender, service_type, date, age, notes=
             age=age,
             notes=notes,
             payment=payment,
-            status="completed"
+            status="new"
         )
 
     booking.save()
@@ -161,3 +165,87 @@ def get_bookings_by_user(email=None, phone=None):
         })
 
     return booking_list
+
+def booking_to_dict(booking):
+    return {
+        "booking_id": booking.booking_id,
+        "guest_name": booking.guest_name,
+        "guest_email": booking.guest_email,
+        "guest_phone": booking.guest_phone,
+        "service_type": booking.service_type,
+        "gender": booking.gender,
+        "date": booking.date.isoformat() if booking.date else None,
+        "age": booking.age,
+        "status": booking.status,
+        "staff_id": booking.staff_id,
+        "notes": booking.notes,
+        "invoice_url": booking.invoice_url,
+        "created_at": booking.created_at.isoformat() if booking.created_at else None,
+        "payment": {
+            "amount": booking.payment.amount if booking.payment else None,
+            "status": booking.payment.status if booking.payment else None
+        } if hasattr(booking, "payment") else None
+    }
+def update_booking_logic(booking_id, body):
+    action = body.get("action")  
+    new_status = body.get("status")
+    new_date = body.get("date")
+    notes = body.get("notes")
+
+    booking = Booking.objects.get(booking_id=booking_id)
+    template_key = "status_update"
+
+    if action == "reschedule":
+        if new_date:
+            booking.date = datetime.fromisoformat(new_date)
+        booking.status, template_key = "rescheduled", "rescheduled"
+
+    elif action == "cancel":
+        if booking.status == "cancelled":
+            raise ValueError("Booking already cancelled")
+        booking.status, template_key = "cancelled", "cancelled"
+
+    elif action == "status":
+        allowed = {"new", "assigned", "in-progress", "completed", "cancelled", "rescheduled"}
+        if not new_status or new_status not in allowed:
+            raise ValueError(f"Invalid status. Allowed: {sorted(allowed)}")
+        booking.status, template_key = new_status, "status_update"
+
+    else:
+        raise ValueError("Invalid action")
+
+    if notes:
+        booking.notes = notes
+
+    booking.save()
+
+    # ---------------- EMAIL ----------------
+    recipients = []
+    if getattr(booking, "resident", None) and getattr(booking.resident, "email", None):
+        recipients.append(booking.resident.email)
+    if not recipients and booking.guest_email:
+        recipients.append(booking.guest_email)
+
+    if recipients:
+        tmpl = EMAIL_TEMPLATES[template_key]
+        subject = tmpl["subject"].format(
+            service_type=booking.service_type,
+            status=booking.status.capitalize(),
+            booking_id=booking.booking_id,
+        )
+        body_html = tmpl["body"].format(
+            service_type=booking.service_type,
+            date=booking.date.strftime("%Y-%m-%d %H:%M") if booking.date else "N/A",
+            status=booking.status.capitalize(),
+            booking_id=booking.booking_id,
+            notes=booking.notes or "N/A",
+        )
+        try:
+            send_email(recipients, subject, body_html)
+        except Exception as e:
+            logger.error(f"Failed to send email: {e}")
+
+    return {
+        "message": "Booking updated successfully",
+        "booking": booking_to_dict(booking),
+    }

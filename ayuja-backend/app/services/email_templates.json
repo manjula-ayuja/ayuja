@@ -1,0 +1,15 @@
+{
+    "rescheduled": {
+      "subject": "Booking Rescheduled: {service_type}",
+      "body": "<p>Hi,</p><p>Your booking for <strong>{service_type}</strong> has been <strong>rescheduled</strong>.</p><p>New Date: <strong>{date}</strong></p><p>Booking ID: {booking_id}</p><p>Notes: {notes}</p><p>Thanks,<br/>Ayuja Support Team</p>"
+    },
+    "cancelled": {
+      "subject": "Booking Cancelled: {service_type}",
+      "body": "<p>Hi,</p><p>Unfortunately, your booking for <strong>{service_type}</strong> has been <strong>cancelled</strong>.</p><p>Booking ID: {booking_id}</p><p>Notes: {notes}</p><p>Please contact support for more details.</p><p>Thanks,<br/>Ayuja Support Team</p>"
+    },
+    "status_update": {
+      "subject": "Booking Status Updated: {service_type} - {status}",
+      "body": "<p>Hi,</p><p>Your booking for <strong>{service_type}</strong> scheduled on <strong>{date}</strong> has been updated to <strong>{status}</strong>.</p><p>Booking ID: {booking_id}</p><p>Notes: {notes}</p><p>Thanks,<br/>Ayuja Support Team</p>"
+    }
+  }
+  
