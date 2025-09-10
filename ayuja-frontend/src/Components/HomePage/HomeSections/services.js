@@ -22,12 +22,12 @@ import ForSeniors from "../../Logos/SocialWellness/ForSeniors.png";
 import PhysiotherapyatHome from "../../Logos/Nursing/PhysiotherapyatHome.png";
 
 const services = [
-  { id: "1", title: "ELDERLY AND CHILDCARE", image: ElderlyCare, screen: "/elder-child-care" },
-  { id: "2", title: "NURSING & PHYSIOTHERAPY SERVICES", image: PhysiotherapyatHome, screen: "/nursingPhysiotherapy" },
-  { id: "3", title: "MEDICINE & DIAGNOSTIC DELIVERY", image: DiagnosticSample, screen: "/medicine-diagnostic" },
-  { id: "4", title: "EMERGENCY CARE SUPPORT", image: EmergencyCareSupport, screen: "/emergencycare" },
-  { id: "5", title: "DOCTOR VISIT, PICKUP & DROP", image: DoctorVisitPickupDrop, screen: "/doctor-visit" },
-  { id: "6", title: "SOCIAL WELLNESS ACTIVITIES", image: ForSeniors, screen: "/social-wellness-activities" },
+  { id: "1", title: "ELDERLY AND CHILDCARE", image: ElderlyCare, screen: "/elder-childcare" },
+  { id: "2", title: "NURSING & PHYSIOTHERAPY SERVICES", image: PhysiotherapyatHome, screen: "/nursing-physiotherapy" },
+  { id: "3", title: "MEDICINE & DIAGNOSTIC DELIVERY", image: DiagnosticSample, screen: "/medicine-diagnostic-delivery" },
+  { id: "4", title: "EMERGENCY CARE SUPPORT", image: EmergencyCareSupport, screen: "/emergency-care" },
+  { id: "5", title: "DOCTOR VISIT, PICKUP & DROP", image: DoctorVisitPickupDrop, screen: "/doctor-visit-pickup" },
+  { id: "6", title: "SOCIAL WELLNESS ACTIVITIES", image: ForSeniors, screen: "/social-wellness" },
 ];
 
 const ServiceScreen = () => {
@@ -48,6 +48,7 @@ const ServiceScreen = () => {
           {services.map((service) => (
             <Grid item xs={12} sm={6} key={service.id}>
               <Card
+              onClick={() => navigate(service.screen)} 
                 sx={{
                   display: "flex",
                   flexDirection: "column",

@@ -28,7 +28,7 @@ function HomePage() {
       <ServicesSection />
       <AboutSection />
       <WhyAyuja/>
-      <SubscriptionPlans/>
+      {/* <SubscriptionPlans/> */}
       <TestimonialsMissionFooter/>
       <FloatingAppointmentButton/>
     </div>
@@ -204,7 +204,7 @@ const services = [
 function ServicesSection() {
   const navigate = useNavigate();
     return (
-      <Box sx={{ width: '100%', backgroundColor: '#eaf9f5', py: 0, mb: 5 }}>
+      <Box sx={{ width: '100%', backgroundColor: '#eaf9f5', py: 0, mb: 2}}>
       <Container sx={{ py: 3 ,width:'100%',mb:5}}>
         <Typography variant="h4" align="center" gutterBottom
           sx={{
@@ -297,10 +297,10 @@ function AboutSection() {
     }}
     >
       <Box
-        sx={{flex: 1,backgroundColor: "#087c7c",color: "#fff",py: 6,px: 4,borderBottomRightRadius: "90px",display: "flex",flexDirection: "column",justifyContent: "center",
+        sx={{flex: 1,backgroundColor: "#087c7c",color: "#fff",py: 5,px: 4,borderBottomRightRadius: "90px",display: "flex",flexDirection: "column",justifyContent: "center",
         }}
       >
-        <Container>
+        <Container sx={{marginLeft:"400px"}}>
           <Typography variant="h4" gutterBottom sx={{color:"#E5FDCF",fontFamily: "Montserrat Alternates,sans-serif",fontWeight: 'bold'}}>
             About Ayuja
           </Typography>
@@ -333,7 +333,7 @@ function AboutSection() {
       >
 
           <Box
-            sx={{position: "absolute",top: "50%",left: "-10%",transform: "translateY(-50%)",width: { xs: 320, sm: 360, md: 400 },height: { xs: 140, sm: 180, md: 220 },backgroundColor: "#E5FDCF",borderRadius: 8,display: "flex",alignItems: "center",justifyContent: "center",boxShadow: '0px 8px 6px #087c7c',zIndex: 1,
+            sx={{position: "absolute",top: "50%",left: "10%",transform: "translateY(-50%)",width: { xs: 320, sm: 360, md: 400 },height: { xs: 140, sm: 180, md: 220 },backgroundColor: "#E5FDCF",borderRadius: 8,display: "flex",alignItems: "center",justifyContent: "center",boxShadow: '0px 8px 6px #087c7c',zIndex: 1,
             }}
           >
 
@@ -411,81 +411,81 @@ return (
 );
 }
 
-const plans = [
-  { name: "Basic" },
-  { name: "Optimal" },
-  { name: "Comprehensive" },
-  { name: "Advanced" },
-];
- function SubscriptionPlans() {
-const theme = useTheme();
-const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
+// const plans = [
+//   { name: "Basic" },
+//   { name: "Optimal" },
+//   { name: "Comprehensive" },
+//   { name: "Advanced" },
+// ];
+//  function SubscriptionPlans() {
+// const theme = useTheme();
+// const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
 
-return (
-  <Box
-    component="section"
-    sx={{
-      backgroundColor: "#fff",
-      py: 3,
-      textAlign: "center",
-    }}
-  >
-    <Typography
-      variant="h4"
-      sx={{color: "#153f4b",mb: 5,fontWeight: 700,fontFamily: "Montserrat, sans-serif",
-      }}
-    >
-      Subscription Plans
-    </Typography>
+// return (
+//   <Box
+//     component="section"
+//     sx={{
+//       backgroundColor: "#fff",
+//       py: 3,
+//       textAlign: "center",
+//     }}
+//   >
+//     <Typography
+//       variant="h4"
+//       sx={{color: "#153f4b",mb: 5,fontWeight: 700,fontFamily: "Montserrat, sans-serif",
+//       }}
+//     >
+//       Subscription Plans
+//     </Typography>
 
-    <Box
-      sx={{display: "flex",flexDirection: isSmallScreen ? "column" : "row",justifyContent: "center",gap: 3,maxWidth: 1100,mx: "auto",px: 2,
-      }}
-    >
-      {plans.map((plan, idx) => {
-        const isBasic = idx === 0;
+//     <Box
+//       sx={{display: "flex",flexDirection: isSmallScreen ? "column" : "row",justifyContent: "center",gap: 3,maxWidth: 1100,mx: "auto",px: 2,
+//       }}
+//     >
+//       {plans.map((plan, idx) => {
+//         const isBasic = idx === 0;
 
-        return (
+//         return (
 
-          <Box
-            key={plan.name}
-            sx={{width: 220,minHeight: 300,borderRadius: "80px 0 80px 0",background: isBasic  ? "#087c7c"  : "#fff",color: isBasic ? "#fff" : "#0a6a7a",border: isBasic ? "none" : "2px solid #0a9a92",boxShadow: "0 2px 8px rgba(10, 106, 122, 0.05)",display: "flex",flexDirection: "column",alignItems: "center",justifyContent: "space-between", py: 3,px: 2,position: "relative",
-            }}
-          >
-            {/* Plan Name at Top */}
-            <Typography
-              variant="h6"
-              sx={{
-                fontWeight: 400,
-                mt: 1,
-                fontFamily: "Montserrat, sans-serif",
-              }}
-            >
-              {plan.name}
-            </Typography>
+//           <Box
+//             key={plan.name}
+//             sx={{width: 220,minHeight: 300,borderRadius: "80px 0 80px 0",background: isBasic  ? "#087c7c"  : "#fff",color: isBasic ? "#fff" : "#0a6a7a",border: isBasic ? "none" : "2px solid #0a9a92",boxShadow: "0 2px 8px rgba(10, 106, 122, 0.05)",display: "flex",flexDirection: "column",alignItems: "center",justifyContent: "space-between", py: 3,px: 2,position: "relative",
+//             }}
+//           >
+//             {/* Plan Name at Top */}
+//             <Typography
+//               variant="h6"
+//               sx={{
+//                 fontWeight: 400,
+//                 mt: 1,
+//                 fontFamily: "Montserrat, sans-serif",
+//               }}
+//             >
+//               {plan.name}
+//             </Typography>
 
-            {/* Read More Button at Bottom */}
-             <Button
-          variant="contained"
-          sx={{ backgroundColor: "transparent", color: isBasic ? " #fff" : " #0a6a7a", borderRadius: "24px", border: isBasic ? "1px solid #fff" : "1px solid #0a6a7a", textTransform: "none", fontWeight: 100, fontSize: "1rem", px: 2,gap: 1,
-          }}
-        >
-          Read More
-          <Box
-          sx={{width: 36,height: 36,backgroundColor:isBasic ? "#fff" : " #0a6a7a",borderRadius: "50%",display: "flex",alignItems: "center",justifyContent: "center",
-          }}
-        >
-          <ArrowForwardIcon sx={{color: isBasic ?" #0a6a7a": "#fff" , fontSize: 20 }} />
-        </Box>
-        </Button>
-          </Box>
+//             {/* Read More Button at Bottom */}
+//              <Button
+//           variant="contained"
+//           sx={{ backgroundColor: "transparent", color: isBasic ? " #fff" : " #0a6a7a", borderRadius: "24px", border: isBasic ? "1px solid #fff" : "1px solid #0a6a7a", textTransform: "none", fontWeight: 100, fontSize: "1rem", px: 2,gap: 1,
+//           }}
+//         >
+//           Read More
+//           <Box
+//           sx={{width: 36,height: 36,backgroundColor:isBasic ? "#fff" : " #0a6a7a",borderRadius: "50%",display: "flex",alignItems: "center",justifyContent: "center",
+//           }}
+//         >
+//           <ArrowForwardIcon sx={{color: isBasic ?" #0a6a7a": "#fff" , fontSize: 20 }} />
+//         </Box>
+//         </Button>
+//           </Box>
 
-        );
-      })}
-    </Box>
-  </Box>
-);
-}
+//         );
+//       })}
+//     </Box>
+//   </Box>
+// );
+// }
 
 
 
@@ -706,40 +706,6 @@ const inviteOptions = [
     </Box>
   );
 }
-
-
-
-
-
-// function FloatingAppointmentButton() {
-//   const navigate = useNavigate();
-
-//   return (
-//     <Button
-//       variant="contained"
-//       onClick={() => navigate("/book-appointment")}
-//       sx={{
-//         position: "fixed",
-//         right: 24,
-//         bottom: 50,
-//         zIndex: 1000,
-//         backgroundColor: "#087c7c",
-//         color: "#fff",
-//         borderRadius: "50px",
-//         px: 3,
-//         py: 1.5,
-//         textTransform: "none",
-//         fontWeight: "bold",
-//         "&:hover": {
-//           backgroundColor: "#0a6a7a",
-//         },
-//       }}
-//     >
-//       Book Appointment
-//     </Button>
-//   );
-// }
-
 
 function FloatingAppointmentButton() {
   const navigate = useNavigate();
