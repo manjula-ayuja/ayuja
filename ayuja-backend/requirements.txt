@@ -8,3 +8,5 @@ pymongo
 werkzeug
 sendgrid
 flask-jwt-extended
+apscheduler
+redis
