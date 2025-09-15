@@ -202,87 +202,88 @@ const services = [
 
 
 function ServicesSection() {
-  const navigate = useNavigate();
-    return (
-      <Box sx={{ width: '100%', backgroundColor: '#eaf9f5', py: 0, mb: 2}}>
-      <Container sx={{ py: 3 ,width:'100%',mb:5}}>
-        <Typography variant="h4" align="center" gutterBottom
-          sx={{
-            fontWeight: "bold",
-            fontFamily: '"Montserrat", sans-serif',
-            color: "#000000",
-          }}
-        >
-          Our Services
-        </Typography>
-  
-        <Box sx={{ py: 1 }}>
 
-          <Grid container spacing={4} justifyContent="center">
-            {services.map((service, idx) => (
-              <Grid item xs={12} sm={6} md={4} key={idx} justifyContent="center" >
-                 <Box display="flex" justifyContent="center">
-                <Card
-                  sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', backgroundColor: "transparent", border: "1.5px solid #22577A", borderRadius: 2, p: 2, width: '100%', maxWidth: 320, height: '100%',
-                  }}
-                >
-                  <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
-                    <Box display="flex" alignItems="center">
-                      <Box
-                        sx={{width: 56,height: 56,backgroundColor: "#22577A",borderRadius: "50%",overflow: "hidden", display: "flex",alignItems: "center",justifyContent: "center",mr: 2,flexShrink: 0,
-                        }}
-                      >
-                        <img
-                          src={service.image}
-                          alt={service.title}
-                          style={{ width: "100%", height: "100%", objectFit: "cover",
+    const navigate = useNavigate();
+      return (
+        <Box sx={{ width: '100%', backgroundColor: '#eaf9f5', py: 0}}>
+        <Container sx={{ py: 3 ,width:'100%'}}>
+          <Typography variant="h4" align="center" gutterBottom
+            sx={{
+              fontWeight: "bold",
+              fontFamily: '"Montserrat", sans-serif',
+              color: "#000000",
+            }}
+          >
+            Our Services
+          </Typography>
+    
+          <Box sx={{ py: 1 }}>
+  
+            <Grid container spacing={4} justifyContent="center">
+              {services.map((service, idx) => (
+                <Grid item xs={12} sm={6} md={4} key={idx} justifyContent="center" >
+                   <Box display="flex" justifyContent="center">
+                  <Card
+                    sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', backgroundColor: "transparent", border: "1.5px solid #22577A", borderRadius: 2, p: 2, width: '100%', maxWidth: 320, height: '100%',
+                    }}
+                  >
+                    <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+                      <Box display="flex" alignItems="center">
+                        <Box
+                          sx={{width: 56,height: 56,backgroundColor: "#22577A",borderRadius: "50%",overflow: "hidden", display: "flex",alignItems: "center",justifyContent: "center",mr: 2,flexShrink: 0,
                           }}
-                        />
+                        >
+                          <img
+                            src={service.image}
+                            alt={service.title}
+                            style={{ width: "100%", height: "100%", objectFit: "cover",
+                            }}
+                          />
+                        </Box>
+  
+                        <Typography
+                          variant="h6"
+                          sx={{fontWeight: 700,fontFamily: '"Montserrat", sans-serif',color: "#000000",flex: 1,wordBreak: "break-word",}}
+                        >
+                          {service.title}
+                        </Typography>
                       </Box>
-
+    
                       <Typography
-                        variant="h6"
-                        sx={{fontWeight: 700,fontFamily: '"Montserrat", sans-serif',color: "#000000",flex: 1,wordBreak: "break-word",}}
+                        variant="body2"
+                        sx={{mt: 2,fontFamily: '"Montserrat", sans-serif',color: "#000000",flexGrow: 1,wordBreak: "break-word",}}
                       >
-                        {service.title}
+                        {service.desc}
                       </Typography>
-                    </Box>
-  
-                    <Typography
-                      variant="body2"
-                      sx={{mt: 2,fontFamily: '"Montserrat", sans-serif',color: "#000000",flexGrow: 1,wordBreak: "break-word",}}
-                    >
-                      {service.desc}
-                    </Typography>
-  
-                    <Box mt={2}>
-                      <Button
-                        size="small"
-                        variant="contained"
-                        fullWidth
-                        onClick={() => navigate(service.path)}
-                        sx={{backgroundColor: "#087c7c",borderRadius: "16px",textTransform: "none",color: "light green",fontFamily: '"Montserrat", sans-serif',
-                          "&:hover": {
-                            backgroundColor: "#087c7c",
-                          },
-                        }}
-                      >
-                        Learn more
-                      </Button>
-                    </Box>
-                  </CardContent>
-               
-                </Card>
-                </Box>
-              </Grid>
-            ))}
-          </Grid>
+    
+                      <Box mt={2}>
+                        <Button
+                          size="small"
+                          variant="contained"
+                          fullWidth
+                          onClick={() => navigate(service.path)}
+                          sx={{backgroundColor: "#087c7c",borderRadius: "16px",textTransform: "none",color: "light green",fontFamily: '"Montserrat", sans-serif',
+                            "&:hover": {
+                              backgroundColor: "#087c7c",
+                            },
+                          }}
+                        >
+                          Learn more
+                        </Button>
+                      </Box>
+                    </CardContent>
+                 
+                  </Card>
+                  </Box>
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+        </Container>
         </Box>
-      </Container>
-      </Box>
-    );
-  }
-  
+      );
+    }
+    
 
 
 function AboutSection() {
@@ -293,7 +294,7 @@ function AboutSection() {
   return (
 
     <Box
-    sx={{display: "flex",width: "100%",height: 300,position: "relative",overflow: "hidden",mb: 4,backgroundColor: "#087c7c",borderRadius:'0px 0px 200px 0px'
+    sx={{display: "flex",width: "100%",height: 300,position: "relative",overflow: "hidden",backgroundColor: "#087c7c",borderRadius:'0px 0px 200px 0px'
     }}
     >
       <Box
@@ -370,7 +371,7 @@ return (
     sx={{
       backgroundColor: "#eaf9f5",
       py: { xs: 1, sm: 5 },
-      textAlign: "center",mb:1
+      textAlign: "center",
     }}
   >
     <Typography
