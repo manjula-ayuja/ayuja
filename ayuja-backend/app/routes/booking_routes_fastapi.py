@@ -7,6 +7,7 @@ from mongoengine.queryset.visitor import Q
 from typing import List
 from datetime import datetime
 import json
+import asyncio
 
 router = APIRouter()
 
@@ -17,7 +18,8 @@ def serialize_booking(booking: Booking):
 
     return {
         "booking_id": booking.booking_id,
-        "resident_name": booking.resident.name if booking.resident else booking.guest_name,
+        # "resident_name": booking.resident.name if booking.resident else booking.guest_name,
+        "resident_name": booking.guest_name,
         "age": booking.age,
         "status": booking.status,
         "service_type": booking.service_type,
@@ -27,20 +29,17 @@ def serialize_booking(booking: Booking):
         "payment_status": payment_status,
     }
 
+
 @router.websocket("/ws/booking")
 async def websocket_booking(ws: WebSocket):
     await booking_ws_manager.connect(ws)
     try:
-        # Send current booking list immediately after connection
-        bookings = Booking.objects()  # Fetch all bookings from MongoDB
+        bookings = Booking.objects()
         bookings_list = [serialize_booking(b) for b in bookings]
         await ws.send_json(bookings_list)
 
-        # Keep listening (optional, if frontend wants to send data)
+        # Wait indefinitely until disconnect
         while True:
-            data = await ws.receive_json()
-            # Optional: broadcast received data to all clients
-            await booking_ws_manager.broadcast(data)
-
+            await asyncio.sleep(5)  # keep alive loop
     except WebSocketDisconnect:
         booking_ws_manager.disconnect(ws)

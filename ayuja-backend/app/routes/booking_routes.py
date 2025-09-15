@@ -3,6 +3,7 @@ from flask import Blueprint, request, jsonify
 from datetime import datetime
 from app.auth.booking_services import *
 from mongoengine import DoesNotExist
+from app.routes.booking_routes_fastapi import *
 import logging
 booking_blueprint = Blueprint("booking", __name__)
 logger = logging.getLogger(__name__)
@@ -54,7 +55,14 @@ def create_booking():
             response["user_type"] = "registered"
         else:
             response["user_type"] = "guest"
-
+        # 🔑 Broadcast updated booking list to all WebSocket clients
+        try:
+            bookings = Booking.objects()
+            bookings_list = [serialize_booking(b) for b in bookings]
+            import asyncio
+            asyncio.run(booking_ws_manager.broadcast(bookings_list))
+        except Exception as ws_err:
+            print(f"WebSocket broadcast failed: {ws_err}")
         return jsonify(response), 201
 
     except ValueError as ve:
@@ -65,15 +73,12 @@ def create_booking():
 
 @booking_blueprint.route("/upload-prescription/<booking_id>", methods=["POST"])
 def upload_prescription_route(booking_id):
-    print("booking_id:::",booking_id)
     try:
         if "file" not in request.files:
             return jsonify({"error": "No file part"}), 400
 
         file = request.files["file"]
-        print("files in the booking storeage:",file)
         result = upload_prescription(booking_id, file)
-        print("resuli in the line 102 :::",result)
 
         return jsonify(result), 200
 
