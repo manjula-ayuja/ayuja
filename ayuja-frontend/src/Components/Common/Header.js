@@ -344,16 +344,16 @@ function Header() {
               value={selected}
               exclusive
               onChange={handleChange}
-              sx={{
-                width: "150px",
-                height: "35px",
-                borderRadius: "30px",
-                overflow: "hidden",
-                border: "1px solid teal",
-                ml: 2,
-              }}
+              // sx={{
+              //   width: "150px",
+              //   height: "35px",
+              //   borderRadius: "30px",
+              //   overflow: "hidden",
+              //   border: "1px solid teal",
+              //   ml: 2,
+              // }}
             >
-              <ToggleButton
+              {/* <ToggleButton
                 value="login"
                 onClick={() => navigate("/Login")}
                 sx={{
@@ -382,7 +382,7 @@ function Header() {
                 }}
               >
                 Register
-              </ToggleButton>
+              </ToggleButton> */}
             </ToggleButtonGroup>
           )}
         </Box>
