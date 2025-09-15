@@ -2,14 +2,15 @@
 
 import React, { useEffect, useState } from "react";
 import {
-  Box,Typography,Card,CardContent,Grid,Button,Dialog,DialogTitle,DialogContent,DialogActions,TextField,Rating,Link,Container,MenuItem,Select,FormControl,InputLabel,Avatar,CardHeader,IconButton,
+  Box,Typography,Card,CardContent,Grid,Button,Dialog,DialogTitle,DialogContent,DialogActions,TextField,Rating,Link,
+  Container,MenuItem,Select,FormControl,InputLabel,Avatar,CardHeader,IconButton,
 } from "@mui/material";
 import Footer from "../../Common/Footer";
 import manImg from "../../Logos/GenderImages/man.png";
 import womanImg from "../../Logos/GenderImages/girl.png";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { useNavigate } from "react-router-dom";
-
+import {fetchUserFromRedis} from "../../HomePage/AuthonticationScreens/Register"
 const MyBookingsScreen = () => {
   const navigate = useNavigate();
   const [bookings, setBookings] = useState([]);
@@ -27,10 +28,28 @@ const MyBookingsScreen = () => {
   const complaintsAPI = process.env.REACT_APP_COMPLAINTS_API;
   const feedbackAPI = process.env.REACT_APP_SERVICE_FEEDBACK_API;
   const updateBookingApi = process.env.REACT_APP_UPDATE_BOOKINGS
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) setUser(JSON.parse(storedUser));
-  }, []);
+
+
+
+    useEffect(() => {
+      const fetchUser = async () => {
+        const userId = sessionStorage.getItem("userId");
+        const token = sessionStorage.getItem("token");
+        if (!userId || !token) {
+          setUser(null);
+          return;
+        }
+        try {
+          const userData = await fetchUserFromRedis(userId, token);
+          setUser(userData || null);
+        } catch (err) {
+          console.error("Error fetching user from Redis:", err);
+          setUser(null);
+        }
+      };
+    
+      fetchUser();
+    }, []);
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -167,29 +186,33 @@ const MyBookingsScreen = () => {
                   width: 400,
                 }}
               >
-                <CardHeader
-                  avatar={
-                    <Avatar sx={{ bgcolor: "transparent", width: 96, height: 96 }}>
-                      <img
-                        src={b.booking?.gender === "Male" ? manImg : womanImg}
-                        alt={b.booking?.gender}
-                        style={{ width: "100%", height: "100%" }}
-                      />
-                    </Avatar>
-                  }
-                  title={`${b.service_type}`}
-                  subheader={`Status: ${b.status}`}
-                />
+
+              <CardHeader
+                avatar={
+                  <Avatar sx={{ bgcolor: "transparent", width: 96, height: 96 }}>
+                    <img
+                      src={(b.gender || b.booking?.gender) === "Male" ? manImg : womanImg}
+                      alt={b.gender || b.booking?.gender}
+                      style={{ width: "100%", height: "100%" }}
+                    />
+                  </Avatar>
+                }
+                title={`${b.service_type}`}
+                subheader={`Status: ${b.status}`}
+              />
                 <CardContent>
                   <Typography>
                     Booking Date: {new Date(b.date).toLocaleString()}
                   </Typography>
-                  <Typography>Name: {b.resident?.name}</Typography>
+                  <Typography>Name: {b.guest_name}</Typography>
                   <Typography>Age: {b.age}</Typography>
                   <Typography>Gender: {b.gender}</Typography>
                   <Typography>Status: {b.status}</Typography>
-                  <Typography>
+                  {/* <Typography>
                     Payment: {b.payment?.status} ({b.payment?.method})
+                  </Typography> */}
+                  <Typography>
+                    Payment: {b.payment?.method}
                   </Typography>
                   <Typography>Amount: ₹{b.payment?.amount}</Typography>
 

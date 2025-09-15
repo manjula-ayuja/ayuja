@@ -18,7 +18,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import ayujalogo from "../Logos/Ayuja_Logo.jpg";
 import axios from "axios";
-
+import { fetchUserFromRedis } from "../../Components/HomePage/AuthonticationScreens/Register";
 const StyledAvatar = styled("div")`
   font-family: "Roboto";
   letter-spacing: 0.1px;
@@ -41,15 +41,27 @@ function Header() {
   const [user, setUser] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
 
+
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    const storedUser = localStorage.getItem("user");
-    if (token && storedUser) {
-      setUser(JSON.parse(storedUser));
-    } else {
-      setUser(null);
-    }
+    const fetchUser = async () => {
+      const userId = sessionStorage.getItem("userId");
+      const token = sessionStorage.getItem("token");
+      if (!userId || !token) {
+        setUser(null);
+        return;
+      }
+      try {
+        const userData = await fetchUserFromRedis(userId, token);
+        setUser(userData || null);
+      } catch (err) {
+        console.error("Error fetching user from Redis:", err);
+        setUser(null);
+      }
+    };
+  
+    fetchUser();
   }, [location]);
+  
 
   const EMERGENCY_API = process.env.REACT_APP_EMERGENCY_API;
 
@@ -135,23 +147,6 @@ function Header() {
             Home
           </Button>
 
-          {/* <Button
-            onClick={() => navigate(user ? "/services" : "/serviceweprovide")}
-            sx={{
-              textTransform: "none",
-              color: isActive(user ? "/services" : "/serviceweprovide")
-                ? "teal"
-                : "#121212",
-              fontWeight: isActive(user ? "/services" : "/serviceweprovide")
-                ? "bold"
-                : "normal",
-              borderBottom: isActive(user ? "/services" : "/serviceweprovide")
-                ? "2px solid teal"
-                : "none",
-            }}
-          >
-            Services
-          </Button> */}
           <Button
   onClick={() =>
     navigate(
@@ -303,6 +298,20 @@ function Header() {
                     }}
                   >
                     My Complaints
+                  </MenuItem>,
+                  <MenuItem
+                  key="sos"
+                  onClick={() => {
+                    const confirmEmergency = window.confirm(
+                      "Are you sure you want to raise an emergency?"
+                    );
+                    if (confirmEmergency) {
+                      handleRaiseEmergency();
+                    }
+                  }}
+                  
+                  >
+                  SOS
                   </MenuItem>,
                 ]}
 

@@ -13,18 +13,38 @@ import { useNavigate } from "react-router-dom";
 import CommonFieldsScreen from "./CommonFields"; 
 import ElderlyCare from "../Logos/Elder&childcarePage/ElderlyCare.png";
 import Footer from "../Common/Footer"
+import { fetchUserFromRedis } from "../HomePage/AuthonticationScreens/Register";
 const ElderlyChildCareScreen = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user"); 
-    console.log("storedUser:::::",storedUser)
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));  
-    }
-  }, []);
+    const fetchUser = async () => {
+      // Try to get latest user from sessionStorage
+      const storedUser = sessionStorage.getItem("user");
+      if (storedUser) {
+        setUser(JSON.parse(storedUser));
+      }
 
+      // Always fetch fresh data from Redis if token exists
+      const userId = sessionStorage.getItem("userId");
+      const token = sessionStorage.getItem("token");
+      if (!userId || !token) return;
+
+      try {
+        const userData = await fetchUserFromRedis(userId, token);
+        if (userData) {
+          setUser(userData);
+          sessionStorage.setItem("user", JSON.stringify(userData)); // update sessionStorage
+        }
+      } catch (err) {
+        console.error("Error fetching user from Redis:", err);
+        setUser(null);
+      }
+    };
+
+    fetchUser();
+  }, []);
   return (
     <>
       {/* Top Navigation */}

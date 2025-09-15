@@ -1,11 +1,11 @@
 
 
 
-import React from "react";
+import { useState,useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import SessionTimeoutWrapper from "./Components/SessionTimeoutWrapper";
-import ProtectedRoute from "./Components/ProtectedRoute"; 
+// import ProtectedRoute from "./Components/ProtectedRoute"; 
 
 
 import Layout from "./Components/Layout";
@@ -60,9 +60,37 @@ import ComplaintsDashboard from "./Components/AdminDashBoardScreens/ComplaintsDa
 import MyBookingsScreen from "./Components/HomePage/MenuItemScreens/MyBookings";
 import ProfilePage from "./Components/HomePage/MenuItemScreens/ProfilePage";
 import MyComplaintsScreen from "./Components/HomePage/MenuItemScreens/MyComplaints";
+
+import { sendTokenToBackend, onMessageListener } from "./Components/FireBaseNotificationAlerts/useFirebaseToken";
+
+import { Snackbar } from "@mui/material";
 const App = () => {
 
+
+// // Firebase alert notifications
+//   const [notification, setNotification] = useState(null);
+//   useEffect(() => {
+//     const user = JSON.parse(localStorage.getItem("user")); // your login data
+//     if (user?.email) {
+//       sendTokenToBackend(user.email);
+//     }
+  
+//     const unsubscribe = onMessageListener((payload) => {
+//       setNotification(`${payload.notification.title} - ${payload.notification.body}`);
+//     });
+  
+//     return () => {
+//       unsubscribe && unsubscribe();
+//     };
+//   }, []);
+  
+
+
+
+
+
   return (
+    <>
     <Router> 
        <SessionTimeoutWrapper>
         <Routes>
@@ -94,7 +122,7 @@ const App = () => {
           <Route path="/book-appointment" element={<BookAppointment/>}/>
       
           {/* Resident screens */}
-          <Route element={<ProtectedRoute />}>
+          {/* <Route element={<ProtectedRoute />}> */}
             <Route path="/resident-dashboard" element={<ResidentDashboard/>}/>
 
             {/* booking screens */}
@@ -126,10 +154,24 @@ const App = () => {
 
 
           </Route>
-        </Route>
+        {/* </Route> */}
           </Routes>
         </SessionTimeoutWrapper>
     </Router>
+
+
+
+
+
+{/* 
+<Snackbar
+open={!!notification}
+autoHideDuration={6000}
+message={notification}
+onClose={() => setNotification(null)}
+/> */}
+</>
+
   );
 };
 

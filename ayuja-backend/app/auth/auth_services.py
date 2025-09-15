@@ -13,10 +13,15 @@ import bcrypt
 import random
 from app.services.email_sender import *
 import string
+import redis
+import json
 from flask_jwt_extended import create_access_token
 
 logger = logging.getLogger(__name__)
 SECRET_KEY = os.getenv("SECRET_KEY") 
+
+# ✅ Redis client (adjust host/port if running in Docker)
+redis_client = redis.StrictRedis(host="localhost", port=6379, db=0, decode_responses=True)
 
 def generate_number():
     """Generate a random 10-digit number."""
@@ -89,6 +94,7 @@ def register_user_via_google(data):
     except Exception as e:
         logger.critical("Google registration failed: %s", str(e))
         return {"error": f"Google registration failed: {str(e)}"}
+    
 def register_user(data):
     logger.info("Entered into registration logic")
 
@@ -177,7 +183,11 @@ def register_user(data):
             "token": token,
             "status": "User Registered"
         }
-
+        
+        # ✅ Save user in Redis (expire in 1 hour) ex=3600
+        redis_key = f"user:{user.user_id}"
+        # expire in 4 hrs
+        redis_client.set(redis_key, json.dumps(user_details), ex=14400)
         return {"success": True, "user": user_details, "token": token}
 
     except NotUniqueError:

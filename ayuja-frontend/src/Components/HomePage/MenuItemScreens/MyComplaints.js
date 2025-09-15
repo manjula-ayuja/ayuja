@@ -18,6 +18,7 @@ import manImg from "../../Logos/GenderImages/man.png";
 import womanImg from "../../Logos/GenderImages/girl.png";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { useNavigate } from "react-router-dom";
+import { fetchUserFromRedis } from "../AuthonticationScreens/Register";
 const MyComplaints = () => {
     const navigate = useNavigate();
   const [complaints, setComplaints] = useState([]);
@@ -26,11 +27,28 @@ const MyComplaints = () => {
 
   const COMPLAINTS_API = process.env.REACT_APP_MY_COMPLAINTS_API;
 
-  // 1️⃣ Load user from localStorage
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) setUser(JSON.parse(storedUser));
-  }, []);
+  // 1️⃣ Load user from sessionStorage
+
+    useEffect(() => {
+      const fetchUser = async () => {
+        const userId = sessionStorage.getItem("userId");
+        const token = sessionStorage.getItem("token");
+        if (!userId || !token) {
+          setUser(null);
+          return;
+        }
+        try {
+          const userData = await fetchUserFromRedis(userId, token);
+          setUser(userData || null);
+        } catch (err) {
+          console.error("Error fetching user from Redis:", err);
+          setUser(null);
+        }
+      };
+    
+      fetchUser();
+    }, []);
+
 
   // 2️⃣ Fetch complaints when user is available
   useEffect(() => {

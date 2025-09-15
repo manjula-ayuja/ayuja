@@ -1,6 +1,6 @@
 
 
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import {
   Box,
   MenuItem,
@@ -22,11 +22,36 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import ayujalogo from "../../Logos/AuthScreens/AuthLogo.png";
 import Footer from "../../Common/Footer"
+
+
+const API_BASE = process.env.REACT_APP_API_URL;
+
+export const fetchUserFromRedis = async () => {
+  const userId = sessionStorage.getItem("userId");
+  const token = sessionStorage.getItem("token");
+
+  if (!userId || !token) return null;
+
+  try {
+    const res = await axios.get(`${API_BASE}/user/${userId}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    console.log("response fron redis user:::",res)
+    return res.data.user;
+  } catch (error) {
+    console.error("Error fetching user from Redis:", error);
+    return null;
+  }
+};
+
+
+
 const Register = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState(null);
   // Form state
   const [formData, setFormData] = useState({
     name: "",
@@ -34,7 +59,7 @@ const Register = () => {
     phone: "",
     password: "",
     confirmPassword: "",
-    role: "",
+    role: "resident",
   });
 
   const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "success" });
@@ -46,6 +71,14 @@ const Register = () => {
       [e.target.name]: e.target.value,
     });
   };
+
+  useEffect(() => {
+    const loadUser = async () => {
+      const data = await fetchUserFromRedis();
+      if (data) setUser(data);
+    };
+    loadUser();
+  }, []);
 
 
 // Handle form submit
@@ -71,11 +104,11 @@ const handleSubmit = async (e) => {
     if (response.data.success) {
       setSnackbar({ open: true, message: "Registration successful!", severity: "success" });
 
-      // Save token & user in localStorage
+      // Save token & user in sessionStorage
       if (response.data.token) {
-        localStorage.setItem("token", response.data.token);
+        sessionStorage.setItem("token", response.data.token);
       }
-      localStorage.setItem("user", JSON.stringify(response.data.user));
+      sessionStorage.setItem("userId", response.data.user.userId); 
 
       // Reset form
       setFormData({
@@ -87,16 +120,14 @@ const handleSubmit = async (e) => {
         role: "",
       });
       // ✅ Role-based navigation
-      const userRole = response.data.user.role; 
-      console.log("userRole::",userRole)
+      const userRole = response.data.user.role?.toLowerCase().trim();
+      console.log("userRole in register::",userRole)
+
       if (userRole === "resident") {
         navigate("/services");
-      } else if (userRole === "admin") {
-        navigate("/admin-dashboard");
-      } else if (userRole === "superadmin") {
-        navigate("/superadmin-dashboard");
       } else {
-        navigate("/"); 
+        console.log("entered to else condition")
+        navigate("/admin-dashboard"); 
       }
     }
   } catch (error) {
@@ -310,7 +341,7 @@ const handleSubmit = async (e) => {
               />
 
               {/* Role */}
-              <TextField
+              {/* <TextField
                 select
                 name="role"
                 value={formData.role}
@@ -329,7 +360,7 @@ const handleSubmit = async (e) => {
                 <MenuItem value="superadmin">Super Admin</MenuItem>
                 <MenuItem value="staff">Staff</MenuItem>
                 <MenuItem value="other">Others</MenuItem>
-              </TextField>
+              </TextField> */}
 
               {/* Register Button */}
               <Button

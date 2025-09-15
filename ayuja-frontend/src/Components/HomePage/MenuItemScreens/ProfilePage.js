@@ -11,10 +11,10 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Footer from "../../Common/Footer";
 import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import { useNavigate } from "react-router-dom";
+import {fetchUserFromRedis} from "../../HomePage/AuthonticationScreens/Register"
 const ProfilePage = () => {
     const navigate = useNavigate();
-  const storedUser = localStorage.getItem("user");
-  const [user, setUser] = useState(storedUser ? JSON.parse(storedUser) : null);
+ const [user, setUser] = useState(null);
 
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({
@@ -36,35 +36,52 @@ const ProfilePage = () => {
   const updateProfileAPI = process.env.REACT_APP_UPDATE_USER_PROFILE_API;
   const changePasswordAPI = process.env.REACT_APP_CHANGE_PASSWORD_API;
 
-  useEffect(() => {
-    if (storedUser) {
-      const parsedStoredUser = JSON.parse(storedUser);
-  
-      // Merge storedUser into current user state, including role
-      setUser(prevUser => ({
-        ...prevUser,
-        ...parsedStoredUser, 
-      }));
-      // Update formData as well
-      setFormData(prevFormData => ({
-        ...prevFormData,
-        name: parsedStoredUser.name || prevFormData.name,
-        email: parsedStoredUser.email || prevFormData.email,
-        phone: parsedStoredUser.phone || prevFormData.phone,
-        address: parsedStoredUser.address || prevFormData.address,
-        emergency_contacts: parsedStoredUser.emergency_contacts || prevFormData.emergency_contacts,
-        family_members: parsedStoredUser.family_members || prevFormData.family_members,
-        documents: parsedStoredUser.documents || prevFormData.documents,
-      }));
-    }
-  }, []);
-  
 
+  useEffect(() => {
+    const fetchAndSetUser = async () => {
+      const userId = sessionStorage.getItem("userId");
+      const token = sessionStorage.getItem("token");
+  
+      if (!userId || !token) {
+        setUser(null);
+        return;
+      }
+      try {
+        // Fetch user data from Redis
+        const userData = await fetchUserFromRedis(userId, token);
+        if (userData) {
+          // Set user state
+          setUser(userData);
+          // Update formData state
+          setFormData(prevFormData => ({
+            ...prevFormData,
+            name: userData.name || prevFormData.name,
+            email: userData.email || prevFormData.email,
+            phone: userData.phone || prevFormData.phone,
+            address: userData.address || prevFormData.address,
+            emergency_contacts: userData.emergency_contacts || prevFormData.emergency_contacts,
+            family_members: userData.family_members || prevFormData.family_members,
+            documents: userData.documents || prevFormData.documents,
+            role: userData.role || prevFormData.role, // include role if needed
+          }));
+        } else {
+          setUser(null);
+        }
+      } catch (err) {
+        console.error("Error fetching user from Redis:", err);
+        setUser(null);
+      }
+    };
+  
+    fetchAndSetUser();
+  }, []);
+
+  
 
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const token = localStorage.getItem("token");
+        const token = sessionStorage.getItem("token");
         if (!token) return;
 
         const res = await fetch(getuserDetailsAPI, {
@@ -156,7 +173,7 @@ const ProfilePage = () => {
     }
 
     try {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
       const res = await fetch(updateProfileAPI, {
         method: "PUT",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
@@ -165,7 +182,7 @@ const ProfilePage = () => {
 
       const data = await res.json();
       if (res.ok) {
-        localStorage.setItem("user", JSON.stringify(data.user));
+        sessionStorage.setItem("user", JSON.stringify(data.user));
         setUser(data.user);
         setEditMode(false);
         setSnackbar({ open: true, message: "Profile updated successfully!", severity: "success" });
@@ -184,7 +201,7 @@ const ProfilePage = () => {
     }
 
     try {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
       const res = await fetch(changePasswordAPI, {
         method: "PUT",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },

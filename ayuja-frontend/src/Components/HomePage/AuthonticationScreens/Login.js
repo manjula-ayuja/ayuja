@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   Box,
   Grid,
@@ -21,7 +21,7 @@ import ayujalogo from "../../Logos/AuthScreens/AuthLogo.png"
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Footer from "../../Common/Footer";
-
+import { fetchUserFromRedis } from "./Register";
 const Login = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
@@ -31,7 +31,9 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const loginAPI = process.env.REACT_APP_LOGIN_API;
 
+  const [user, setUser] = useState(null);
 
+  
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -45,11 +47,17 @@ const handleLogin = async () => {
     const res = await axios.post(loginAPI, formData);
     console.log("response in login ::",res)
 
+    const userId = res.data.user.user_id;
+    const token = res.data.token;
     // Save token
-    localStorage.setItem("token", res.data.token);
+    sessionStorage.setItem("token", token);
+    sessionStorage.setItem("userId", userId); 
 
-    // Save user data (convert to string before storing)
-    localStorage.setItem("user", JSON.stringify(res.data.user));
+    // Now fetch user from Redis
+     const userData = await fetchUserFromRedis(userId, token); // pass userId & token explicitly
+     console.log("User fetched from Redis after login:", userData);
+ 
+     setUser(userData);
 
     // ✅ Role-based navigation
     const userRole = res.data.user.role;
@@ -57,10 +65,6 @@ const handleLogin = async () => {
 
     if (userRole === "resident") {
       navigate("/services");
-    } else if (userRole === "admin") {
-      navigate("/admin-dashboard");
-    } else if (userRole === "superadmin") {
-      navigate("/superadmin-dashboard");
     } else {
       navigate("/"); 
     }

@@ -1,9 +1,50 @@
 from flask import Blueprint, request, jsonify
 from app.auth.auth_services import *
 from flask_jwt_extended import jwt_required, get_jwt_identity
-
+from app.models.db_utils import *
+from bson import json_util
 
 auth_blueprint = Blueprint("auth", __name__)
+
+
+# route to get the complete user data stored in the redis cache
+def to_json(doc):
+    """Helper to safely convert MongoEngine Document/EmbeddedDocument to dict"""
+    return json.loads(json_util.dumps(doc.to_mongo()))
+
+@auth_blueprint.route("/user/<user_id>", methods=["GET"])
+def get_user(user_id):
+    try:
+        redis_key = f"user:{user_id}"
+        cached_user = redis_client.get(redis_key)
+
+        if cached_user:
+            logger.info("User fetched from Redis: %s", redis_key)
+            return jsonify({"success": True, "user": json.loads(cached_user)}), 200
+
+        # Fallback: fetch from MongoDB
+        user = User.objects(user_id=user_id).first()
+        if not user:
+            return jsonify({"error": "User not found"}), 404
+
+        # Convert user doc to dict
+        user_data = to_json(user)
+
+        # Fetch related data
+        user_data["bookings"] = [to_json(b) for b in Booking.objects(resident=user)]
+        user_data["complaints"] = [to_json(c) for c in Complaint.objects(resident_id=user_id)]
+        user_data["emergencies"] = [to_json(e) for e in Emergency.objects(resident_id=user_id)]
+        user_data["notifications"] = [to_json(n) for n in Notification.objects(user_id=user_id)]
+
+        # ✅ Cache for 4 hours
+        redis_client.set(redis_key, json.dumps(user_data), ex=14400)
+        return jsonify({"success": True, "user": user_data}), 200
+
+    except Exception as e:
+        logger.error("Error fetching user from Redis: %s", str(e))
+        return jsonify({"error": str(e)}), 500
+
+
 
 @auth_blueprint.route("/register", methods=["POST"])
 def register():

@@ -40,7 +40,7 @@ const PaymentMethodSelection = ({ routeParams }) => {
   } = location.state || {};  
 
   const handleContinue = async () => {
-    const storedUser = JSON.parse(localStorage.getItem("user")) || {};
+    const storedUser = JSON.parse(sessionStorage.getItem("user")) || {};
   
     // Map selected option to payment method
     let paymentMethod = "upi";
@@ -67,9 +67,7 @@ const PaymentMethodSelection = ({ routeParams }) => {
 
     }
 
-
     // Build booking payload
-
     const bookingData = {
       name,
       email: storedUser.email,

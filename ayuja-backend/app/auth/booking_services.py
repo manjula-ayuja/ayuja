@@ -58,6 +58,7 @@ def book_appointment(name, email, phone, gender, service_type, date, age, notes=
             age=age,
             notes=notes,
             payment=payment,
+            guest_name=name,
             status="new" 
         )
     else:
@@ -146,6 +147,7 @@ def get_bookings_by_user(email=None, phone=None):
             "gender": b.gender,
             "date": b.date.isoformat() if b.date else None,
             "age": b.age,
+            "guest_name":b.guest_name,
             "status": b.status,
             "notes": b.notes,
             "staff_id": b.staff_id,

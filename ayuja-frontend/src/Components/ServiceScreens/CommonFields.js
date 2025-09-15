@@ -43,8 +43,8 @@ const CommonFieldsScreen = ({ serviceData }) => {
       alert("Please select a date!");
       return;
     }
-      // 🔹 Get logged-in user details from localStorage
-    const storedUser = JSON.parse(localStorage.getItem("user")) || {};
+      //  Get logged-in user details from sessionStorage
+    const storedUser = JSON.parse(sessionStorage.getItem("user")) || {};
 
     navigate("/select-payment-method", {
       state: {
@@ -160,3 +160,6 @@ const CommonFieldsScreen = ({ serviceData }) => {
 };
 
 export default CommonFieldsScreen;
+
+
+
