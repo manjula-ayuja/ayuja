@@ -208,7 +208,7 @@ const Footer = () => {
 
               <Link
                 component={NavLink}
-                to="/documentation"
+                // to="/documentation"
                 underline="hover"
                 color="inherit"
                 style={({ isActive }) => ({
@@ -220,7 +220,7 @@ const Footer = () => {
               </Link>
               <Link
                 component={NavLink}
-                to="/help-center"
+                // to="/help-center"
                 underline="hover"
                 color="inherit"
                 style={({ isActive }) => ({
@@ -235,7 +235,7 @@ const Footer = () => {
 
           {/* Subscribe */}
           <Box sx={{ minWidth: 220 }}>
-            <Typography variant="subtitle1" fontWeight="bold" mb={1}>
+            {/* <Typography variant="subtitle1" fontWeight="bold" mb={1}>
               Subscribe
             </Typography>
             <Typography variant="body2" mb={1}>
@@ -290,7 +290,7 @@ const Footer = () => {
               >
                 Subscribe
               </Button>
-            </Box>
+            </Box> */}
           </Box>
         </Stack>
 
@@ -327,7 +327,7 @@ const Footer = () => {
               Terms & Conditions
             </Link>
             <Link
-              href="#"
+              // href="#"
               underline="hover"
               color="text.secondary"
               variant="caption"
