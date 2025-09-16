@@ -4,7 +4,7 @@
 import { useState,useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-import SessionTimeoutWrapper from "./Components/SessionTimeoutWrapper";
+// import SessionTimeoutWrapper from "./Components/SessionTimeoutWrapper";
 // import ProtectedRoute from "./Components/ProtectedRoute"; 
 
 
@@ -92,7 +92,7 @@ const App = () => {
   return (
     <>
     <Router> 
-       <SessionTimeoutWrapper>
+       {/* <SessionTimeoutWrapper> */}
         <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<HomePage/>} />
@@ -156,7 +156,7 @@ const App = () => {
           </Route>
         {/* </Route> */}
           </Routes>
-        </SessionTimeoutWrapper>
+        {/* </SessionTimeoutWrapper> */}
     </Router>
 
 

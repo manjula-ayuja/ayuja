@@ -206,7 +206,7 @@ function Header() {
             About Us
           </Button>
 
-          <Button
+          {/* <Button
             onClick={() => navigate("/packages")}
             sx={{
               textTransform: "none",
@@ -216,7 +216,7 @@ function Header() {
             }}
           >
             Packages
-          </Button>
+          </Button> */}
 
           <Button
             onClick={() => navigate("/contactus")}

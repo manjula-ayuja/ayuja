@@ -30,7 +30,7 @@ function HomePage() {
       <WhyAyuja/>
       {/* <SubscriptionPlans/> */}
       <TestimonialsMissionFooter/>
-      <FloatingAppointmentButton/>
+      {/* <FloatingAppointmentButton/> */}
     </div>
   );
 }
@@ -708,48 +708,48 @@ const inviteOptions = [
   );
 }
 
-function FloatingAppointmentButton() {
-  const navigate = useNavigate();
+// function FloatingAppointmentButton() {
+//   const navigate = useNavigate();
 
-  return (
-    <Button
-      variant="contained"
-      onClick={() => navigate("/book-appointment")}
-      sx={{
-        position: "fixed",
-        right: 24,
-        zIndex: 1000,
-        backgroundColor: "#087c7c",
-        color: "#fff",
-        borderRadius: "50px",
-        px: 3,
-        py: 1.5,
-        textTransform: "none",
-        fontWeight: "bold",
-        "&:hover": {
-          backgroundColor: "#0a6a7a",
-        },
-        animation: "scrollDown 10s linear infinite",
-      }}
-    >
-      Book Appointment
+//   return (
+//     <Button
+//       variant="contained"
+//       onClick={() => navigate("/book-appointment")}
+//       sx={{
+//         position: "fixed",
+//         right: 24,
+//         zIndex: 1000,
+//         backgroundColor: "#087c7c",
+//         color: "#fff",
+//         borderRadius: "50px",
+//         px: 3,
+//         py: 1.5,
+//         textTransform: "none",
+//         fontWeight: "bold",
+//         "&:hover": {
+//           backgroundColor: "#0a6a7a",
+//         },
+//         animation: "scrollDown 10s linear infinite",
+//       }}
+//     >
+//       Book Appointment
 
-      {/* Keyframes for continuous scroll */}
-      <style>
-        {`
-          @keyframes scrollDown {
-            0% {
-              top: 0%;
-            }
-            100% {
-              top: 85%; /* adjust how far down it goes */
-            }
-          }
-        `}
-      </style>
-    </Button>
-  );
-}
+//       {/* Keyframes for continuous scroll */}
+//       <style>
+//         {`
+//           @keyframes scrollDown {
+//             0% {
+//               top: 0%;
+//             }
+//             100% {
+//               top: 85%; /* adjust how far down it goes */
+//             }
+//           }
+//         `}
+//       </style>
+//     </Button>
+//   );
+// }
 
 
 

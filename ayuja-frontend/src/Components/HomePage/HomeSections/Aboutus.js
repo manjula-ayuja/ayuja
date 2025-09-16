@@ -4,7 +4,7 @@ import {
   Box,
   Typography,
   Grid,
-  Button,
+  Button,Paper,
 } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import AboutusImage from "../../Logos/Aboutus.png"
@@ -45,7 +45,7 @@ const AboutUs = () => {
   {/* Right Side - Cards */}
   <div style={{ flex: 1, display: "flex", flexDirection: "column", justifyContent: "center", padding: "0px",margin:0 }}>
     {/* Mission */}
-    <div style={{ background: "#d4f8d4", padding: "20px", marginBottom: "20px", borderRadius: "0px 0px 0px 100px",width:"60%",height:"30%" }}>
+    <div style={{background: "#d4f8d4",padding: "20px",marginBottom: "20px",borderRadius: "0 0 0 100px",width: "60%",minHeight: "150px",boxSizing: "border-box", overflow: "hidden", }}>
       <h3 style={{marginLeft:"30px",fontSize:"30px" }}>Our Mission</h3>
       <p style={{marginLeft:"30px",fontSize:"20px"}}>
         To provide comprehensive medical, physical, mental, and emotional care
@@ -54,8 +54,9 @@ const AboutUs = () => {
       </p>
     </div>
 
+
     {/* Vision */}
-    <div style={{ background: "#052c54", color: "white",padding: "20px", marginBottom: "20px", borderRadius: "0px 0px 0px 100px",width:"60%", height:"30%" }}>
+    <div style={{background: "#052c54",padding: "20px",color: "white",marginBottom: "20px",borderRadius: "0 0 0 100px",width: "60%",minHeight: "150px", boxSizing: "border-box", overflow: "hidden", }}>
       <h3 style={{marginLeft:"30px",fontSize:"30px" }}>Our Vision</h3>
       <p style={{ marginLeft:"30px",fontSize:"20px" }}>
         Unique care — no family member is forgotten. we are by your side.

@@ -72,7 +72,7 @@ const Footer = () => {
               <IconButton
                 aria-label="twitter"
                 component="a"
-                href="https://twitter.com"
+                href="https://x.com/ayuja_life"
                 target="_blank"
                 size="small"
                 sx={{ ...socialButtonStyle }}
@@ -82,7 +82,7 @@ const Footer = () => {
               <IconButton
                 aria-label="instagram"
                 component="a"
-                href="https://instagram.com"
+                href="https://www.instagram.com/ayuja.life"
                 target="_blank"
                 size="small"
                 sx={{ ...socialButtonStyle }}
@@ -92,7 +92,7 @@ const Footer = () => {
               <IconButton
                 aria-label="facebook"
                 component="a"
-                href="https://facebook.com"
+                href="https://www.facebook.com/ayuja.life"
                 target="_blank"
                 size="small"
                 sx={{ ...socialButtonStyle }}
@@ -102,7 +102,7 @@ const Footer = () => {
               <IconButton
                 aria-label="linkedin"
                 component="a"
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/in/ayuja-lifecare-8a0892369/"
                 target="_blank"
                 size="small"
                 sx={{ ...socialButtonStyle }}
@@ -112,7 +112,7 @@ const Footer = () => {
               <IconButton
                 aria-label="telegram"
                 component="a"
-                href="https://telegram.org"
+                href="https://t.me/ayuja_life"
                 target="_blank"
                 size="small"
                 sx={{ ...socialButtonStyle }}
