@@ -313,7 +313,7 @@ function AboutSection() {
           </Typography>
 
           <Box mt={2}>
-            <Button
+            {/* <Button
               size="large"
               variant="contained"
               sx={{backgroundColor: "#f6fcfa",borderRadius: "16px",textTransform: "none",color: "#22577A",fontFamily: '"Montserrat", sans-serif',
@@ -323,7 +323,7 @@ function AboutSection() {
               }}
             >
               Read more
-            </Button>
+            </Button> */}
           </Box>
         </Container>
         </Box>

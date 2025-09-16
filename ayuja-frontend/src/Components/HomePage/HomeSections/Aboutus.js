@@ -4,14 +4,16 @@ import {
   Box,
   Typography,
   Grid,
-  Button,Paper,
+  Button,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import AboutusImage from "../../Logos/Aboutus.png"
 import screenimage from "../../Logos/screenimage.png"
 import Footer from "../../Common/Footer"
 
 const AboutUs = () => {
+  const navigate = useNavigate();
   const points = [
     "Quality healthcare and emotional support delivered to your home",
     "Routine checkups and care for elderly family members",
@@ -141,6 +143,7 @@ const AboutUs = () => {
       <Box sx={{ display: "flex", justifyContent: "center", mt: 3 }}>
   <Button
     variant="contained"
+    onClick={() => navigate("/serviceweprovide")}
     sx={{backgroundColor: "#006D77",px: 4,py: 1,borderRadius: "25px",textTransform: "none",fontWeight: 500,
       "&:hover": { backgroundColor: "#00695c" },
     }}
