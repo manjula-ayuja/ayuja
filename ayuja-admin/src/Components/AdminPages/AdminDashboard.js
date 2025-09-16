@@ -45,15 +45,13 @@ export default function AdminDashboard() {
   }, [totalBookingApi]);
 
   const handleStatusChange = (bookingId, newStatus) => {
-    // Open confirmation dialog instead of directly updating
     setConfirmDialog({ open: true, bookingId, newStatus });
   };
 
   const confirmStatusUpdate = async () => {
     const { bookingId, newStatus } = confirmDialog;
-    setLoading(true);          // start loading
-    setSuccessMessage("");     // reset previous messages
-  
+    setLoading(true);     
+    setSuccessMessage("");  
     try {
       // Optimistic UI update
       setBookings((prev) =>
@@ -65,7 +63,6 @@ export default function AdminDashboard() {
         { action: "status", status: newStatus },
         { headers: { "Content-Type": "application/json" } }
       );
-  
       if (resp.status === 200) {
         const updated = resp.data.booking;
         setBookings((prev) =>

@@ -18,7 +18,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
 import ayujalogo from "../Logos/Ayuja_Logo.jpg";
 import axios from "axios";
-import { fetchUserFromRedis } from "../../Components/HomePage/AuthonticationScreens/Register";
+import { fetchUserFromRedis } from "../AuthonticationPages/Register";
 const StyledAvatar = styled("div")`
   font-family: "Roboto";
   letter-spacing: 0.1px;
@@ -63,43 +63,11 @@ function Header() {
   }, [location]);
   
 
-  const EMERGENCY_API = process.env.REACT_APP_EMERGENCY_API;
-
-  const handleRaiseEmergency = async () => {
-    if (!user) {
-      alert("User not found. Please log in again.");
-      return;
-    }
-
-    try {
-      navigator.geolocation.getCurrentPosition(
-        async (pos) => {
-          const geo_location = {
-            lat: pos.coords.latitude,
-            lng: pos.coords.longitude,
-          };
-
-          const res = await axios.post(`${EMERGENCY_API}`, {
-            resident_id: user.user_id,
-            geo_location,
-          });
-
-          alert(res.data.message);
-        },
-        (err) => {
-          alert("Unable to fetch location. Please enable GPS.");
-          console.error(err);
-        }
-      );
-    } catch (err) {
-      console.error("Error raising emergency:", err);
-      alert("Failed to raise emergency");
-    }
-  };
-
   const handleChange = (event, newValue) => {
     if (newValue !== null) setSelected(newValue);
   };
+
+
 
   const handleLogout = async () => {
     try {
@@ -123,6 +91,7 @@ function Header() {
       navigate("/Login");
     }
   };
+  
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -132,7 +101,7 @@ function Header() {
     setAnchorEl(null);
   };
 
-  const isActive = (path) => location.pathname === path;
+
 
   return (
     <AppBar position="static" sx={{ backgroundColor: "#fff", color: "#153f4b" }}>
@@ -150,111 +119,6 @@ function Header() {
 
         {/* Navigation Buttons */}
         <Box>
-          <Button
-            onClick={() => navigate("/")}
-            sx={{
-              textTransform: "none",
-              color: isActive("/") ? "teal" : "#121212",
-              fontWeight: isActive("/") ? "bold" : "normal",
-              borderBottom: isActive("/") ? "2px solid teal" : "none",
-            }}
-          >
-            Home
-          </Button>
-
-          <Button
-  onClick={() =>
-    navigate(
-      user?.role === "resident" ? "/services" : "/serviceweprovide"
-    )
-  }
-  sx={{
-    textTransform: "none",
-    color:
-      isActive(
-        user?.role === "resident" ? "/services" : "/serviceweprovide"
-      )
-        ? "teal"
-        : "#121212",
-    fontWeight:
-      isActive(
-        user?.role === "resident" ? "/services" : "/serviceweprovide"
-      )
-        ? "bold"
-        : "normal",
-    borderBottom:
-      isActive(
-        user?.role === "resident" ? "/services" : "/serviceweprovide"
-      )
-        ? "2px solid teal"
-        : "none",
-  }}
->
-  Services
-</Button>
-
-
-          <Button
-            onClick={() => navigate("/aboutus")}
-            sx={{
-              textTransform: "none",
-              color: isActive("/aboutus") ? "teal" : "#121212",
-              fontWeight: isActive("/aboutus") ? "bold" : "normal",
-              borderBottom: isActive("/aboutus") ? "2px solid teal" : "none",
-            }}
-          >
-            About Us
-          </Button>
-
-          <Button
-            onClick={() => navigate("/packages")}
-            sx={{
-              textTransform: "none",
-              color: isActive("/packages") ? "teal" : "#121212",
-              fontWeight: isActive("/packages") ? "bold" : "normal",
-              borderBottom: isActive("/packages") ? "2px solid teal" : "none",
-            }}
-          >
-            Packages
-          </Button>
-
-          <Button
-            onClick={() => navigate("/contactus")}
-            sx={{
-              textTransform: "none",
-              color: isActive("/contactus") ? "teal" : "#121212",
-              fontWeight: isActive("/contactus") ? "bold" : "normal",
-              borderBottom: isActive("/contactus") ? "2px solid teal" : "none",
-            }}
-          >
-            Contact Us
-          </Button>
-
-          {/* Resident-only SOS button */}
-          {user?.role === "resident" && (
-            <IconButton
-              onClick={() => {
-                const confirmEmergency = window.confirm(
-                  " Are you sure you want to raise an emergency?"
-                );
-                if (confirmEmergency) {
-                  handleRaiseEmergency();
-                }
-              }}
-              sx={{
-                backgroundColor: "red",
-                color: "white",
-                fontWeight: "bold",
-                fontSize: "14px",
-                width: 40,
-                height: 40,
-                borderRadius: "50%",
-                "&:hover": { backgroundColor: "darkred" },
-              }}
-            >
-              SOS
-            </IconButton>
-          )}
 
           {/* User Menu */}
           {user ? (
@@ -286,51 +150,28 @@ function Header() {
                   Profile
                 </MenuItem>
 
-                {user?.role === "resident" && [
-                    <MenuItem
-                      key="book -appointment"
-                      onClick={() => {
-                        navigate("/book-appointment");
-                        handleMenuClose();
-                      }}
-                    >
-                      Book An Appointment
-                  </MenuItem>,
+               
+                {user?.role === "admin" && [
                   <MenuItem
-                    key="my-bookings"
+                    key="complaints"
                     onClick={() => {
-                      navigate("/my-bookings");
+                      navigate("/complaints-dashboard");
                       handleMenuClose();
                     }}
                   >
-                    My Bookings
+                    Complaints
                   </MenuItem>,
                   <MenuItem
-                    key="my-complaints"
+                    key="emergencies"
                     onClick={() => {
-                      navigate("/my-complaints");
+                      navigate("/emergency-dashboard");
                       handleMenuClose();
                     }}
                   >
-                    My Complaints
-                  </MenuItem>,
-                  <MenuItem
-                  key="sos"
-                  onClick={() => {
-                    const confirmEmergency = window.confirm(
-                      "Are you sure you want to raise an emergency?"
-                    );
-                    if (confirmEmergency) {
-                      handleRaiseEmergency();
-                    }
-                  }}
-                  
-                  >
-                  SOS
+                    Emergencies
                   </MenuItem>,
                 ]}
 
-              
                 <MenuItem onClick={handleLogout}>Logout</MenuItem>
               </Menu>
             </Box>

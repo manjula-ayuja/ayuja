@@ -214,24 +214,30 @@ if (paymentResult.status !== "success") {
 
   return (
     <>
-    <Box sx={{ pb: 100 }}>
-      <Box
-        component="form"
-        onSubmit={handleSubmit}
-        sx={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-          backgroundColor: "#075372",
-          color: "#fff",
-          p: 3,
-          borderRadius: "30px",
-          boxShadow: 5,
-          mb: 200,
-          maxWidth: "700px",
-        }}
-      >
+    <Box sx={{ pb: 10}}>
+  
+       <Box
+    component="form"
+    onSubmit={handleSubmit}
+    sx={{
+      flexGrow: 1,
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      px: 2,mt: 4, 
+    }}
+  >
+        <Box
+      sx={{
+        backgroundColor: "#075372",
+        color: "#fff",
+        p: 3,
+        borderRadius: "30px",
+        boxShadow: 5,
+        maxWidth: "700px",
+        width: "100%",
+      }}
+    >
         <Typography variant="h5" gutterBottom sx={{ fontWeight: "bold", mb: 2 ,textAlign:"center"}}>
           Book Appointment
         </Typography>
@@ -446,6 +452,7 @@ if (paymentResult.status !== "success") {
             Book Now
           </Button>
         </Box>
+      </Box>
       </Box>
     </Box>
     <Footer/>

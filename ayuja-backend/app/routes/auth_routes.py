@@ -183,3 +183,22 @@ def change_password():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@auth_blueprint.route("/logout/<user_id>", methods=["POST"])
+def logout(user_id):
+    try:
+        # Clear cached user data
+        redis_key = f"user:{user_id}"
+        redis_client.delete(redis_key)
+
+        # If you also store tokens in Redis, delete that too
+        token = request.headers.get("Authorization")
+        if token:
+            token = token.replace("Bearer ", "")
+            redis_client.delete(token)
+
+        logger.info("User logged out, Redis cleared: %s", redis_key)
+        return jsonify({"success": True, "message": "Logged out successfully"}), 200
+
+    except Exception as e:
+        logger.error("Error during logout: %s", str(e))
+        return jsonify({"error": str(e)}), 500
